@@ -19,6 +19,12 @@ python echobot.py
 
 Press Ctrl-C on the command line to stop the bot.
 
+
+### past exam fine-tuning
+
+- /pastexams
+- /coursenotes
+- /generateexam
 """
 
 import logging
@@ -26,7 +32,7 @@ import logging
 
 from pdfminer.high_level import extract_text
 from telegram import ForceReply, Update
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
+from telegram.ext import Updater, Application, CommandHandler, ContextTypes, MessageHandler, filters, ConversationHandler
 from keys import TELEGRAM_KEY
 import test_huggingface 
 from utils import text_to_pdf
@@ -48,6 +54,43 @@ FILE_OUTPUT_TXT = "files/output.txt"
 FILE_OUTPUT_PDF = "files/output.pdf"
 FILE_DIR = "files/"
 
+# Define states
+WAITING_FOR_COMMAND, WAITING_FOR_FILE = range(2)
+
+def start_command(update: Update, context):
+    update.message.reply_text('Please input a command to specify what kind of file you want to upload.')
+    return WAITING_FOR_COMMAND
+
+def handle_command(update: Update, context):
+    # Handle the command here
+    update.message.reply_text('Waiting for file...')
+    return WAITING_FOR_FILE
+
+def handle_file(update: Update, context):
+    file = update.message.document.get_file()
+
+    # Download the file
+    file.download('file.txt')
+
+    update.message.reply_text('File received and transcribed.')
+    return ConversationHandler.END
+
+# def main():
+#     updater = Updater(token='YOUR_BOT_TOKEN', use_context=True)
+
+#     conv_handler = ConversationHandler(
+#         entry_points=[CommandHandler('start', start_command)],
+#         states={
+#             WAITING_FOR_COMMAND: [MessageHandler(Filters.text & ~Filters.command, handle_command)],
+#             WAITING_FOR_FILE: [MessageHandler(Filters.document, handle_file)]
+#         },
+#         fallbacks=[CommandHandler('cancel', lambda update, context: ConversationHandler.END)],
+#     )
+
+#     updater.dispatcher.add_handler(conv_handler)
+
+#     updater.start_polling()
+#     updater.idle()
 
 
 # Define a few command handlers. These usually take the two arguments update and
@@ -178,7 +221,19 @@ async def test_me(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("Test!")
     # TODO: finish this function; it should send a file to the backend and return the text
 
+async def coursenotes_command(update: Update, context):
+    await update.message.reply_text('Please upload the course notes.')
+    return WAITING_FOR_FILE
 
+<<<<<<< HEAD
+async def pastexams_command(update: Update, context):
+    await update.message.reply_text('Please upload the past exams.')
+    return WAITING_FOR_FILE
+
+async def generate_exam_command(update: Update, context):
+    ...
+    # try except try except? 
+=======
 # async def upload_pastexams(update: Update, context: ContextTypes.DEFAULT_TYPE):
 #     """Upload past exams into telegram bot."""
 #     await update.message.reply_text("Send exams from previous years")
@@ -222,6 +277,7 @@ async def test_me(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 #     with open(FILE_TRANSCRIPT, "w") as txt_file:
 #         txt_file.write(previous_exam_txt[0])
 
+>>>>>>> 7d5dd32e2218b905f61adb29796d661f394c70dd
 
 def main() -> None:
     """Start the bot."""
@@ -231,11 +287,20 @@ def main() -> None:
     # on different commands - answer in Telegram
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
+<<<<<<< HEAD
+    application.add_handler(CommandHandler("testme", test_me)) # delete??? 
+    application.add_handler(CommandHandler("pastexams", pastexams_command))
+    application.add_handler(CommandHandler("coursenotes", coursenotes_command))
+    application.add_handler(CommandHandler("generateexam", generate_exam_command))
+
+
+=======
     application.add_handler(CommandHandler("testme", test_me))
     application.add_handler(CommandHandler("coursenotes", upload_coursenotes))
     application.add_handler(CommandHandler("pastexams", upload_pastexams))
     application.add_handler(CommandHandler("generateexam", generate_exam))
     application.add_handler(MessageHandler(filters.ATTACHMENT, get_uploaded_file))
+>>>>>>> 7d5dd32e2218b905f61adb29796d661f394c70dd
 
     # on non command i.e message - echo the message on Telegram
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
