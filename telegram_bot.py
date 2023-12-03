@@ -96,6 +96,11 @@ async def attachment(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
 
 
+async def test_me(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Test the bot."""
+    await update.message.reply_text("Test!")
+    # TODO: finish this function; it should send a file to the backend and return the text
+
 
 
 def main() -> None:
@@ -106,6 +111,7 @@ def main() -> None:
     # on different commands - answer in Telegram
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
+    application.add_handler(CommandHandler("testme", test_me))
 
     # on non command i.e message - echo the message on Telegram
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
