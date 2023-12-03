@@ -49,9 +49,10 @@ logger = logging.getLogger(__name__)
 PROGRESS = True
 DEBUG = True
 FILE_TRANSCRIPT = "files/transcription.txt"
-FILE_PRELIMINARY = "files/preliminary.pdf"
+FILE_INPUT = "files/preliminary.pdf"
 FILE_OUTPUT_TXT = "files/output.txt"
 FILE_OUTPUT_PDF = "files/output.pdf"
+FILE_DIR = "files/"
 
 # Define states
 WAITING_FOR_COMMAND, WAITING_FOR_FILE = range(2)
@@ -102,7 +103,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         reply_markup=ForceReply(selective=True),
     )
 
-
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /help is issued."""
     await update.message.reply_text("Help!")
@@ -112,12 +112,14 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Echo the user message."""
     await update.message.reply_text(update.message.text + " LauzHack!!")
 
-async def attachment(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def upload_coursenotes(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Echo user attachment."""
     # Get the file path and download the file
-    file = await update.message.document.get_file()
+    await update.message.reply_text("Send me your coursenotes")
 
-    tmp_file = FILE_PRELIMINARY
+    file = get_uploaded_file(update, context)
+
+    tmp_file = FILE_INPUT
     await file.download_to_drive(tmp_file)
     
     # Read PDF and extract text
@@ -126,24 +128,92 @@ async def attachment(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     except Exception as e:
         print(e)
         return  # Exit if there's an error in text extraction
+    
     # Write PDF text to a .txt file
     with open(FILE_TRANSCRIPT, "w") as txt_file:
         txt_file.write(extracted_text)
 
-    # Get title (you may want to extract it from the PDF metadata)
+    await update.message.reply_text("PDF received and transcribed!")
+
+async def upload_pastexams(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Upload past exams into telegram bot."""
+    await update.message.reply_text("Send exams from previous years")
+
+    file = await get_uploaded_file(update, context)
+
+    tmp_file = FILE_DIR+"exam.pdf"
+    await file.download_to_drive(tmp_file)
+    
+    # Read PDF and extract text
+    try:
+        extracted_text = extract_text(tmp_file)
+    except Exception as e:
+        print(e)
+        return  # Exit if there's an error in text extraction
+    
+    # Write PDF text to a .txt file
+    with open(FILE_DIR+"exam.txt", "w") as txt_file:
+        txt_file.write(extracted_text)
 
     await update.message.reply_text("PDF received and transcribed!")
-    # Respond with the transcribed text file
-    with open(FILE_TRANSCRIPT, "r") as txt_file:
-        title = txt_file.readline()
-        await update.message.reply_document(txt_file, caption=f"PDF title: {title}")
 
-    success = test_huggingface.execute_pipeline()
 
-    if not success:
-        await update.message.reply_text("Error generating exam :(")
-    else:
-        await update.message.reply_document(FILE_OUTPUT_PDF, caption="Exam generated!")
+    #----------
+    # GOOOOD - this is useful
+    # with open(FILE_TRANSCRIPT, "r") as txt_file:
+    #     title = txt_file.readline()
+    #     await update.message.reply_document(txt_file, caption=f"PDF title: {title}")
+
+    # success = test_huggingface.execute_pipeline()
+
+    # if not success:
+    #     await update.message.reply_text("Error generating exam :(")
+    # else:
+    #     await update.message.reply_document(FILE_OUTPUT_PDF, caption="Exam generated!")
+
+    #---------
+
+# async def upload_coursenotes(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#     """Echo user attachment."""
+#     file = await get_uploaded_file(update)
+
+#     if file is None:
+#         return  # Exit if no file uploaded
+
+#     coursenote_input = FILE_DIR+"course_notes.pdf"
+#     coursenote_transcript = FILE_DIR+"course_notes.txt"
+    
+#     await process_uploaded_file(file, coursenote_input, coursenote_transcript)
+
+
+async def get_uploaded_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Get the uploaded file."""
+    if update.message.document:
+        file = await update.message.document.get_file()
+        return file
+
+
+
+
+
+async def generate_exam(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Execute CHAT-GPT Query"""
+    print("Generating exam...")
+
+
+# async def process_uploaded_file(file, file_input, file_transcript):
+#     """Process the uploaded file."""
+#     tmp_file = file_input
+#     await file.download_to_drive(tmp_file)
+    
+#     try:
+#         extracted_text = extract_text(tmp_file)
+#     except Exception as e:
+#         print(e)
+#         return  # Exit if there's an error in text extraction
+    
+#     with open(file_transcript, "w") as txt_file:
+#         txt_file.write(extracted_text)
 
 
 async def test_me(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -155,6 +225,7 @@ async def coursenotes_command(update: Update, context):
     await update.message.reply_text('Please upload the course notes.')
     return WAITING_FOR_FILE
 
+<<<<<<< HEAD
 async def pastexams_command(update: Update, context):
     await update.message.reply_text('Please upload the past exams.')
     return WAITING_FOR_FILE
@@ -162,6 +233,51 @@ async def pastexams_command(update: Update, context):
 async def generate_exam_command(update: Update, context):
     ...
     # try except try except? 
+=======
+# async def upload_pastexams(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#     """Upload past exams into telegram bot."""
+#     await update.message.reply_text("Send exams from previous years")
+
+#     FILE_DIR = "your_directory_path_here"  # Define your file directory
+#     exam_number = 1  # Counter for exam numbering
+
+#     while True:
+#         file = await get_uploaded_file(update)
+
+#         if file is None:
+#             break  # Exit loop if no file uploaded
+
+#         FILE_INPUT = f"{FILE_DIR}/exam{exam_number}.pdf"
+#         FILE_TRANSCRIPT = f"{FILE_DIR}/exam{exam_number}.txt"
+
+#         await process_uploaded_file(file, FILE_INPUT, FILE_TRANSCRIPT)
+#         exam_number += 1
+
+#         # Ask if the user wants to upload another exam
+#         await update.message.reply_text("Do you want to send another exam? (Yes/No)")
+
+#         user_response = await get_user_response(update)
+#         if user_response.text and user_response.text.lower() != 'yes':
+#             break  # Exit loop if the user doesn't want to send another exam
+
+    # Additional processing or reply after all exams are uploaded
+
+
+
+# async def load_document(input_filepath, output_filepath, transmitted_file):
+#     """Load document from telegram"""
+#     await file.download_to_drive(filepath)
+
+#     try:
+#         extracted_text = extract_text(previous_exam_pdf[0])
+#     except Exception as e:
+#         print(e)
+#         return  # Exit if there's an error in text extraction
+    
+#     with open(FILE_TRANSCRIPT, "w") as txt_file:
+#         txt_file.write(previous_exam_txt[0])
+
+>>>>>>> 7d5dd32e2218b905f61adb29796d661f394c70dd
 
 def main() -> None:
     """Start the bot."""
@@ -171,20 +287,28 @@ def main() -> None:
     # on different commands - answer in Telegram
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
+<<<<<<< HEAD
     application.add_handler(CommandHandler("testme", test_me)) # delete??? 
     application.add_handler(CommandHandler("pastexams", pastexams_command))
     application.add_handler(CommandHandler("coursenotes", coursenotes_command))
     application.add_handler(CommandHandler("generateexam", generate_exam_command))
 
 
+=======
+    application.add_handler(CommandHandler("testme", test_me))
+    application.add_handler(CommandHandler("coursenotes", upload_coursenotes))
+    application.add_handler(CommandHandler("pastexams", upload_pastexams))
+    application.add_handler(CommandHandler("generateexam", generate_exam))
+    application.add_handler(MessageHandler(filters.ATTACHMENT, get_uploaded_file))
+>>>>>>> 7d5dd32e2218b905f61adb29796d661f394c70dd
 
     # on non command i.e message - echo the message on Telegram
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 
         # attachments
-    application.add_handler(
-        MessageHandler(filters.ATTACHMENT & ~filters.COMMAND, attachment, block=True)
-    )
+    # application.add_handler(
+    #     MessageHandler(filters.ATTACHMENT & ~filters.COMMAND, attachment, block=True)
+    # )
 
 
     # Run the bot until the user presses Ctrl-C
