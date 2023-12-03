@@ -19,9 +19,9 @@ EXTENSIVE_DEBUG = False
 PROGRESS = True
 
 # THINGS YOU CAN CHANGE
-QUESTIONS = 20
+QUESTIONS = 25
 FILES = 'files'
-DOCUMENT = 'lecture_notes'
+DOCUMENT = 'Physics'
 DATA = '/'.join([FILES, DOCUMENT]) + '.pdf'
 OUTPUT = 'files/output.txt'
 
@@ -91,9 +91,9 @@ def txt_to_list(text):
     if DEBUG:
         print(text[:100])
     length = len(text)
+    sentence_length = int(length / QUESTIONS)
     while len(text) != 0:
-        sentence_length = int(length/QUESTIONS)
-        sentence_length += random.randint(-5, 5)
+        # sentence_length += random.randint(-5, 5)
         sentences = '. '.join(text[:sentence_length])
         keyphrases = keyphrase_query(sentences)
         for keyphrase in keyphrases:
@@ -158,11 +158,11 @@ def execute_pipeline():
 def main():
     i = 1
     for sentence in txt_to_list(pdf_to_txt(DATA)):
-        if DEBUG:
-            print(f'Sentence length: {len(sentence)}')
+        # if DEBUG:
+        print(f'Sentence length: {len(sentence)}')
         if '<hl>' in sentence:
             print('highlighted')
-        output = voidful_query({
+        output = valhalla_query({
             "inputs": sentence,
         })
         print(f'Question {i}:')
