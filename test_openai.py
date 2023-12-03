@@ -54,7 +54,7 @@ def txt_to_list(text):
     text = text.split('.')
     if DEBUG:
         print(text[0])
-    max_len = 40
+    max_len = 42
 
     questions = []
     while len(text) > 0:
@@ -66,6 +66,7 @@ def txt_to_list(text):
         text = text[max_len:]
         if EXTENSIVE_DEBUG:
             print(text)
+        max_len = max_len-1
     if PROGRESS:
         print('-- DONE: txt_to_list --')
     return questions
@@ -97,7 +98,7 @@ def gpt_query(payload, past_exam):
              The highlighted words dont have to be answers but it is incentivised. Also the questions from a past exam \
              are given as an example. Try not only to use the first exam question as a template but also explore other questions \
              and even new questions. Also questions already asked are given as a list, dont pose questions about the same \
-             topic 2 times, make a new question from the content. Limit the use of define questions'},
+             topic more than 1 time, make a new question from the content. Limit the use of define questions'},
             {"role": "user", "content": 'past exam: ' + past_exam},
             {"role": "user", "content": 'content: ' + payload[i]},
             {"role": "user", "content": 'asked questions: ' + str(response)},]
