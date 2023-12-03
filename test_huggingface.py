@@ -6,45 +6,35 @@ import sys
 import numpy as np
 from pdfminer.high_level import extract_text
 
+# INFO FOR API CALLS
 from keys import HUGGING_FACE_KEY
+VALHALLA_URL = "https://api-inference.huggingface.co/models/valhalla/t5-base-qa-qg-hl"
+KEYPHRASE_URL = "https://api-inference.huggingface.co/models/ml6team/keyphrase-extraction-kbir-inspec"
+OPENCHAT_URL = "https://api-inference.huggingface.co/models/openchat/openchat_3.5"
+headers = {"Authorization": f"Bearer {HUGGING_FACE_KEY}"}
 
+# RUNNING INFO PRINTING
 DEBUG = False
 PROGRESS = True
 
+# THINGS YOU CAN CHANGE
 QUESTIONS = 5
+FILES = 'files'
+DOCUMENT = 'Egypt.pdf'
+DATA = '/'.join([FILES, DOCUMENT])
 
-OPENCHAT_URL = "https://api-inference.huggingface.co/models/openchat/openchat_3.5"
-# url = "https://api-inference.huggingface.co/models/openai/whisper-large-v3"
-headers = {
-    # "Content-Type": "application/json",
-    "Authorization": f"Bearer {HUGGING_FACE_KEY}"
-}
-data = {
-    "inputs": "You are a large language model named OpenChat. Write a poem to describe yourself"
-}
+# data = {
+#     "inputs": "You are a large language model named OpenChat. Write a poem to describe yourself"
+# }
 
 
-def query_pdf(payload):
-    response = requests.post(
-        OPENCHAT_URL,
-        headers=headers,
-        json=payload
-    )
-    return response.json()
-
-
-# print(query_pdf(data))
-
-API_URL = "https://api-inference.huggingface.co/models/valhalla/t5-base-qa-qg-hl"
-headers = {"Authorization": f"Bearer {HUGGING_FACE_KEY}"}
-
-"""
-given a pdf file, convert it to a txt file
-"""
-
-
-KEYPHRASE_URL = "https://api-inference.huggingface.co/models/ml6team/keyphrase-extraction-kbir-inspec"
-headers = {"Authorization": f"Bearer {HUGGING_FACE_KEY}"}
+# def query_pdf(payload):
+#     response = requests.post(
+#         OPENCHAT_URL,
+#         headers=headers,
+#         json=payload
+#     )
+#     return response.json()
 
 
 def keyphrase_query(payload):
@@ -115,26 +105,16 @@ def txt_to_list(text):
     return questions
 
 
-def query(payload):
-    response = requests.post(API_URL, headers=headers, json=payload)
+def valhalla_query(payload):
+    response = requests.post(VALHALLA_URL, headers=headers, json=payload)
     return response.json()
 
 
-for sentence in txt_to_list(pdf_to_txt('Egypt.pdf')):
+for sentence in txt_to_list(pdf_to_txt(DOCUMENT)):
     if '<hl>' in sentence:
         print('highlighted')
-    output = query({
+    output = valhalla_query({
         "inputs": sentence,
     })
 
     print(output)
-
-# def query_asr(filename):
-#     with open(filename, "rb") as f:
-#         data = f.read()
-#     response = requests.post(
-#         "https://api-inference.huggingface.co/models/openai/whisper-large-v3",
-#         headers=headers,
-#         data=data
-#     )
-#     return response.json()
