@@ -3,7 +3,6 @@ import random
 import requests
 import os
 import sys
-import numpy as np
 from pdfminer.high_level import extract_text
 
 # INFO FOR API CALLS
