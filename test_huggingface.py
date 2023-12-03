@@ -18,10 +18,10 @@ DEBUG = False
 PROGRESS = True
 
 # THINGS YOU CAN CHANGE
-QUESTIONS = 5
+QUESTIONS = 20
 FILES = 'files'
-DOCUMENT = 'Egypt.pdf'
-DATA = '/'.join([FILES, DOCUMENT])
+DOCUMENT = 'lecture_notes'
+DATA = '/'.join([FILES, DOCUMENT]) + '.pdf'
 
 # data = {
 #     "inputs": "You are a large language model named OpenChat. Write a poem to describe yourself"
@@ -90,7 +90,7 @@ def txt_to_list(text):
         print(text)
     length = len(text)
     while len(text) != 0:
-        sentence_length = length/QUESTIONS
+        sentence_length = int(length/QUESTIONS)
         sentence_length += random.randint(-5, 5)
         sentences = '. '.join(text[:length])
         keyphrases = keyphrase_query(sentences)
@@ -110,7 +110,7 @@ def valhalla_query(payload):
     return response.json()
 
 
-for sentence in txt_to_list(pdf_to_txt('files/Egypt.pdf')):
+for sentence in txt_to_list(pdf_to_txt(DATA)):
     if '<hl>' in sentence:
         print('highlighted')
     output = valhalla_query({
