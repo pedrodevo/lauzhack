@@ -28,6 +28,7 @@ from pdfminer.high_level import extract_text
 from telegram import ForceReply, Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 from keys import TELEGRAM_KEY
+import test_huggingface 
 
 # Enable logging
 logging.basicConfig(
@@ -37,6 +38,9 @@ logging.basicConfig(
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
 logger = logging.getLogger(__name__)
+
+PROGRESS = True
+DEBUG = True
 
 
 # Define a few command handlers. These usually take the two arguments update and
@@ -79,10 +83,20 @@ async def attachment(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
     # Get title (you may want to extract it from the PDF metadata)
 
+    await update.message.reply_text("PDF received and transcribed!")
     # Respond with the transcribed text file
     with open("files/transcription.txt", "r") as txt_file:
         title = txt_file.readline()
         await update.message.reply_document(txt_file, caption=f"PDF title: {title}")
+
+    test_huggingface.execute_pipeline()
+
+    with open("files/output.txt", "r") as txt_file:
+        await update.message.reply_document(txt_file, caption="Exam generated!")
+
+
+
+
 
 def main() -> None:
     """Start the bot."""
