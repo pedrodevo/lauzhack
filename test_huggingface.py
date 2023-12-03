@@ -20,9 +20,9 @@ EXTENSIVE_DEBUG = False
 PROGRESS = True
 
 # THINGS YOU CAN CHANGE
-QUESTIONS = 5
+QUESTIONS = 40
 FILES = 'files'
-DOCUMENT = 'Physics'
+DOCUMENT = 'lecture'
 DATA = '/'.join([FILES, DOCUMENT]) + '.pdf'
 OUTPUT = 'files/output.pdf'
 
@@ -89,13 +89,16 @@ def txt_to_list(text):
     if PROGRESS:
         print('-- START: txt_to_list --')
     text = text.split('.')
-    questions = []
     if DEBUG:
         print(text[0])
     length = len(text)
-    sentence_length = int(length / QUESTIONS)
-    while len(text) != 0:
-        # sentence_length += random.randint(-5, 5)
+    sentence_length = int(length / QUESTIONS+1)
+    if sentence_length > 70:
+        sentence_length = 70
+    if PROGRESS:
+        print(f'Questions: {int(length/sentence_length)}')
+    questions = []
+    while len(text) > 0:
         sentences = '. '.join(text[:sentence_length])
         keyphrases = keyphrase_query(sentences)
         for keyphrase in keyphrases:
