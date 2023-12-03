@@ -110,7 +110,7 @@ def valhalla_query(payload):
     return response.json()
 
 
-for sentence in txt_to_list(pdf_to_txt(DOCUMENT)):
+for sentence in txt_to_list(pdf_to_txt('files/Egypt.pdf')):
     if '<hl>' in sentence:
         print('highlighted')
     output = valhalla_query({
