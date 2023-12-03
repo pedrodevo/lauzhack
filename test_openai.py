@@ -54,7 +54,7 @@ def txt_to_list(text):
     text = text.split('.')
     if DEBUG:
         print(text[0])
-    max_len = 42
+    max_len = 36
 
     questions = []
     while len(text) > 0:
