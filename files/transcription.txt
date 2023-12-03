@@ -1,5090 +1,2786 @@
-Lecture Notes for Biology 101: 
+Chapter 1
+
+Introduction and Overview
+
+The course covers two main topics: game theory and mechanism design. We begin by introducing the
+fundamental concepts and topics in game theory and will then apply these to topics in mechanism
+design.
+
+1.1 Game Theory
+
+Game theory is a method for analyzing strategic interactions. We consider a situation to be strategic
+whenever the consequences of a choice by one individual depend not only on the individual’s behavior
+alone but also on the behavior of other individuals. For example, suppose that Apple introduces a
+new iPhone and considers the price it will charge for it. Clearly, the demand for the new iPhone
+will depend on the price chosen by Apple—however, if we reasonably assume that the latest Samsung
+Galaxy is, at least to some extent, comparable to the new iPhone, then the two are substitutes, and
+the demand for the iPhone will also depend on the price chosen by Samsung for the latest Samsung
+Galaxy. Pricing a product in a market with few competitors (a so-called oligopoly) is a situation of
+strategic interaction that we can study with the tools of game theory. Notice that, in contrast, the
+pricing decision of a monopolist is not a strategic situation: A monopolist does not face competition
+and therefore solves a decision-theoretic rather than a game-theoretic problem.
+
+1.1.1 Examples
+
+There are many applications of game theory from a wide range of ﬁelds and topics.
+
+1. How should two presidential candidates design their political agenda to maximize their chances
+
+of being elected?
+
+2. A pedestrian wants to cross a street and a driver wants to drive through the crossing. Should
+the pedestrian wait for the car to pass or should the pedestrian cross the street? How should the
+driver of the car behave?
+
+3. How should a football player decide where to kick the penalty? How does the goalie decide in
+
+which direction to jump?
+
+4. Generative adversarial networks are inspired by the theory of zero-sum games: a generator
+generates new artiﬁcial examples (for example, fake photographs of celebrities) with the aim of
+fooling a discriminator. The discriminator attempts to distinguish generator-generated examples
+from real examples (for example, actual photographs of celebrities).
+
+1
+
+Chapter 1. Introduction and Overview
+
+In the chapters on game theory, we will learn to describe such real-world situations as games using
+mathematical models. Based on this modeling, we will introduce concepts that allow us to understand
+individuals’ behavior in games given an economic environment; that is, given the rules of the games.
+
+1.1.2 Di↵erent Classes of Games
+
+The tools of game theory have been applied to a variety of di↵erent strategic interactions. Depending
+on the context of the environment to be analyzed, di↵erent features of the strategic situation must be
+taken into account. The following is a broad overview of distinctions in the modeling framework.
+
+Cooperative and Noncooperative Games. Game theory broadly consists of two main branches:
+cooperative and non-cooperative game theory. As the name suggests, the distinction is in the nature of
+the decision-making process of the players. In cooperative game theory, players can engage in binding
+pre-game agreements. That is, players can “sit together” before taking their actions in the actual game
+to be played and write a contract that they can enforce in court, specifying how they will behave in
+the game. As that contract is enforceable, the players will follow their agreement.
+
+Why would players want to write such agreements? Such agreements can be beneﬁcial because
+they may prevent bad outcomes that arise due to individual incentives to take di↵erent actions. For
+example, consider the decision of two countries whether to build nuclear weapons. If the presidents
+of the two countries can sign a binding agreement that they will never build such a nuclear weapon,
+there will be a nuclear-weapon-free world. If, however, such an agreement is not possible, it may be
+optimal, in a non-cooperative game, for each of the countries individually to build a nuclear weapon:
+If the other country has none, having one may help exert power over that country. If the other country
+has one, having one may help defend your interests viz-a-viz that country. Both countries might end
+up having nuclear weapons—although they would have preferred not to build one, all else equal.
+
+The focus of our class and these notes will be on non-cooperative games. However, even in non-
+cooperative games, players might engage in similar cooperative agreements. To include this possibility,
+the negotiation process leading up to such agreements also has to be explicitly modeled.
+
+Static and Multistage Games. One important decision when modeling a strategic situation is the
+timeline of the interaction and the sequence in which participants act. For example, when visiting a
+local bar as a tourist, it is likely that the barkeeper recognizes you as such. Therefore, the mutual
+understanding will be that your interaction is only of short duration (and probably even a one-time
+interaction only). In contrast, if you are a local visiting the same bar, the barkeeper may recognize
+you as a local. In this case, it is more likely that you will come back. In particular, you can condition
+your choice of returning to the bar based on the quality of the drinks and the service.
+
+The preceding example illustrates the distinction between one-time interactions and more dynamic,
+repeated strategic situations. However, beyond this distinction, even a one-time interaction may be of
+a more dynamic nature. For example, as a tourist visiting a bar only once, you can decide how much
+to tip depending on the quality of the service in the bar. Such a setting is not static: the barkeeper
+ﬁrst decides how friendly to be or how much e↵ort to put into mixing a high-quality drink for you.
+Only after learning about the barkeeper’s behavior do you decide on the tip, and, in particular, you
+may tip di↵erently depending on the barkeeper’s behavior.
+
+In other settings, the interaction may be simultaneous in nature. For example, consider two inno-
+vative pharmaceutical companies. Research on novel drugs is usually highly secretive, as ﬁrms want to
+ensure that competitors cannot free-ride on insights previous internal research has delivered. There-
+fore, when deciding on the focus of R&D spending in the current year, managers of di↵erent ﬁrms
+act without knowing what the other ﬁrms focus on. Hence, the ﬁrms act simultaneously: they cannot
+condition their choice on other ﬁrms’ choices. Note that this is even true if the decisions do not happen
+literally simultaneously. The crucial point is that these decisions occur without knowing what other
+ﬁrms decided.
 
-An Introduction to Science and Biology for Non-Majors 
+2
 
-Instructor David L. Alles  
+Chapter 1. Introduction and Overview
 
-Course Outline  
+Is the choice of the R&D focus a static or a multistage game? That depends.
 
-The organization of this course has been driven by the goal of providing non-majors with 
+If we think of
+pharmaceutical ﬁrms as long-lived entities competing with a similar set of ﬁrms year after year, then
+we should model their choices as a multistage game, where, in each stage (e.g., year), the ﬁrms
+If we think of them as short-lived or as
+simultaneously choose the focus of their research e↵orts.
+competing with di↵erent ﬁrms year after year, then we can model their choices as a static game (that
+is, a one-time interaction with simultaneous moves).
 
-a coherent picture of modern biological knowledge. To accomplish this goal it’s necessary that 
-each student gains an appreciation of the nature of science and is introduced to the integrated 
-view of our world that modern science has produced. To facilitate this the course is divided into 
-four parts. 
+A simpler example of a static game can be the occasional Rock-Paper-Scissors game that you play
+with your roommates to decide who does the dishes or at the beginning of a friendly soccer match
+to decide on the kicko↵. Usually, there is a negligible dynamic component to such games, and by
+deﬁnition, players act simultaneously in that game.
 
-Part One: The Nature of Science 
+Perfect and Imperfect Information Games. Another crucial feature of strategic situations is
+the information available to players when making their decisions. In a game of perfect information,
+a player can observe the past moves of all other players. Chess, for example, is a perfect information
+game. Scotland Yard, in contrast, is a game of imperfect information, as some players cannot observe
+the moves of other players.
 
-There are three elements in defining science: 1) the values of science, 2) science as a 
+Complete and Incomplete Information Games.
+In a game of complete information, players
+have access to all the relevant information about the game. For example, in chess, a player knows
+which actions the other player has available and that the other player does not want to lose the game.
+However, in many other real-world strategic situations, a player might not know what other players
+aim for or other relevant pieces of information.
 
-profession, and 3) the product of science—scientific knowledge. Using this definition, the goal 
-of Part One is to introduce the fundamental nature of the scientific enterprise.   
+Poker is an example of an incomplete information game. Players do not know their opponent’s
+hand. Hence, they are uncertain about the consequences of their actions. Similarly, a buyer of a good
+might not know whether the good is of high or low quality.
 
-Major Units: 
+We will see later in the class that there is an elegant way to establish a close conceptual connection
+between imperfect and incomplete information games, which allows us to study them with the same
+tools.
 
-Defining Science 
+1.2 Mechanism Design
 
-The Epistemic Values of Science 
+Mechanism design, on the contrary, uses game theory as input and assumes that individuals behave in
+strategic situations according to the concepts of game theory. Based on this hypothesis, mechanism
+design aims to answer questions about the optimal design of a game to achieve a particular objective
+with limited information. For example, suppose that a seller wishes to sell an object for the highest
+possible revenue. Should the seller put the object with a price tag into a store and the ﬁrst buyer
+willing to pay the price receives the object? Or should the seller rather run an auction to sell the
+object? In this sense, mechanism design can be viewed as reverse game theory: there is an institution
+that wants to achieve an objective (for example, sell an object at the highest possible revenue), and
+to achieve this objective, the institution designs a game played among individual agents (for example,
+potential buyers of an object). Then, given the behavior of the agents in the games, the institution
+optimizes the rules of the game so that it achieves its objective.
 
-The Origin of Modern Science 
+1.2.1 Examples
 
-Science as a Profession  
+Similar to game theory, mechanism design has been applied in many di↵erent contexts and ﬁelds.
 
-Part Two: The Conceptual Framework of Biology 
+1. How should a country design its presidential election? Should citizens vote for a single candidate,
 
-The goal of Part Two is to introduce the conceptual framework of modern biology. 
+or should citizens be asked for a ranking of the candidates?
 
-Evolution and historical systems provide the conceptual framework or paradigm for 
-understanding modern biology. But a basic understanding and appreciation of molecular biology 
-is also necessary before we can begin to integrate all of biological knowledge. 
+2. How does the tra c law optimally punish pedestrians and car drivers after a crash? Should there
 
-Major Units: 
-
-Cosmological Evolution 
-
-Natural Levels of Organization in the Physical World 
-
-Biological Evolution 
-
-Life as a Chemical Function—Biochemistry & Genetics 
-
-The Modern Synthesis—Darwin and Mendel  
-
-Part Three: The Integration of Biological Knowledge 
-
-The purpose of Part Three is to show how biological knowledge can be integrated into a 
-coherent picture of life on Earth. Because life on Earth is an effectively closed historical system, 
-we must understand that biology is an historical science. One result of this is that a chronological 
-narrative of the history of life provides for the integration of all biological knowledge.  
-
-1 
-
- 
- 
- 
- 
- 
-  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Major Units in Part Three: The Integration of Biological Knowledge 
-
-Geologic Time 
-
-The Origin of our Solar System 
-
-The Origin of Life  
-
-Photosynthesis 
-
-Aerobic Respiration 
-
-Endosymbiosis & Eukaryotic Cells 
-
-The Classification of Life 
-
-Sexual Reproduction 
-
-Multicellularity 
-
-Adaptive Radiations & Mass Extinctions 
-
-Vertebrate Evolution 
-
-Human Evolution 
-
-Part Four: Biology and Society 
-
-Part Four attempts to show how modern biological knowledge directly affects the 
-
-important social, ethical issues of our times. 
-
-Major  Units:   
-
-Science & Ethics 
-
-Human Population Growth 
-
-The Sixth Extinction 
-
-Why do science? 
-
------------------------ 
-
-The material that follows is taken from the lecture notes used in this course. It is hoped 
-that by having them you will be able to concentrate on the verbal presentation of this material. 
-However, these notes do not contain the copyrighted material that will be presented in 
-lecture. For quizzes and tests you are responsible for all the material that is presented. Therefore, 
-if you wish to do well in this course, you must attend the lectures. 
-
------------------------ 
-
-2 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Part One:  The Nature of Science 
-
-Unit One: Defining Science 
-
------------------------- 
-
-What is science?  
-
-What is it that makes science different? 
-
-And different from what? 
-
-Is there a scientific method? 
-
- And if so, a method for doing what? 
-
-What does the general public think about science?  Is it good or bad? 
-
-Why does our society support science? 
-
-Could we do without science? 
-
-If not, what do we get by doing science? 
-
-Why do science? 
-
------------------------ 
-
-• Note: All indicators point to widespread support for government funding of basic research. The 
-2002, NSF survey of American adults found that 72% believe that the benefits of scientific 
-research outweigh the harmful effects. In contrast, only 33% of Americans surveyed understand 
-the nature of scientific inquiry well enough to make informed judgments about the scientific 
-basis of results reported in the media (NSF, 2002). 
-
------------------------ 
-
-Defining Science 
-
-1) As a set of rules for how to look at the world— 
-
-Epistemic Values 
-
-2) As a very human activity with all of the attendant failings— 
-
-Science as a Profession 
-
-3) As the product of the activity of science— 
-
-Scientific Knowledge 
-
------------------------- 
-
-3 
-
- 
- 
- 
- 
- 
- 
- 
- 
------------------------- 
-
-A Legal Definition of Science 
-
-Judge William R. Overton 1982: 
-McLean versus the Arkansas Board of Education 
-
-“A descriptive definition was said to be that science is what is ‘accepted by the scientific 
-
-community’ and is ‘what scientists do.’ The obvious implication of this description is that, in a 
-
-free society, knowledge does not require the imprimatur [approval] of legislation in order to 
-
-become science." 
-
-This ruling was upheld by the Supreme Court in 1987. 
-
-Note: A corollary to this ruling is that what qualifies as scientific knowledge is not decided by 
-political majority vote, either at the level of local or state school boards, or by state or federal 
-legislation. 
-
------------------------ 
-
-Unit Two: Epistemic Values 
-
-Introduction:  In trying to answer the question, “What is it that makes science different?”, we 
-must examine the values of science as a human endeavor. The first step in doing so is to 
-understand the relationship between worldviews and values. 
-
------------------------ 
-
-Worldviews, Values, and Decision-making 
-
-A worldview is our mental model of external reality. It consists of theories about the 
-
-processes that operate in the external world or how the world works; theories as to the state of 
-external reality or how the world is; theories of self-identity that are derived from our mental 
-model of the world; and a set of values derived from our self-identity that assigns priorities in 
-decision-making.   
-
-From these elements we build an image of how the world came to be and our place in that 
-
-world. This image of our personal identity determines what we consider of importance in 
-determining our behavior—our values. 
-
-Griffiths gives this picture of what a worldview is and does. “Our view of the universe is 
-
-built up slowly from input acquired since the beginning of consciousness. This viewpoint 
-represents our identity as individuals. It drives our attitudes and our actions and, as such, 
-determines the kind of people we are and ultimately the kind of society we have.”—Griffiths, 
-1991 
-
------------------------ 
-
-4 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-The Cultural Transmission of Worldviews 
-
-• Are worldviews passed from generation to generation? 
-
-• If they are, then is the particular worldview that an individual has  
-just an accident of birth? 
-
-Primary and Secondary Socialization 
-
-The problem with primary and secondary socialization is that they entail the  
-
-uncritical acceptance of beliefs. The problem isn’t so much what you receive in the way  
-of beliefs; it’s that you didn’t have a choice in whether or not to accept them. 
-
------------------------ 
-
-“Our parents’ teachings are naturally subject to review as a result of subsequent cultural 
-
-influences. There is, however, a mechanism that renders some areas of parental teaching 
-particularly effective: humans’ greater sensitivity to certain influences during the early years of 
-life. There are critical periods in psychological development during which cultural influences 
-leave indelible traces...”  “This mechanism, known as imprinting, is especially strong in 
-animals.”—Cavalli-Sforza, 1981 & 1995, 210 
-
------------------------ 
-
-Self-Autonomy 
-
-Our worldviews determine our values, which, in turn, determine how we choose  
-between different courses of action—our decision-making. It is, therefore, extremely important 
-that we analyze our personal worldviews in the light of what we learn about the world as adults.  
-In doing so we achieve self-autonomy. 
-
-To be a scientist requires self-autonomy. 
-
------------------------ 
-
-Science and Epistemic Values 
-
-“Against the background presumption that our aim is to understand the world of 
-experience, a world of unbroken regularity, these values are tools or standards that we cherish, 
-since ‘they are presumed to promote the truth-like character of science, its character as the most 
-secure knowledge available to us of the world we seek to understand’ Hence, an ‘epistemic value 
-is one we have reason to believe will, if pursued, help toward the attainment of such 
-knowledge’”—Ruse, 1996 
-
-“We want knowledge that is reliable, public, and universal, based upon unambiguous, 
-reproducible experience that is (or can be) common to all of us—in a word, knowledge that is 
-scientific.”—Raymo, 1998, 23 
-
-5 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Terms and Definitions to Know 
-
-• Epistemology—the systematic investigation of the origin, nature, methods, and limits of 
-human knowledge. It attempts to answer the question: “How does the human mind perceive and 
-know what is outside itself?”—Bronowski, 1960, 200 
-
-• Descriptive—that about a phenomena that can be proven or verified by experience or 
-experiment; descriptive statements are empirical observations subject to scientific verification. 
-
-• Descriptive Epistemology—empirical observations on how we actually view the world. 
-
-• Prescriptive—that which gives direction or rules; prescriptive statements are statements of 
-what we should do to achieve specific goals.  
-
-• Prescriptive Epistemology—rules for how we should view the world that are based  
-upon more fundamental epistemological assumptions. 
-
-• Epistemic Values—are prescriptive epistemological values that serve in achieving a specific 
-goal. In science that goal is to produce reliable knowledge of the natural, physical world. 
-
-• Point:  Science is set apart from other human endeavors by the epistemic values it accepts. 
-
------------------------ 
-
------------------------ 
-
-The Epistemic Values of Science—A Short List  
-
-Only those claims to knowledge where the underlying physical causes of a phenomenon 
-
-1) 
-have been shown can be accepted by science. This requirement that the cause and effect 
-mechanism that produces a phenomenon must be demonstrated is called skepticism. 
-Methodological skepticism requires that all underlying assumptions of a claim to knowledge be 
-identified and their validity questioned. The philosopher David Hume in his Treatise on Human 
-Nature (1740), is credited with being the first to show the importance of skepticism in 
-epistemology. 
-
-Only knowledge claims based upon physical evidence can be a part of science. The 
-
-2) 
-corollary of this is that all knowledge claims based upon authority alone must be rejected. 
-Personal beliefs do not support claims to knowledge in science. This reliance on physical 
-evidence is closely tied to the rejection of the “scholastic tradition” of accepting the word of 
-authority as absolute truth, which began in the Renaissance and continued on through the 
-Reformation with the rejection of the authority of the Catholic Church. 
-
-Prediction by itself is insufficient to support knowledge claims. Correlation by itself fails 
-
-3) 
-to link cause to effect. What is needed is an understanding of the mechanism by which a given 
-phenomenon is produced. This is reflected in science by the value placed on skepticism. But if 
-prediction is combined with a coherence to the sum of our reliable knowledge of the physical 
-world, successful prediction in science does support knowledge claims. 
-
-6 
-
- 
- 
-  
- 
- 
- 
- 
- 
- 
- 
- 
-Coherence is the logical connections between the elements of a set of concepts and facts; 
-
-4) 
-the degree of coherence that a set of concepts and facts has is a measure of its internal, logical 
-consistency. In science all concepts and scientific facts must cohere to all other scientific facts 
-and concepts; they must be both internally and externally, logically consistent. 
-
-Consilience, as a property of scientific theories, increases the reliability of scientific 
-
-5) 
-claims to knowledge. The degree that a scientific theory has consilience is a measure of its 
-ability to explain and unify many separate and seemingly unrelated areas of scientific study. 
-Consilience presupposes the unity of knowledge that follows from the assumptions of realism. 
-That is, if there is only one real world, then all true knowledge will be coherent and contribute to 
-understanding that world. The term consilience was first used by William Whewell in 1840. 
-
-Unit Three: The Origin of Modern Science 
-
------------------------ 
-
-Introduction:  It is difficult to understand how profound a revolution the origin of modern 
-science was unless we understand how dramatic a change it represents from the medieval 
-worldview. The following essays are included, therefore, to provide a picture of the medieval 
-view of reality. 
-
------------------------ 
-
-Essay—The Medieval Worldview and Augustine the Bishop of Hippo 
-
-“After the fall of the city of Rome to the barbarians in A.D. 410, it seemed to the rest of 
-the Roman empire that darkness and death were inevitable. Augustine, the Christian Bishop of 
-the north African Roman province of Carthage, was deeply affected by the fall of Rome. His 
-reaction to the pessimism of the times was to offer a way of escape. Augustine was influenced by 
-Plato’s philosophy which drew a distinction between reality and appearances as well as between 
-opinion and knowledge. The everyday world of the senses was worthless because it was only a 
-shadow of reality, a product of opinion. True knowledge lay in the mind and consisted of the 
-pure, ideal forms [this is Platonic essentialism]. By implication, everything in the daily life of the 
-Platonist Christian was a shadow of the truth. The miseries and trials he had to suffer were 
-transient, as was all else in the world. The human body itself was a shadow. Only the soul was 
-real, escaping its temporary and irrelevant prison of flesh at death to return to heaven, the ideal 
-world, from which it had originally come.   
-
-Augustine combined these views with the teachings of the Scriptures in a book called The 
-
-City of God. This work, which offered a complete set of rules for living and an integrated 
-structure for Christian society, was to influence Christian thinking for a thousand years.  
-Augustine offered escape to a spiritual life in the monasteries. If the world was not worth study, 
-deserting it for a life of contemplation could only be for the good. Belief was more important 
-than earthly knowledge. Credo ut intelligam (understanding comes only through belief) was the 
-creed which would see the monasteries through the Dark Ages that lay ahead.”—Burke 1985, 20 
-
------------------------ 
-
-7 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Essay—Life in Medieval Europe 
-
-“Contemporary references reveal the people of the time to have been excitable, easily led 
-
-to tears or rage, volatile in mood. Their games and pastimes were simple and repetitive, like 
-nursery rhymes. They were attracted to garish colors. Their gestures were exaggerated. In all but 
-the most personal of relationships they were arbitrarily cruel. They enjoyed watching animals 
-fight and draw blood. 
-
-Much of their life was led in a kind of perpetual present: their knowledge of the past was 
-limited to memories of personal experience, and they had little interest in the future. Time as we 
-know it had no meaning. They ate and slept when they felt like it and spent long hours on simple, 
-mindless tasks without appearing to suffer boredom. 
-
-The medieval adult was in no way less intelligent than his modern counterpart, however.  
-
-He merely lived in a different world, which made different demands on him. His was a world 
-without facts. Indeed, the modern concept of a fact would have been an incomprehensible one.   
-
-Medieval people relied for day to day information solely on what they themselves, or 
-
-someone they knew, had observed or experienced in the world immediately around them. Their 
-lives were regular, repetitive and unchanging. 
-
-There was almost no part of this life-without-fact that could be other than local. Virtually 
-no information reached the vast majority of people from the world outside the villages in which 
-they lived. When all information was passed by word of mouth, rumor ruled. Everything other 
-than personal experience was the subject of hearsay, a word which carried little of the pejorative 
-sense it does today. What medieval man called ‘fact’ we would call opinion, and there were few 
-people who traveled enough to know the difference. The average daily journey was seven miles, 
-which was the distance most riders could cover and be sure of return before dark.”—Burke, 
-1985, 91-92 
-
------------------------ 
-
-Essay—Scholasticism 
-
-One of the central epistemic prescriptions of science is that only knowledge claims  
-based upon physical evidence can be supported. Its obvious corollary is that all knowledge 
-claims based upon authority alone must be rejected. This is the rejection of the medieval 
-“scholastic tradition” of accepting the word of authority as absolute truth. 
-
-The scholastic tradition or scholasticism was “the system of theological and philosophical 
-
-teaching predominant in the Middle Ages, based chiefly upon the authority of the church 
-fathers.” (Webster’s, 1989). The first significant figure to challenge that tradition was Pierre 
-Abelard (1079-1142), French scholastic philosopher, teacher, and theologian. His love affair 
-with Heloise is one of the famous romances of history. 
-
-In his work Sic et Non (For and Against), Abelard was the first to apply the dialectic use 
-of logic to the Holy Scriptures. “Until the time of Abelard a statement by an accepted authority 
-had sufficed for proof. Abelard showed that these authorities were contradictory. Though he 
-claimed that his attack on authority aimed only at finding the truth, the Church did not approve. 
-When he said, ‘By doubting we come to enquiry; by enquiring we perceive the truth,’ Rome 
-heard the voice of a revolutionary. Abelard laid down four basic rules for argument and  
-investigation: 
-
-8 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Use systematic doubt and question everything. 
-
-Learn the difference between statements of rational proof and  
-those merely of persuasion.  
-
-Be precise in the use of words, and expect precision from others. 
-
-Watch for error, even in Holy Scripture. 
-
-Statements like these were quite extraordinary in the twelfth century. Objectivity, 
-detachment and unprejudiced, unemotional ratiocination were rare to the medieval mind, steeped 
-as it was in mystery and dogma.”—Burke, 1985 
-
-Today the scholastic tradition lives on in both the humanities and theistic religions. The 
-following example is from Pope John Paul’s 13th encyclical. I quote from Chapter III Intellego 
-ut Credam, Section 33: 
-
-“Such a truth [absolute truth] ... is attained not only by way of reason but also through trusting 
-acquiescence to other persons who can guarantee the authenticity and certainty of the truth 
-itself.”—Stanley, 1998 
-
------------------------ 
-
-• When did modern science originate? 
-
-• Where did modern science originate? 
-
-• Why did it happen? 
-
------------------------ 
-
-The Origin of Modern Science 
-
-The origin of modern science can be established by locating when the shift toward the 
-
-epistemological values of modern science began. This shift in values has been defined most 
-clearly by the late Jacob Bronowski. 
-
-“I hold that the scientific revolution from 1500 onward was an essential part of the 
-Renaissance. Since that time we have been in the unique position of trying to form a single 
-picture of the whole of nature including man. That is a new enterprise; it differs from the 
-preceding enterprises in that it’s not magical, by which I mean that it does not suppose the 
-existence of two logics, a natural logic and a supernatural logic. If one had to put a date to this, 
-[the origin of modern science] one would say that roughly speaking between 1500 and the 
-publication of Porta’s book in 1558, which was called Natural Magic, the turning point took 
-place.”—Bronowski, 1978 
-
------------------------ 
-
-9 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-“It is possible to justify any experience by natural causes and natural causes only. There 
-
-is no reason that could ever compel us to make any perception depend on demonic powers. There 
-is no point in introducing supernatural agents. It is ridiculous as well as frivolous to abandon the 
-evidence of natural reason and to search for things that are neither probable nor rational.” 
-
-Pomponazzi of Padua from his book Of Incantations (1520) 
-
------------------------ 
-
-Note:  In sixteenth century Europe statements like this could get you in trouble—a lot of trouble. 
-
------------------------ 
-
-“When Giordano Bruno asserted that matter ‘is in truth all nature and the mother of all 
-
-living things’ he was arrested and, after an eight year trial, tied to an iron stake and burned alive 
-by the Catholic Church on February 17, 1600, in the Piazza Campo dei Fiori in Rome.”—Ferris, 
-1988 
-
-“In 1633, Galileo was condemned to house arrest by the Catholic Church for his book 
-
-The Dialogue on the Two Chief Systems of the World. He remained under arrest until his death in 
-1642. His book was placed on the Index of Prohibited Books and remained there until 1835.” —
-Burke, 1985 
-
------------------------ 
-
-Peeling the Chinese Onion: Why Science originated in Europe and not China 
-
-“In no society, Eastern or Western, Chinese, Roman, medieval, or contemporary, have 
-science and rational speculation long survived the imposition of absolute dogma—religious or 
-social.”—Bronowski, 1977 
-
------------------------ 
-
-Science and the Reformation 
-
-The beginning of the Reformation in 1517, is marked by Martin Luther nailing his 
-
-Ninety-Five Theses to the door of the Wittenberg Church in Saxony, signaling his rejection of 
-the authority of the Catholic Church. The Reformation, like the Renaissance, was born in the fold 
-of small independent states such as Saxony. Indeed, without them, it could not have survived. 
-
-Like the humanists, the Reformers were opposed to life in the monastery and were 
-thoroughly committed to life in the world. The culture roughly described as humanist which gave 
-rise to much of our modern world including modern science, and the Reformation, arose as 
-authority of the Catholic church ebbed. Both movements were movements of emancipation, 
-drawing their inspiration and their legitimacy from an earlier period. In their recasting of values, 
-and their attempt to shape new views of man, the humanists and Reformers were akin, but their 
-visions of life and of human capacity and their sources of authority were quite different. 
-
------------------------ 
-
-10 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-• Note:  Henry VIII rejected the authority of the Pope and founded the Church of England in 
-1534.  
-
------------------------ 
-
-Time Line for the Epistemic Values of Science 
-
-1130—Pierre Abelard writes the book Sic et Non    
-
-1520—Pomponazzi of Padua writes Of Incantations 
-
-1620—Francis Bacon “we cannot command nature except by obeying her” 
-
-1662—the founding of the Royal Society in England with their motto (roughly  
-
-translated from Latin ) “Take nobody’s word for it; see for yourself” 
-
-1740—David Hume on skepticism in Treatise on Human Nature 
-
-1840—the work of William Whewell on the Consilience of Inductive Sciences 
-
----------------------- 
-
-• Note:  The shift in epistemic values that produced modern science occurred first and more than  
-300 years before science became a profession. 
-
----------------------- 
-
-Survival Value & Control 
-
-In answer to the question, “What do we get by doing science?”, we have the following. 
-
-For science to exist we must want to know; we must really want to know. We must be 
-
-willing to give up all our preconceived notions and beliefs and let nature be the final arbitrator 
-of truth. The tradeoff is that there is tremendous survival value in having reliable knowledge 
-about our world. With it comes control over nature and for the first time in human history we are 
-no longer at the mercy of an indifferent universe. 
-
----------------------- 
-
-• Point:  The goal of science, as a human endeavor, is the production of reliable knowledge 
-about the natural, physical world. This goal, in turn, through a spontaneous process of trial and 
-error in the history of science, has determined the modern epistemic values of science. 
-
------------------------ 
-
-“Science is a long history of learning how not to fool ourselves.” 
-
-Richard Feynman 
-
------------------------ 
-
-11 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Unit Four: Science as a Profession 
-
-“The known is finite, the unknown infinite: intellectually we stand on an islet in the midst 
-
-of an illimitable ocean of inexplicability [a limitless sea of ignorance]. Our business in every 
-generation is to reclaim a little more land, to add something to the extent and solidity of our 
-possessions.”   
-
-Thomas Henry Huxley written in 1887 
-
------------------------ 
-
-“Donald T. Campbell, one of the most respected philosophers of science of this century, 
-had a vision of science in which flawed, venal people together yield the noblest of products. His 
-hypothetical realism [his philosophy] is addressed to those with faith that science edges towards 
-truth, and shows us how—via variation and selective retention, and competition among the 
-cooperators—ego-involved, over-committed, and under-informed mortals could bring this 
-about.”—Heyes, 1997 
-
------------------------ 
-
-• What is the history of professional science? 
-
-• How is it organized today? 
-
-• How does it operate to produce reliable knowledge? 
-
------------------------ 
-
-The Organization of Modern Science 
-
-• The University Connection 
-
-Foundations & Institutes—NSF, NIH, Salk, Max Planck 
-Societies—AAAS, NAS 
-Journals—Nature, Science 
-
-The Reward System 
-(research / publish—peer reviewed journals / grants / promotions / prizes) 
-
-Science as a Self-Correcting System 
-(You are rewarded for finding mistakes as much as you are for making new discoveries.) 
-
-• The Corporate Connection 
-
-The Rise of Biotechnology 
-Fundamental as opposed to Directed or Applied Research 
-
------------------------ 
-
-12 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-How can we define who is a professional academic scientist? 
-
-“By statured scientists I mean those who collect and analyze the data, build the 
-theoretical models, interpret the results, and publish articles vetted [peer reviewed] for  
-professional journals by other experts, often including their rivals.”—from Consilience: The 
-Unity of Knowledge by E. O. Wilson (1998) 
-
------------------------ 
-
-Professional Science can be divided as follows: 
-
-• Academic and Institutional Science—consists of those scientists working in public and 
-private institutions such as universities and institutes where the major funding for research is 
-public monies. Publishing results in peer reviewed journals is a central goal of this research. 
-
-• Corporate or Industrial Science—consists of those scientists working for private companies 
-or corporations where funding is provided by private investment. Publishing results is not a goal 
-of this research. 
-
------------------------ 
-
-Both Academic and Corporate Science can then be divided into: 
-
-• Fundamental or Pure Research is driven by the goal of discovering new knowledge without 
-regard to the direction the research might take. 
-
-• Directed Fundamental Research has a predetermined goal that only can be achieve by the 
-discovery of new knowledge. The cure of specific diseases such as cancer is an example of such 
-research. 
-
-• Applied Research takes existing scientific knowledge and applies it to develop new 
-technological applications. The development of computer software produces no new scientific 
-knowledge and yet is central to developing new applications of our existing scientific knowledge 
-of electronic computing. Applied research is done by both professional scientists and engineers. 
-
------------------------ 
-
-13 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Excerpt from  
-
-The Demon-Haunted World: Science As a Candle in the Dark  
-
-by Carl Sagan (1996) 
-
-“Science may be hard to understand. It may challenge cherished beliefs. In the hands of 
-politicians or industrialists, it may lead to weapons of mass destruction and grave threats to the 
-environment. 
-
-But one thing you have to say about science: It delivers the goods. If you want to know 
-
-when the next eclipse of the Sun will be, you might try magicians and mystics, but you’ll do 
-much better with scientists. They can tell you within a fraction of a second when an eclipse will 
-happen decades or centuries in the future, how long it’ll last and where on Earth you should be 
-standing to get a good look. If you want to know the sex of your unborn child, you can consult 
-astrologers or plumb-bob danglers all you want, but they’ll be right, on average, only one time in 
-two. If you want real accuracy, try science. 
-
-What is the secret of its success?  Partly, it’s this: There is a built-in error-correcting 
-machinery. There are no forbidden questions in science, no matters too sensitive or delicate to be 
-probed, no sacred truths. There is an openness to new ideas combined with the most rigorous, 
-skeptical scrutiny of all ideas, a sifting of the wheat from the chaff. Arguments from authority 
-are worthless. It makes no difference how smart, august or beloved you are. You must prove 
-your case in the face of determined, expert criticism. Diversity and debate between contending 
-views are valued.   
-
-Scientific findings and theories are routinely subjected to a gauntlet of criticism—oral 
-defenses of doctoral theses, debates at scientific meetings, university colloquia punctuated by 
-withering questions, anonymous reviews of papers submitted to scientific journals, refutations 
-and rebuttals. There is a reward structure built into science for finding errors: The more basic and 
-fundamental the error exposed, and the more widely accepted it was, the greater is the reward. 
-
-This may sound messy and disorderly. In a way, it is. Science is far from perfect.  It’s just 
-
-the most successful method known, by far, to understand the world. The discipline of science is 
-hard; scientists, being human, don’t always follow the methods of science themselves. Like other 
-people, they don’t especially enjoy having their favorite ideas challenged. But they recognize it 
-as the cost of getting to the truth. And the truth—rather than the confirmation of their 
-preconceptions—is what they’re after. 
-
-Wherever possible, scientists experiment. They do not trust what is intuitively obvious. 
-That the Earth is flat was once obvious. That heavier bodies fall faster was once obvious. That 
-blood-sucking leeches cure disease was once obvious. That some people are naturally and by 
-divine decree slaves was once obvious. That the Earth is at the center of the Universe was once 
-obvious. The truth may be puzzling or counterintuitive; it may contradict deeply held prejudices. 
-But, as the history of both science and politics has amply demonstrated, preferring comfortable 
-error to the hard truth is, sooner or later, disastrous.” 
-
------------------------ 
-
-14 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
-• How old is professional science?  
-
-The creation of a profession from 1662 to 1869 
-
----------------------- 
-
-Time Line for Science as a Profession 
-
-Mid 1600s—founding of the Royal Society in England and the Academie des Sciences  
-in Paris 
-
-1665—first issue of the scientific journal the Philosophical Transactions of the Royal  
-Society 
-
-Early 1800s—“France despite and because of the Revolution, was the first and most  
-vigorous country in offering opportunities for professional scientists, in any sense that we  
-know them today.” (Ruse 1996) 
-
-1833—William Whewell in England coins the term “scientist” 
-
-1869—founding of the scientific journal Nature by T.H. Huxley and friends 
-
----------------------- 
-
-• Point:  Scientists are “ego-involved, over-committed, and under-informed mortals”, but 
-science works because the profession imposes the epistemic values of science on individual 
-scientists. 
-
----------------------- 
-
-• Note:  T. H. Huxley was the first to forge the connection between professional scientists and 
-public education, i.e. with the training of science teachers and the link to training doctors. 
-Huxley was also an example of the new breed of scientists who relied solely on their income 
-earned as a professional scientist. Darwin, in contrast, was independently wealthy and did all of  
-his research without having a professional position (Desmond 1992 & 1997). 
-
-“At the time that the Origin of Species was published, Britain was a country desperately 
-in need of reform, as revealed by the horrors of the Crimean War and the Indian Mutiny. Huxley 
-and others worked hard to bring about change, trying to move public perceptions into the 20th 
-century. They reformed education, the civil service, the military, and much else. Huxley’s own 
-work was in higher education, and he succeeded best in the areas of physiology and morphology. 
-He realized that to improve and professionalize these fields as areas of teaching and research, he 
-needed clients (a must in all system building). Huxley sold physiology to the medical profession, 
-just then desperate to change from killing to curing. Huxley’s offer of a supply of students, ready 
-for specialized medical training, with a solid background in modern physiology was gratefully 
-received. Morphology, Huxley sold to the teaching profession, on the grounds that hands-on 
-empirical study was much better training for modern life than the outmoded classics. Huxley 
-himself sat on the new London School Board and started teacher training courses. His most 
-famous student was the novelist H. G. Wells.”—Desmond, 1997 
-
------------------------ 
-
-15 
-
- 
- 
- 
- 
- 
- 
- 
- 
------------------------ 
-
-Science from the Leading Edge to Reliable Knowledge 
-
-Terms and Definitions to Know 
-
-• Scientific Fact—a piece of empirically verifiable information presented as having objective 
-reality about the physical world. 
-
-• Scientific Hypothesis—a guess about processes in the physical world consistent with current 
-scientific knowledge. 
-
-• Scientific Law—a precise relationship between physical parameters that is believed to hold 
-true in all circumstances. Some examples are Einstein’s E = mc2, Newton’s 2nd Law of motion  
-F = ma, and the Law of Universal Gravitation F = G • m1 m2/r2. 
-
-• Scientific Theory—provides understanding of dynamic processes in nature. Scientific theories 
-must cohere to the sum of scientific knowledge and provide empirically verifiable predictions.  
-“In science, theories do not turn into facts through the accumulation of evidence. Rather, theories 
-are the end points of science.” (NAS 1998) 
-
-• Scientific Paradigm—a universally explanatory theoretical structure that provides unity to a 
-field of scientific study. Examples are plate tectonics in geology, general relativity and quantum 
-mechanics in physics, and evolution by natural selection in biology. 
-
------------------------ 
-
-“Theories are the crown of science, for in them our understanding of the world is  
-
-expressed. The function of theories is to explain.”—Harré 1986, 168 
-
-The Leading     
-     Edge
-
-Scientific
-Hypothesis
-
-Reliable 
-Knowledge
-
-Scientific
-Theory
-
------------------------ 
-
-Repeated Testing
-
-Experimentation
-
------------------------ 
-
-16 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
------------------------ 
-
-Essay—Theory, Hypothesis, and Fact  
-
-“Be precise in the use of words, and expect precision from others.” 
-
-Science seeks to understand the steps in the dynamic processes that produce what we see 
-
-in nature. But once we have achieved an understanding of a given process, and once we have 
-repeatedly verified that our explanation is correct, what do we call this explanation? The term 
-“theory” is used in science to describe such an understanding of a given process. And, indeed, 
-the first definition of “theory” in Webster’s dictionary reads, “a coherent group of general 
-propositions used as principles of explanation for a class of phenomena” (Webster’s, 1989). 
-
-The term, however, is also burdened with a generic meaning. Webster’s second definition 
-
-of “theory” is, “a proposed explanation whose status is still conjectural, in contrast to well-
-established propositions that are regarded as reporting matters of actual fact”. In science this 
-meaning is given to the term hypothesis. 
-
-“Hypothesis ... a proposition, or set of propositions, set forth as an explanation for the 
-
-occurrence of some specified group of phenomena, asserted merely as a provisional conjecture to 
-guide investigation (working hypothesis) or accepted as highly probable in the light of 
-established facts.” (Webster’s, 1989). 
-
-The term “fact” as used above is used to express that something is true: “fact ... that 
-
-which actually exists; reality; truth.” (Webster’s, 1989). But this use of the term “fact” is itself 
-misleading. Are scientific theories just a collection of facts, or are they how a process actually 
-exists; in reality; in truth? It is crucially important to understand that “truth” is defined by the 
-epistemology that an individual or group accepts. 
-
-In science the term “truth” is problematic. If the issue is whether science can produce 
-
-absolute truths, it must be understood that absolute truths require absolute knowledge to prove 
-their validity. In an epistemology that is restricted to physical evidence, such as the epistemology 
-of science, absolute knowledge is not possible as it would require that we were aware of all the 
-phenomena in the universe. This would require a knowledge of all places in the universe 
-throughout all of time—clearly an impossibility. Therefore, without absolute knowledge, all 
-scientific knowledge claims must remain tentative. Scientific knowledge, however, because of 
-the epistemic values of science, remains the most reliable knowledge we have of the physical 
-world. 
-
------------------------ 
-
-Is there a “scientific method”? 
-
-Reductionism versus Holism? 
-
-Reductionism and holism are methods used in science to investigate a phenomenon of 
-
-interest. To compare the two think of a clock.  To understand a clock you have two fundamental 
-choices. You can take it apart to examine its parts and from them try to reason how the clock 
-works, or you can look at the whole thing to see what it does. Reductionism is to take a 
-phenomenon of interest apart to see what it is made of; holism is to view a phenomenon of 
-interest as a whole and see how it functions. The central question, however, is can you use one 
-method without the other? 
-
------------------------ 
-
-17 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
-• Point:  There is no single scientific method.  “Science can be a process in which practically 
-anything goes—from middle-of-the-night hunches to mathematical formulations driven by 
-classical aesthetics—so long as the results accurately describe and predict phenomena in the real 
-world.” (Tyson, 1998b). We must recognize that developing hypotheses is a creative act as much 
-as art or music. Creative thought can occur in almost any fashion, and it is only after a hypothesis 
-is formed that the rigorous process of experimentation and testing can begin. The creative act 
-must come first in science just as it must in the arts. 
-
------------------------ 
-
-The Unity of Science  
-
-Science may be the only spontaneously forming, unified human endeavor in all of human 
-
-history. It is truly an international community with a common language composed of 
-mathematics, a common literature, and a common nomenclature including standardized metrics; 
-in biology, species names; in chemistry, the periodic table of elements; etc..  
-
-Why is this so? Because there is only one physical world out there, thus everyone is 
-studying the same thing using the same rules. And why the same rules—because they work.  
-These rules are the epistemic values of science. If your goal is to understand the natural world, 
-and there is only one natural world, then you must develop a methodology that allows you to 
-“accurately describe and predict phenomena in the real world”. The epistemic values of science 
-are what they are because they do just that. 
-
----------------------- 
-
-• Note:  Scientific knowledge, once produced, exists apart from how it was produced. As  
-Bronowski puts it: "But of course, the facts discovered must not be confused with the activity 
-that discovers them."—Bronowski, 1977   
-
-We have now completed the first two elements in defining science, epistemic values and science 
-as a profession, and now turn to the third element, the product of the scientific endeavor —
-scientific knowledge. 
-
----------------------- 
-
-18 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Part Two:  The Conceptual Framework of Biology 
-
-Introduction 
-
-If you look at the sum of scientific knowledge, and that is where we are in our attempt to 
-define science, it is daunting. To make sense of it, we need a conceptual map, as scientific facts, 
-by themselves, explain little. Therefore, what is the theoretical framework that ties this sum of 
-knowledge together?  
-
------------------------- 
-
-Unit One: Cosmological Evolution 
-
-Science at the beginning of the twenty-first century can make some bold, 
-
-yet simple observations: 
-
-1.  the universe has evolved 
-
-2.  we are a result of that evolution 
-
------------------------ 
-
-Increasingly Inclusive Concepts in Science  
-
-Cosmological Evolution  
-
-Biological Evolution  
-
-Modern Biology  
-
-Biological 
-Anthropology  
-
-Personal  
-Identity
-
-The concept of cosmological evolution encompasses all of scientific knowledge and 
-
-provides a framework on the largest scale for understanding our world. 
-
-19 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Allan Sandage on Stellar Evolution 
-
-"The idea that stars change as they age, and that these changes, in turn, alter their local 
-
-environment and the chemical makeup of their parent galaxy stands in the same relation to 
-astronomy as the Darwinian revolution does to biology. It is a conceptual breakthrough that 
-makes possible the modern understanding of the origin, evolution, and fate of the universe. 
-
-We are the product of the stars. This is one of the most profound insights to have arisen 
-
-out of twentieth-century astronomy. Life is clearly a property of the evolving universe made 
-possible by stellar evolution."—Sandage, 2000 
-
-Allan Sandage was codiscover of quasars and the astronomer heir of Edwin Hubble’s project to 
-determine the rate of expansion of the universe. 
-
------------------------ 
-
-Cosmological Evolution and Historical Systems 
-
-•  To understand cosmological evolution, we must see the universe as an historical system. 
-
-•  An historical system is one whose past will shape the course of its future.  
-
-•  Such systems are characterized by a unique chronological sequence of events that gives rise to 
-unique initial conditions in the present.  
-
-•  System, as used here, is a set of integrated, interacting parts.  
-
-•  Integrated implies that a system forms from a series of events in the past into a stable entity in 
-the present. Integrated also implies that unordered entities are acted upon by a process that then 
-forms a new and stable entity from these parts.  
-
-•  A process, in turn, is a sequenced set of changes that transforms something from one state to 
-another. 
-
-Historical systems have the following characteristics. 
-
-1.  Change is inherent in historical systems.  
-
-2.  Historical systems are closed systems where the output of the processes of the 
-system is the only input to the system. 
-
-3.  Because of this, there is a chronological sequence in which the universe 
-developed.  
-
-4.  As the universe developed, levels of stable phenomena were built upon other, 
-more basic levels. 
-
-20 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-5.  These levels of stable phenomena have accumulated through time. 
-
-6.  Life on Earth is one of these natural levels of stable phenomena. 
-
-5.  Because historical systems evolve, evolutionary processes can explain the 
-development of all these levels. 
-
-Cause and Effect in a Closed System
-
-Process
-
-Input
-
-Output
-
-Closed Loop
-
-Output becomes Input
-
-• Point:  The universe is a closed, historical system. The fundamental process that produces 
-change in the universe is its expansion, and, indeed, the universe has evolved through time. The 
-history of life on Earth is but a small part of that evolution and the processes that produced life 
-on Earth are one and the same as those for the universe itself. Biological evolution is only a part 
-of the larger phenomenon of the evolution of the universe. 
-
------------------------- 
-
-Natural Levels of Organization in the Physical World 
-
-Natural hierarchical levels of organization or “levels of stability” (Bronowski 1977) are 
-
-inherent in historical systems. A natural hierarchical level is defined by the occurrence of a new, 
-novel and stable phenomenon that increases the level of causal complexity of the system enough 
-to give rise to a new level of spontaneous self-organization. These levels are characterized by 
-their stability through time and can be identified by the following features: 
-
-1. a unique scale in size — “on being the right size” 
-
-2. a new spontaneous organization of matter or “self-organization” 
-
-3. new emergent properties or processes — “more than the sum of the parts” 
-
-21 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-The following is a partial list of stable hierarchical levels of organization in nature, admittedly, 
-as seen from a biologist’s point of view. 
-
-The Quantum Level (origin ~ 1 x 10 -32 second after time zero) 
-1) Scale in size - 1 x 10 -35 meter (Planck’s length)  to 1 x 10 -16 meter 
-2) Self Organization - by ~ 1 x 10 -12 second after the Big Bang radiation had cooled enough to 
-form quarks (this is the “Quark Soup”) 
-3) Emergent Properties & Processes - matter forms from energy 
-
-The Sub-Atomic Level (origin ~ 1 second after time zero) 
-
-1) Scale in size - 1 x 10 -15 to 1 x 10 -10 meter 
-2) Self Organization - at ~ 1 second after the Big Bang the universe had cooled enough for 
-quarks to form protons; electrons to form from radiation; and protons and electrons to interact to 
-form neutrons 
-3) Emergent Properties & Processes - formation of the first atomic nuclei 
-
-The Atomic Level (origin ~ 400,000 years after time zero) 
-
-1) Scale in size - one ten billionth of human scale or 1 x 10 -10 meter 
-2) Self Organization - protons capture electrons and form the light elements hydrogen and 
-helium 
-3) Emergent Properties & Processes - primary or Big Bang nucleosynthesis; the properties of 
-the elements hydrogen and helium; decoupling of matter and radiation; and the origin of the 
-cosmic microwave background radiation 
-
-The Molecular (origin ~ 200 million years after time zero) 
-
-1) Scale in size - one billionth of human scale or 1 x 10 -9 meter 
-2) Self Organization - formation of first stars, formation of the heavy elements; formation of molecules 
-by electromagnetic forces 
-3) Emergent Properties & Processes - production of heavy elements in stars—secondary or stellar 
-nucleosynthesis; all the properties of molecules as opposed to elements—complex chemistry is now 
-possible 
-
-The Prokaryotic (origin ~ 4000 million years ago) 
-
-1) Scale in size - one millionth of human scale or 1 x 10 -6 meter 
-2) Self Organization - organization of complex macro-molecules into a self-reproducing unit, the cell 
-3) Emergent Properties & Processes - the origin of life—Archaebacteria & Eubacteria; natural selection; 
-speciation; self-reproduction by binary fission; anaerobic and aerobic respiration; photosynthesis   
-
-22 
-
- 
- 
- 
- 
- 
- 
- 
-The Eukaryotic (origin ~ 2000 million years ago) 
-
-1) Scale in size - 1 x 10 -5 to 1 x 10 -4 meter or ten to a hundred times larger than the prokaryotic 
-2) Self Organization - endosymbiotic mutualism of primitive eukaryotes and prokaryotic bacteria to 
-form true eukaryotic cells 
-3) Emergent Properties & Processes - endosymbiotic mutualism; origin of Kingdom Protista; evolution 
-of sexual reproduction (origin ~ 1100 million years ago)  
-
-The Multicellular (origin ~1000 to 600 million years ago) 
-
-1) Scale in size - one thousandth of human scale to human scale or 1 x 10 -3 to 1 meter 
-2) Self Organization - multicellular organization by cell types into tissues and organs, to whole 
-organisms; reproductive groups (demes); social organization (societies) 
-3) Emergent Properties & Processes - cell specialization; emergence of large life forms; origin  
-of Kingdoms Fungi, Plantae, and Animalia; social behavior; language 
-
-Levels of Stable Phenomena
-
-  Multicellular  
-
-  Eukaryotic  
-
-  Prokaryotic 
-
-  Molecular 
-
-Complexity
-
-Quantum, Sub-Atomic, Atomic 
-
-0
+be pedestrian crossings and tra c lights?
 
 3
 
+Chapter 1. Introduction and Overview
+
+3. Should the consequences of illegally preventing a last-minute goal in soccer be more severe than
+
+a penalty and a red card (for example, by assigning a goal to the team and a red card)?
+
+4. What is the optimal way to reduce carbon emissions? By introducing a carbon tax or by designing
+
+a market for emissions?
+
+5. How should organ donations be allocated to patients to maximize the number of lives saved?
+
+In this part of the course, we will introduce the fundamental concepts of mechanism design required
+for studying such questions about the optimal design of environments to achieve the desired objectives.
+
+4
+
+Part I
+
+Game Theory
+
 5
+
+Chapter 2
+
+Representation of Static Games
+
+The simplest class of games are static games, that is, strategic situations in which all players of the
+game act simultaneously and only once. Consequently, in a static game, a player cannot observe the
+actions of other players and can, therefore, not react to others’ actions or inﬂuence others with their
+own actions.
+In this chapter, we will narrow our focus even further and assume that players have
+access to all information that is relevant to the strategic situation—that is, we focus on static games
+of complete information. We will be more precise about what we mean by this as we go along.
+
+In the ﬁrst step, we introduce a formal representation of static games. In particular, we want to
+understand which components of the strategic situation we have to incorporate into our model to be
+able to discuss with the tools of game theory. In the second step, we will treat the strategic situation
+as a decision problem to understand which outcomes of the game can be expected with minimal
+restrictions on the players’ decision-making process beyond rationality.
+
+Example 1. Consider the following simple example of a strategic interaction (the grade game) between
+two classmates: Ann and Bob. Ann and Bob individually contemplate whether to collaborate in the
+preparation for a game theory exam. Whenever both cooperate, they share their class notes and
+knowledge with each other and will write a good exam; say, their ﬁnal grade will be a 29. However, if
+they both decide not to cooperate, they will be less well prepared and each receives a grade of 28. In
+the case that one of them shares his/her notes and knowledge, but the other one does not, then the
+one who did not cooperate will have a lot of knowledge and will do relatively better than the other one
+leading to a grade of 30L. The player who cooperated does not beneﬁt from the other one’s knowledge
+and only gets a grade of 27.
+
+Ann, Bob
+}
+
+include the set of players that are involved in the game.
+
+How can we describe this situation as a game? First, a formal description of a game has to
+In this case, the set of players is I =
+. Second, the description of a game has to state the set of available actions that each
+In this case, the set of available actions to both players is AAnn = ABob =
+. Third, we need to describe the possible outcomes of the game.
+}
+
+{
+player can take.
+Cooperate (C), Don0t Cooperate (D)
+{
+In this case, the possible outcomes are a grade for each of the classmates, y
+Fourth, a game description requires a mapping from action proﬁles—that is, the vector of actions taken
+by each player—into outcomes. In the grade game, the outcome function is
+
+Y =
+
+2
+
+(29, 29), (28, 28), (30L, 27), (27, 30L)
+{
+
+.1
+
+}
+
+(29, 29)
+(28, 28)
+(27, 30L)
+(30L, 27)
+
+, if (aAnn, aBob) = (C, C)
+, if (aAnn, aBob) = (D, D)
+, if (aAnn, aBob) = (C, D)
+, if (aAnn, aBob) = (D, C).
+
+g(aAnn, aBob) = 8
+>>><
+>>>:
+
+1We let the ﬁrst entry in each outcome denote Ann’s and the second entry Bob’s grade.
 
 7
 
-9.7
+Chapter 2. Representation of Static Games
 
- 11.7
+Fifth, we need to assign preferences over outcomes for each player. We assume for now that players
+care only about their own grades and that they prefer better grades. For example, we could assume
 
-12.7   13.7
+1
+0
+3
 
-  Big Bang  
+, if y = (29, 29)
+, if y = (28, 28)
+, if y = (30L, 27)
+, if y = (27, 30L).
 
-Time (in billions of years)   
+uAnn(y) = uBob(y) = 8
+>>><
+ 
+>>>:
+We often represent games with few players and few actions in a matrix as in Table 3.3.2 Rows
+correspond to actions by the “row player”; that is, Ann in this case. Columns correspond to actions by
+the “column player”; that is, Bob in this case. Each entry of the matrix then corresponds to a realized
+action proﬁle. The ﬁrst number indicates the payo↵ of the row player given the realized action proﬁle,
+the second number indicates the payo↵ of the column player given the realized action proﬁle.
 
-  Present    
+1
 
------------------------ 
+Ann
 
-The Evolution of the Universe—The Short Version  
+Cooperate
+Don’t Cooperate
 
-“Yes, the universe had a beginning [approximately 14 billion years ago]. Yes, the 
+Bob
 
-universe continues to evolve. And yes, every one of our body’s atoms is traceable to the Big 
-Bang and to the thermonuclear furnace within high-mass stars. We are not simply in the 
-universe; we are part of it. We are born from it.”—Neil DeGrasse Tyson, 1998a 
+Cooperate
+1, 1
+1
+3,
 
-Neil DeGrasse Tyson, an astrophysicist, is the director of New York City’s Hayden Planetarium. 
+ 
 
------------------------ 
+Don’t Cooperate
+1, 3
+ 
+0, 0
 
-23 
+Table 2.1: The grade game represented in a game matrix.
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Astronomical Distances—How big is “Big”? 
+Example 1 suggests that a complete description of a static game with complete information requires:
 
-The diameter of the Earth is 7926.4 miles or 12,756.3 kilometers (km). The average 
+A description of
 
-separation of the Earth from the Sun is 149.6 million km. This is 11728 times the Earth’s 
-diameter. This defines an Astronomical Unit (AU) which is the preferred unit of measure for 
-distances within our solar system. Converted to miles the Earth is 93 million miles from the Sun. 
-It takes light 8.3 minutes to travel from the Sun to the Earth. 
+1. the participants in the game;
 
-A light year or the distance light travels in a year is used to measure distance outside of 
+2. what each participant can do;
 
-our solar system. It is 9.45 trillion kilometers or 5.88 trillion miles. To put a light year in 
-perspective, an Astronomical Unit is 0.0000158 of a light year.  
+3. what are the possible outcomes of the strategic situation;
 
-The speed of light (c) is one of the fundamental constants in nature. The speed of light in 
+4. how the actions a↵ect the potential outcomes;
 
-a vacuum is exactly c = 299,792,458 m/s (meters per second). This is  299,792 kilometers per 
-second or 186,300 miles per second (the conversion factor is km x 0.62143 = miles). The speed 
-of light is normally rounded to 300,000 km/sec or 186,000 miles/sec. 
+5. how the participants evaluate the di↵erent outcomes.
 
-When people refer to the speed of light, they refer to the definition above—the speed of 
-light in a vacuum. The speed of light depends on the material that the light moves through—for 
-example: light moves slower in water, glass and through the atmosphere than in a vacuum. The 
-ratio whereby light is slowed down is called the refractive index of that medium. In general for 
-astronomical distances, the difference in the speed of light in other mediums is ignored because 
-of the emptiness of space.  
+The next section formalizes this description.
 
-Some Representative Distances 
+2.1 Formal Representation of Static Games
 
-The Solar System is about 80 Astronomical Units in diameter or 7.44 billion miles.  
+We now deﬁne the ﬁrst formal representation of static games with complete information.3 We will
+simplify this deﬁnition in the next step.
 
-The nearest star to Earth (other than the Sun) is Proxima Centauri about 4.3 light years or 25.3 
-trillion miles away.  
+Deﬁnition 2.1. A static game is a list G =
 
-Our galaxy (the Milky Way) is about 100,000 light years in diameter (588 thousand trillion miles).  
+I, (Ai)i
 
-The nearest galaxy to the Earth is the Large Magellanic Cloud about 50 kilo parsecs away. A 
-parsec is 3.26 light years making the Large Magellanic Cloud 1,540,000,000,000,000,000 
-kilometers away (which is about 1 million, trillion miles). 
+2
 
-The visible universe is approximately 93 billion light years in diameter, which is 9.3 x 1029 
-kilometers across or 9.3 x 1032 miles. 
+h
 
------------------------ 
+I , Y, g, (vi)i
 
-“The universe is not just stranger than we imagine, it is stranger than we can imagine.” 
+, where
 
-(paraphrase of J.B.S. Haldane from Possible Worlds, 1927) 
+I i
 
------------------------ 
+2
 
-24 
+• I is the set of players,
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Unit Two: Biological Evolution 
+• Ai is the set of possible actions for player i,
 
-Increasingly Inclusive Concepts in Science  
+• Y is the set of possible outcomes,
 
-Cosmological Evolution  
+2This game is more commonly known as Prisoner’s Dilemma. We will introduce it as such later on and return to it
 
-Biological Evolution
+frequently during the class.
 
-Modern Biology  
+3Note that this representation is often denoted as the normal form or strategic form representation of a game. We
 
-Biological 
-Anthropology  
+will come back to this notion later.
 
-Personal  
-Identity
+8
 
-Biological evolution is more inclusive than modern biology because it includes a large 
-part of modern geology. The history of life on Earth and the geological history of the Earth are 
-intimately tied together. 
+Chapter 2. Representation of Static Games
 
------------------------ 
+• g :
 
-“There is grandeur in this view of life, with its several powers, having been originally 
+⇥i
+• vi : Y
 
-breathed into a few forms or into one; and that, whilst this planet has gone cycling on according 
-to the fixed law of gravity, from so simple a beginning endless forms most beautiful and most 
-wonderful have been, and are being evolved.” 
+I Ai !
 
-Charles Darwin from the last line of  
+2
 
-On the Origin of Species by Means of Natural Selection, or the 
-Preservation of Favored Races in the Struggle for Life. 
- (1859) 
+Y is the outcome function, 4
 
------------------------ 
+R is the von Neumann-Morgenstern utility function of player i.
 
-“Never in the field of scientific endeavor can so great a theory [evolution by natural 
+!
 
-selection] have been misunderstood by so many with so little reason.”—Ridley, 1995 
+We denote a player’s action by ai 2
+the vector of all players’ actions. In addition, we use the notation
+all players except player i. For example, a
+j
 
------------------------ 
+I Ai as
+I 2
+i whenever we refer to the set of
+i is a vector of actions chosen by the set players
 
-25 
+I
+Note that the outcome function g can be stochastic. That is, an action proﬁle a = (ai)i
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Darwin’s Five Theories 
+Ai and deﬁne an action proﬁle a = (ai)i
 
-(after Mayr, 1982, 505) 
+A =
 
-1)  Evolution as Historical Fact—The mutability of species or evolution as such 
+i 2
 
-2)  Common Descent—all organisms have descended from common ancestors by a continuous 
-process of branching speciation 
+⇥i
 
-3)  Gradualism—the mode of evolutionary change is gradual—gradual changes within a 
-population as opposed to sudden changes between generations 
+.
+}
 
-4)  Speciation—the process of multiplication of species 
+\ {
 
-5)  Natural Selection—the mechanism of evolutionary change 
+ 
 
------------------------ 
+A
 
-• Point:  Evolutionary theory is not just one scientific theory and involves much more than most 
-people think. 
+2
 
------------------------ 
+ 
 
-Questions 
+ 
 
-• How did the species of plants and animals we see today originate? 
+2
 
-• Have each of these life-forms remained the same since they originated? 
+2
 
-• Has the number and types of species remained the same through time? 
+i
 
------------------------ 
+I can lead
 
-Evolution as Historical Fact 
+2
 
-“For biologists of today, evolution is no longer a hypothesis but simply a fact, 
+to di↵erent outcomes with corresponding probabilities.
 
-documented by the changes in the gene pools of species from generation to generation and by the 
-changes in the fossil biota in accurately dated geological strata. Current resistance is limited 
-entirely to opponents with religious commitments.”—Mayr, 1982 
+We can simplify Deﬁnition 2.1. Observe that we can represent the players’ preferences directly
+over action proﬁles instead of over outcomes that are determined by the action proﬁles. For stochastic
+outcome functions, preferences are deﬁned over lotteries. For a deﬁnition of lotteries and probability
+measures over ﬁnite domains, see Appendix A.
+Second, deﬁne the payo↵ function ui : A
 
------------------------ 
+R as a function representing the players’ preferences as
+a function from action proﬁles directly into the reals. To see that such a payo↵ function can capture
+Y and the player’s von Neumann-Morgenstern utility function vi,
+both the outcome function g : A
+denote by µ a given distribution over action proﬁles. As vi : Y
+R represents player i’s preferences
+⌫i over lotteries over outcomes,  1,  2 2
+ 1 ⌫i  2 ,
 
-26 
+ (Y ), the following obtains
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-The Weak Version 
+ 2(y)vi(y).
 
-Evolution by Common Descent 
+ 1(y)vi(y)
 
-“all organisms have descended from common ancestors by a continuous process of branching 
-speciation.”—Mayr, 1982 
+(2.1)
 
-The Strong Version 
+!
 
-The strong version of Darwin’s theory views life at the molecular, genetic level from the 
-perspective of non-linear thermodynamic systems. It is from this perspective that the conclusion 
-is derived that life is “a single, ongoing, genetically controlled chemical chain reaction.” 
+!
 
-• Note:  “branching” speciation is allopatric speciation, i.e. parent species “branch” off 
-geographically and give rise to daughter species where both species survive at least for a time. 
+!
 
------------------------ 
+ 
 
------------------------ 
+Y
+Xy
+2
 
-Gradualism 
+Y
+Xy
+2
 
-The Tempo and Mode of Evolution: Gradual or Punctuated? 
+Denote by ˆg : ( A)
+outcomes induced by a distribution over the set of action proﬁles, µ, as
 
-The rate of evolutionary change in populations of organisms has varied greatly over 
+ (Y ) the pushforward function that describes the lottery over the set of
 
-geological time. This is the tempo of evolutionary change and is related to the multiplication of 
-species. It now appears to be true that this tempo consists of long periods of little change called 
-stasis that are punctuated by rapid (rapid in terms of geological time) periods of evolution. This 
-is punctuated equilibrium. 
+!
 
-But the mode of evolutionary change by slight variations caused by small mutations is 
+ˆg(µ)(y) = µ
 
-always a gradual process: “It is the slow, cumulative, one-step-at-a-time, non-random survival of 
-random variants.” (Dawkins, 1996). This is expressed in the metaphor of Mount Improbable. 
+g 
 
------------------------ 
+1(y)
 
-Speciation 
+=
 
-Allopatric or Phylogenetic or both? 
+µ(a).
 
-“A new species develops if a population which has become geographically isolated from 
+(2.2)
 
-its parental species acquires during this period of isolation characters which promote or 
-guarantee reproductive isolation when the external barriers break down.”—Mayr, 1982 
+ 
 
-Point:   
+g 
+Xa
+2
 
-• Allopatric speciation is speciation that takes place in geographic space.  
+1(y)
 
-• Phylogenetic speciation is speciation that takes place through time.   
+ 
 
-• Both, however, must occur to produce a new species. 
+In words, the likelihood of event y happening is determined by adding up the probabilities of actions
+within the action proﬁle that result in event y where these probabilities are induced by µ.
 
------------------------ 
+Deﬁning the payo↵ function ui : A
+!
+distributions over action proﬁles µ1, µ2 2
 
-27 
+R as the composition ui = vi  
+ (A)
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
------------------------ 
+g, we obtain for any two
 
-A Note on Terminology 
+µ1 ⌫i µ2 ,
 
-Cladogenesis: Evolution in which a daughter species splits off from a population of the older 
-species, after which both the old and the young species coexist together. Notice that this allows a 
-descendant to coexist with its ancestor. Cladogenesis is the type of evolutionary change that 
-occurs in allopatric speciation. 
+Y
+Xy
+2
 
-Anagenesis: Evolution in which an older species, as a whole, changes into a new descendent 
-species, such that the ancestor is transformed into the descendant. Anagenesis is the type of 
-evolutionary change that occurs in phylogenetic speciation. 
+ˆg(µ1)(y)vi(y)
 
------------------------ 
+µ1(a)vi(g(a))
 
-Population Thinking 
+Xy
+2
 
-Ernst Mayr has shown that, in order to understand evolution by natural selection, we must 
+1(y)
 
-look to the nature of populations and not of individuals. 
+Y Xa
+g 
+2
+µ1(a)ui(a)
 
-• Individual organisms do not evolve; only populations of interbreeding organisms evolve. 
+ˆg(µ2)(y)vi(y)
 
-• Only populations have continuity through time; individual organisms are temporary. 
+Y
+Xy
+2
 
-It was also Ernst Mayr who set population thinking in opposition to Platonic essentialism 
+µ2(a)vi(g(a))
 
-(see essays on the Medieval worldview) to help us understand the difference between 
-evolutionary thinking and the antiquated notion of the fixity of species. Essentialism held that 
-each species had a fixed spiritual essence or ideal form and that any variation was, therefore, a 
-corrupt deviation from this pure form.  
+Xy
+2
 
------------------------ 
+1(y)
 
-Natural Fecundity 
+Y Xa
+g 
+2
+µ2(a)ui(a).
 
-“There is no exception to the rule that every organic being naturally increases at so high a 
+ 
 
-rate, that if not destroyed, the Earth would soon be covered by the progeny of a single pair.” 
+ 
 
-—Charles Darwin from On the Origin of Species, page 64. 
+ 
 
------------------------ 
+A
+Xa
+2
 
-28 
+A
+Xa
+2
+I achieve the goal we wanted to achieve:
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Natural Selection 
+Hence, the payo↵ functions (ui)i
 
-• Over Production (caused by Natural Fecundity)  
+it represents player
+i’s preferences over action proﬁles. Using these payo↵ functions, we obtain the classic more concise
+representation of static games in the following deﬁnition.
 
-coupled to 
+2
 
-• Variation that can be Inherited  
+Deﬁnition 2.2. A static game is a list G =
 
-leads to  
+I, (Ai, ui)i
 
-• Differential Reproductive Success  
+where
 
-which leads to  
+I i
 
-• Evolutionary Adaptation to Changing Local Environments 
+2
 
-(after Gould, 1977) 
+h
 
-Points: 
+• I is the set of players,
 
-• Natural selection is a dynamic process and not a person or a thing. 
+• Ai is a nonempty set of possible actions for player i,
 
-• It is reasonable to equate natural selection to circumstances. 
+• ui : A
 
-• Natural selection only operates in the present, i.e. it is only the circumstances of the present 
-that count in the process. 
+!
 
-• Present circumstances (natural selection) operating on individuals results in changing 
-(evolving) populations. 
+R is player i’s payo↵ function.
 
-In other words, evolution by natural selection is a nature algorithm. 
+4
 
------------------------ 
+⇥i
+⇥
 
-Defining a Natural Algorithm 
+2
+A2
 
-Using Daniel Dennett's definition from his book Darwin’s Dangerous Idea (1995, 50-51) 
+A1
 
-an algorithm has: 
+An.
 
-1) substrate neutrality: The power of the process is due to its logical structure, not the 
-properties of the materials involved in its particular occurrence. 
+⇥· · ·⇥
 
-2) underlying mindlessness: Although the overall organization of the process may yield brilliant 
-results, each constituent step, as well as the transition between steps, is utterly simple.   
+9
 
-3) guaranteed results: Whatever it is that an algorithm does, it always does it. If it occurs 
-without misstep, an algorithm is a foolproof recipe.  
+I Ai denotes the Cartesian product of the players’ set of actions. That is, for I =
 
-This does not mean that an algorithm must always produce the same result. Algorithms of 
+1, . . . , n
 
-natural processes always operate on a unique set of initial conditions, that, in turn, produce 
+,
 
-29 
+}
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-historically contingent outcomes. What evolutionary algorithms are a foolproof recipe for is 
-cumulative change, where each outcome of the algorithmic process operating on an historical 
-system is different from the last. What is guaranteed is change itself. 
+⇥i
 
-What Dennett doesn't clarify until later in his book is that, as it concerns evolution in 
+2
 
-natural systems, we are talking about natural algorithms—algorithmic processes in nature that 
-have the above characteristics but do not have an end directed goal. They exist and operate but 
-they are not algorithms for producing particular outcomes. They have no teleological purpose, no 
-"final cause". This is Aristotle's fourth division of causality, and it is final not in the temporal 
-sense of coming last, but in the Latin meaning of ultimate purpose. Natural algorithms are 
-distinct from constructed algorithms—algorithms that have been created by humans to produce 
-particular outcomes as in mathematics and computers. 
+I Ai =
 
-Cause and Effect in a Closed System
+{
 
-Process
+Chapter 2. Representation of Static Games
 
-Input
+In this class, most of our examples fall into one of two classes of games, ﬁnite and compact-
 
-Output
+continuous games. We deﬁne these classes in the following two deﬁnitions.
 
-Closed Loop
+Deﬁnition 2.3. A static game G is ﬁnite if, for all players i
 
-Output becomes Input
+I, the action set Ai is ﬁnite.
 
-The natural algorithm of evolution by natural selection is a process that operates on the 
+2
 
-closed historical system of genetics and reproduction of life on Earth. Using the figure above the 
-“process” of evolution works on the gene pool of every population of organisms and results in 
-the “output” of a unique gene pool every generation in the population. This then is the only gene 
-pool (the input) available to produce the next generation. The only way to stop this process 
-would be to insure that there was absolutely no genetic change, no random mutations in DNA, no 
-differential reproduction, nothing throughout the entire history of the population. Every 
-generation’s gene pool would have to be genetically identical to the last one, and given the 
-nature of genetics and reproduction, this is clearly impossible. 
+Example 1 is a simple deﬁnition of a ﬁnite game. Each player can choose from two actions (coop-
 
------------------------ 
+erating and not cooperating).
 
-30 
+Deﬁnition 2.4. A static game G is compact-continuous if, for all players i
+subset of a Euclidean space Rki where ki 2
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Adaptations 
+R is continuous.
 
-Evolution by natural selection does not lead to optimal adaptations. It produces only 
+N and ui : A
 
-historically constrained answers to past environmental challenges. What worked in the past was 
-cobbled together from what was genetically available then and has no guarantee of working in 
-the future. Evolutionary adaptations are always a gamble that future conditions will be similar to 
-the past. If the environment changes a highly specialized adaptation may suddenly become 
-useless if not a liability. 
+!
 
-• In reality the only “adaptation” natural selection “selects” is 
+I, Ai is a compact
 
-reproductive success. 
+2
 
------------------------ 
+The following is an example of a compact-continuous game that is a classical economic example,
+which we will return to frequently. Notably, this game is one of the earliest games that have been
+studied with game-theoretic concepts by Augustin Cournot in Cournot (1838) long before game theory
+had been established as a research ﬁeld.
 
-• Point:  The point is that natural selection allows only what “works” to continue into the next 
-generation, but the measure of every adaptation is in how it works to enhance reproductive 
-success. Reproductive success is, therefore, the measure of every adaptation. 
+Example 2. Consider the following game of two ﬁrms, I =
+, competing in a market for a
+homogenous good (that is, consumers do not care which ﬁrm they purchase the good from). Each
+). The cost of producing qi units
+ﬁrm i chooses a quantity qi to produce; that is, qi 2
+0. The inverse demand
+is ci(qi) = c qi; that is, there is a constant marginal cost of production, c
+function determines the price at which the goods sell and is given by p(q1, q2) = max
+.
+}
+Thus, the payo↵ functions are ui(q1, q2) = qi(1
 
------------------------ 
+1, 2
+}
+{
 
-Questions 
+Ai = [0,
 
-•  What are the implications of our growing scientific knowledge of the world? 
+(q1 + q2)
 
-•  What if the great thinkers of the past, such as Plato or Augustine, knew what we now 
-know about the natural world? 
+0, 1
+{
 
-•  Could our ability to understand certain ideas depend on our beliefs and values? 
+(qi + q
 
------------------------ 
+c).
 
-• Point:  This last question ties directly back to the presentation of “Worldviews, Values, and 
-Decision-making”. The point to be made is that people may be unable to understand evolution by 
-natural selection if they have been indoctrinated in an epistemology that is antithetical to the 
-epistemology of science. The entire issue reduces down to what an individual believes is 
-acceptable evidence. If they accept the word of authority as acceptable evidence, they may be 
-unable to grasp scientific understanding. 
+1
 
------------------------ 
+ 
 
-31 
+ 
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Unit Three: Life as a Chemical Function 
+i)
 
-Introduction:  We gained a fundamentally new understanding of nature when scientific research 
-was able to shift scale in size from the macroscopic, or human scale, to the nanometer scale of 
-molecules. This is one of the strengths of the reductionist method in science. Biology today is 
-characterized by this reductionist program; we live in the age of molecular biology. 
+ 
 
------------------------ 
+ 
 
-The Chemical Dimension of Life—Biochemistry 
+ 
 
-• atoms —> to molecules —> to macromolecules 
+10
 
-There are four main groups of biologically important macromolecules: 
+Chapter 3
 
-(1)  Proteins both structural such as keratin, and regulatory such as enzymes 
+Justiﬁability and Dominance
 
-(2)  Nucleic Acids such as DNA and RNA 
+In the next step, we aim to understand which actions a rational player may choose in a game. Towards
+this, we ﬁrst take on the perspective of decision theory; that is, we ignore the potentially complicated
+strategic reasoning a player might engage in. We present the results and concepts in this section almost
+exclusively for ﬁnite games. However, with one exception (Lemma 3.4) all concepts and results also
+apply to compact-continuous games and you can use them in those instances as well.
 
-(3)  Carbohydrates such as glucose, a simple sugar 
+We ﬁrst introduce some basic deﬁnitions and then illustrate how we can apply them to reason
 
-(4)  Lipids such as fatty acids that form membranes 
+about behavior in games in the simplest possible form.
 
------------------------ 
+Conjectures. We represent with a conjecture the behavior that a player expects from other players.
+For now, we will not discuss how conjectures are obtained and instead take them as given. Later on,
+we will take a closer look at the formation of conjectures. Formally, we deﬁne a conjecture as follows.
 
-Four Levels of Protein Structure 
+Deﬁnition 3.1. A conjecture of player i is a probability measure µi
+Aj the set of action proﬁles by all players but player i.
+A
 
-• The first or Primary Level is simply the order of amino acids in a polypeptide chain. 
+i =
 
-• The Secondary Level is the first folding of the polypeptide chain into either an Alpha Helix or 
-Beta Pleated Sheet. 
+I
 
-• The third or Tertiary Level is the second folding of the polypeptide chain into a Globular 
-Protein which may contain both helix and pleated sheet structures. 
+i
 
-• The fourth or Quaternary Level consists of more than one globular protein that combine 
-together to form the finished protein. 
+ 
 
-• Hemoglobin is an example of Quaternary structure. 
+⇥j
 
-• In all cases, it is the final shape of the protein that determines its chemical activity. 
+2
 
------------------------ 
+\{
 
-32 
+}
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Nucleic Acids and Protein Synthesis 
+ (A
 
-• Transcription 
+ 
 
-DNA (genes) —> to mRNA —> to ribosomes 
+2
 
-• Translation 
+i), where we denote by
 
-amino acids —> to tRNA —> to ribosomes —> makes proteins 
+Note that this deﬁnition allows players to hold probabilistic conjectures; that is, a player can expect
+other players to randomize over their actions. Further, note that we can deﬁne the set of deterministic
+conjectures as those conjectures that assign probability one to a particular action proﬁle (that is,
+i).1 Hence, we can think of the set of other players’ action proﬁles as a
+µi =  a
+i 2
+ (A
+subset of conjectures, A
+ 
 
-• Genes code only for proteins and RNAs  
+i), which will simplify our notation in future instances.
 
------------------------ 
+i for some a
 
-The Genealogical Dimension of Life—Genetics the information dimension  
+ 
 
-Terms and Definitions to Know 
+ 
 
-• genes  —>  genetic information 
+ 
 
-• genome  —>  genetic makeup of the individual 
+A
+ 
+i ✓
 
-• gene pool  —>  genetic makeup of a population 
+Mixed Actions. A player can randomize over her available actions. We call such a randomization
+a mixed action. We assume that the random draws from players’ mixed actions are statistically
+independent. That is, in a simultaneous move game, there is no way in which players can correlate
+their draws. We will discuss correlated behavior in a separate chapter on correlated equilibrium.
 
-• biodiversity  —>  genetic sum of all of life on earth 
+Deﬁnition 3.2. A mixed action ↵i 2
+actions of player i. For every action ai 2
+action is degenerate if it is such that it assigns probability one to a particular action ai 2
+call such a mixed action a pure action.
 
-• genotype  —>  • phenotype 
+ (Ai) by player i is a probability distribution over the set of
+Ai, ↵i(ai) denotes the probability that ai is taken. A mixed
+Ai and we
 
------------------------ 
+Example 3. Consider the game of Rock, Paper, Scissors as depicted in Chapter 3. In this game,
+suppose that Ann chooses to play all actions with an equal probability, while Bob randomizes only
+over Rock and Paper with equal probabilities but plays Scissors. Thus, ↵A(Rock) = ↵A(P aper) =
+↵A(Scissors) = 1/3 and ↵B(Rock) = ↵B(P aper) = 1/2 and ↵B(Scissors) = 0. This yields for Ann’s
 
-“The gene pool of a population is a record of reproductive success and failure in that 
+1Here, we denote by  a
 
-population, and at conception an organism gets a sample of this record. The sample is its 
-instructions for producing the machinery by which it adapts to its environment. All other useful 
-information, such as that learned and stored in the brain, depends on the initial genetic 
-information. New information can be exploited [only] because organs for the gathering, storage, 
-and use of information are specified in the genes. Such organs are no less biological than those 
-for the gathering, storage, and use of food. Both kinds of organs are there because they have been 
-useful in previous generations for transmitting genes to later generations.”   
+i the Dirac measure that assigns measure one on the action proﬁle a
 
-George C. Williams from his essay A Sociobiological Expansion of Evolution and Ethics in 
-Paradis & Williams (1989)  
+zero on all other action proﬁles a0
+ 
 
------------------------ 
+i 6
 
-33 
+= a
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Essay—Nature, Nurture, or Neither 
+i.
 
-The Failure of both Cultural and Genetic Determinism 
+ 
 
-There has been a long running battle between the social sciences and the natural sciences 
-over the causal source of human behavior (Degler, 1991). The struggle is between the view that 
-our behavior is culturally determined versus the view that our behavior is genetically determined.  
-The debate has traditionally been known as nature versus nurture. It establishes a dichotomy 
-between the influences of “nature” which today we recognize as our genetic makeup, our 
-genome, and “nurture” which is shorthand for the environmental, cultural determinants of 
-behavior.  
+ 
 
-Simple logic should have resolved this debate long ago, if only the parties to the debate 
-had recognized that there is no evidence that precludes the obvious combination of genetic and 
-environmental influences in determining our behavior. The western mind-set of thinking in 
-opposites, however, has a long tradition beginning with the early Greek philosopher 
-Anaximander. It was Anaximander who first proposed that nature was composed of opposites: 
-hot and cold, wet and dry, light and heavy, life and death (Burke 1985, 16). We continue this 
-tradition by thinking that behavior must be determined by one of two opposites, nature or 
-nurture.  
+i 2
 
-This debate, however, sets up a false dichotomy. In a true dichotomy a position is set 
+ 
 
-against its only possible alternative. In a false dichotomy these two alternatives do not exhaust all 
-the possible explanations of the phenomenon. The key to understanding the false dichotomy of 
-"nature versus nurture" is that neither nature nor nurture alone determines our behavior. There is 
-an obvious third alternative.  
+A
 
-Today, although the debate still goes on, there is a growing consensus that our behavior is 
+ 
 
-determined by a dynamic interaction between our genes and the environment. In biology this 
-product of the interaction between a genome and its environment is called the phenotype. Our 
-behavior should be seen as a purely phenotypic response of our genome to the external world.  
+i and measure
 
------------------------ 
+11
 
-Genetics and Reproduction—Terms and Definitions to Know 
+Chapter 3. Justiﬁability and Dominance
 
-• genetic mutations 
+Ann
 
- • allele 
+Rock
+Paper
+Scissors
 
-   • variation in genes          • variation in alleles 
+Bob
+Rock Paper
+1, 1
+0, 0
+ 
+0, 0
+1
+1,
+ 
+1
+1,
+1, 1
 
- • dominant alleles   
+ 
 
-     • recessive alleles      
+ 
 
-• heterozygote           • homozygote 
+Scissors
 
-    • gene expression 
+1,
 
-• single gene traits          • polygenic traits  
+1
+ 
+1, 1
+ 
+0, 0
 
-• pleiotropy 
+Table 3.1: Rock Paper Scissors
 
-• somatic cells          • germ cells     
+payo↵, assuming that the players hold correct conjectures; that is, their conjectures coincide with the
+actual mixed actions of their opponent,
 
-    • mitosis          • meiosis 
+uA(↵A, µA = ↵B) =
 
------------------------ 
+1
+3
 
-34 
+0
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Biochemical Evidence for the Unity of Life 
+1
+2
 
-• DNA is the universal genetic material. 
+B
+B
+@
 
-• The process of protein synthesis is universal. 
+0
 
-• The genetic code for specifying amino acids is universal for all life-forms. 
+B
+B
+@
 
-• Metabolic pathways for producing energy such as glycolysis and  
-the cycling of ATP and ADP are universal for all life-forms. 
+Pr(Ann plays Rock)
 
-It was the great 18th century French chemist, Antoine Lavoisier (1743-1794), who first 
+|{z}
+1
+3
 
-asserted that life is a chemical function. Modern molecular biology has reinforced that all the 
-phenomena we associate with life are the product of the chemistry of life. It is not, therefore, 
-misleading to say that life is a single, ongoing, genetically controlled chemical chain reaction. 
-That this incredibly complex chemistry is common to all life-forms is compelling evidence for 
-the unity of life based on common descent (Moore, 1993). 
+Pr(Ann plays Paper)
 
-Unit Four: The Modern Synthesis 
+|{z}
+1
+3
 
------------------------ 
++
 
------------------------ 
++
 
-The Same but not the Same 
+1
+2
 
-Who was the first geneticist? 
+1) +
 
-Darwin or Mendel 
+(
 
-Why was Darwin unable to figure out the mechanism of inheritance? 
+·
 
-Why was Mendel able to? 
+ 
 
-Reduction or Holism / Numerate or Innumerate 
+0
 
-Darwin and Mendel 
+Pr(Bob plays Scissors)
 
-The “Modern Synthesis” of Evolution by Natural Selection and Genetics 
+11
 
------------------------ 
+·
 
-Essay—Darwin and Mendel: Who was the first geneticist? 
+C
+C
+A
 
-Gregor Mendel is acknowledged as the first geneticist, and no one would argued that he 
+0 +
 
-wasn’t. But there is a growing awareness that Darwin’s influence should be recognized in the 
-history of genetics. Darwin’s theory of evolution by natural selection creates the theoretical need 
-for understanding the mechanism of inheritance. But Darwin was ultimately a synthetic rather 
-than a reductionist thinker. His view was of the whole. As Colin Tudge offers, “Darwin, I 
-believe, was simply the wrong kind of thinker to arrive at the correct mechanism of heredity. He 
+·
 
-35 
+1 +
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-conceived his grand over-view of evolution by looking at thousands of different instances, in 
-thousands of different species: beetles, finches, barnacles, orchids, human beings; in other words, 
-through the eyes of a tremendously accomplished naturalist. Nothing short of such a grand sweep 
-could suggest a convincing mechanism that could be seen to apply to all of them.”—Tudge, 
-1993, 6 
-
-“Darwin produced the theory that has transformed biology, and indeed has changed the 
-
-course of modern philosophy more profoundly than that of any other thinker of the past three 
-centuries. Yet the mechanism he proposed [natural selection] cannot work unless the process of 
-heredity operates in a particular way: a way that can produce variation from generation to 
-generation even while respecting the general condition that ‘like begets like’ [i.e. the same but 
-not the same]. But what that mechanism might be Darwin failed absolutely to perceive. 
-
-Here we come to yet another irony, in fact to several more. First, the mechanism of 
-inheritance that Darwin sought and needed was worked out and published during his own 
-lifetime [in 1866]—indeed, just a few years after On the Origin appeared—by a scientist-monk 
-[Mendel] in what was then called Moravia [now the Czech Republic]. Second, however, this 
-crucial insight was overlooked by the scientific community at large, and was in fact forgotten 
-until rediscovered at the beginning of the twentieth century. Third, when the vital mechanism of 
-inheritance was finally rediscovered, it was not at first recognized as the key to evolution by 
-natural selection.”—Tudge, 1993, 10 
-
-Darwin’s holistic viewpoint, as well as his being innumerate, prevented him from being 
-
-able to determine the mechanisms of inheritance. Mendel on the other hand was trained as a 
-physics teacher in a time when the reductionist methodology was being rigorously promoted, and 
-Mendel was numerate. The question then “Who was the first geneticist?” reveals the tension 
-between the reductionist and the holistic methods in science. But the central point must not be 
-lost—both methods are necessary for science to progress toward its goal of understanding nature.  
-Mendel completed what Darwin had begun, a true understanding of inheritance.  
-
-The story is not complete, however, until the modern synthesis of evolution by natural 
-
-selection and genetics is achieved in the twentieth century. It was not until the 1940’s that Julian 
-Huxley (T.H. Huxley’s grandson) would coin the term “the Modern Synthesis” to describe the 
-grand unification of evolutionary theory with classical genetics that had finally taken place. In 
-America Ernst Mayr, Theodosius Dobzhansky, George G. Simpson, and G. Ledyard Stebbins 
-were the major figures in creating this synthesis. With the achievement of the modern synthesis 
-Darwin’s theory of evolution by natural selection once again demonstrated its consilient power 
-in bringing all of biology under one theoretical framework. 
-
----------------------- 
-
-• Point:  It should now be clear that only when both methods, reductionism and holism, are 
-combined, as in the modern synthesis, do we come to fully understand the natural world.  
-
----------------------- 
-
-36 
+·
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Part Three:  The Integration of Biological Knowledge 
+Pr(Bob plays Rock)
 
-Introduction: 
+|{z}
+1
+2
 
-“Science analyzes experience, yes, but the analysis does not yet make a picture of the 
+Pr(Bob plays Rock)
 
-world. The analysis provides only the materials for the picture. The purpose of science, and of all 
-rational thought, is to make a more ample and more coherent picture of the world, in which each 
-experience holds together better and is more of a piece. This is a task of synthesis, not of 
-analysis.”—Bronowski, 1977, 253 
+Pr(Bob plays Paper)
 
-Because life on Earth is an effectively closed historical system, we must understand that 
-biology is an historical science. One result of this is that a chronological narrative of the history 
-of life provides for the integration of all biological knowledge.  
+|{z}
+1
+2
 
-The late Preston Cloud, a biogeologist, was one of the first scientists to fully understand 
-this. His 1978, book Cosmos, Earth, and Man: A Shot History of the Universe, is one of the first 
-and finest presentations of “a more ample and more coherent picture of the world”. 
+0 +
 
-The second half of this course follows in Preston Cloud’s footsteps in presenting the story of the 
-Earth and life through time. 
+·
 
-Unit One: Geologic Time 
+Pr(Bob plays Paper)
 
----------------------- 
+|{z}
 
----------------------- 
+0
 
-“I am convinced that we can only understand the present by understanding the past.” 
+Pr(Bob plays Scissors)
 
-—Peter D. Junger 
+1)1
 
------------------------ 
+(
 
-On the Origin of our Solar System and the Age of the Earth 
+·
 
-How did the Sun and the planets form, and what lines of scientific  
-evidence are used to establish their age including the Earth’s? 
+ 
 
-1. the Sun’s luminosity 
+|{z}
 
-2. the radiometric age of Moon rocks 
+0
 
-3. the radiometric age of meteorites 
+Pr(Bob plays Scissors)
 
------------------------ 
+|{z}
 
-37 
+C
+C
+A
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Geologic Time and the Limits of Human Perception 
+01
 
-Our perception of time is limited. The issue is again scale, but now of time rather than size. 
+·
 
-Points:  
+C
+C
+A
 
-1.  Because of our limited life experience we are locked in “human time”. 
+|{z}
+1
+2
 
-2.  “The Last Six Minutes” Phenomenon—we equate the present to the past, as if the world has 
-always been as it is now. 
+|{z}
 
-3.  Human Time opposed to Geologic Time—human time is at the wrong scale for understanding 
-the history of life. 
+1
+2
 
------------------------ 
+1) +
 
-Native Amnesia 
+(
 
-“We are born in ignorance of the events that took place before our birth, and through the 
+·
 
-study of history we seek to overcome this native amnesia. We can hear about the most recent 
-events by asking our parents and grandparents, who remember them. History from the times 
-before living memory is written in documents, both the original writings of people long gone and 
-the books written by scholars of history. Through the words represented by symbols on paper we 
-are carried back through 5,000 years, back to the earliest writings, learning the thoughts and 
-deeds of the people who lived before us. 
+ 
 
-Yet 5,000 years takes us back only a millionth part of the lifetime of the Earth. Back 
-beyond the invention of writing stretches an almost endless abyss of time, during which the 
-events took place which determined the kind of creatures we are and the kind of world we live 
-in. It is only in the last couple of centuries that we have learned to decipher the events of this 
-forgotten eternity and to write down its history.”—Alvarez 1997, 19 
+1 +
 
------------------------ 
+·
 
-Geologic Dating 
+Pr(Bob plays Rock)
 
-How are dates arrived at for the geologic time scale? 
+Pr(Bob plays Paper)
 
-1. Steno’s Law—also known as the Law of Superposition—states that, if undisturbed, lower 
-sedimentary layers are always older than upper layers. 
+|{z}
 
-2. Using Steno’s law layers of sedimentary rocks that contain different fossils give relative dates 
-for those fossils. 
+|{z}
 
-3. Radiometric dating using radioactive isotopes gives absolute dates. 
+0
 
------------------------ 
+B
+B
+@
 
-38 
+Pr(Ann plays Scissors)
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-The units of time, starting with the longest, are Eons, Eras, Periods, and Epochs. 
-
-The Geologic Time Scale 
-
-All dates are in millions of years ago (m.y.a.). 
-
-Hadean Eon — 4600 to 4000 m.y.a. 
-major events:   
-
-formation of the earth 
-meteorite impact age 
-
-Archean Eon — 4000 to 2500 m.y.a. 
-major events:   
-
-origin of life 
-evolution of photosynthesis 
-evolution of aerobic respiration 
-
-Proterozoic Eon — 2500 to 542 m.y.a. 
-major events:   
-
-evolution of complex eukaryotes 
-evolution of sexual reproduction 
-evolution of multicellular life 
-
-Collectively, the first three eons are known as the Precambrian. 
-
-Phanerozoic Eon — 542 m.y.a. to the present 
-
-        Eras of the Phanerozoic Eon 
-
-Paleozoic Era — 542 to 251   
-Mesozoic Era — 251 to 65 
-Cenozoic Era — 65 to present 
-
-Periods of the Paleozoic Era 
-
-         Periods of the Mesozoic Era 
-
-Cambrian — 542 to 488 
-Ordovician — 488 to 444 
-Silurian — 444 to 416  
-Devonian — 416 to 360 
-Carboniferous — 360 to 299   
-Permian — 299 to 251 
-
-Triassic — 251 to 200 
-Jurassic — 200 to 145 
-Cretaceous — 145 to 65 
-
-Periods & Epochs of the Cenozoic Era 
-
-Paleogene Period 
-
-         Neogene Period 
-
-Paleocene — 65 to 56  
-Eocene — 56 to 34 
-Oligocene — 34 to 23  
-
-Miocene — 23 to 5 
-Pliocene — 5 to 1.8 
-Pleistocene — 1.8 to 0.01 
-Holocene — 0.01 to the present 
-
-39 
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Geologic Timeline 
-
-5000 m.y.a. 
-
-4600 
-
-4000 
-
-Hadean Eon 
-
-4000 
-
-3000 
-
-2500 
-
-Archean Eon  
+= 0
 
-2500 
+|{z}
 
-2000 
+and for Bob’s payo↵s, we obtain:
 
-1000 
+uB(↵B, µB = ↵A) =
 
-542 
+1
+2
 
-Proterozoic Eon 
+0
 
-542 
+1
+3
 
-0 
+B
+B
+@
 
-Phanerozoic Eon 
+0
 
-Major Features of Life on Earth 
+B
+B
+@
 
-In studying the history of life on Earth it is important to note the major features of that 
+Pr(Bob plays Rock)
 
-history. The issue is the degree of coarse or fine graining that we use; we want to be able to see 
-the forest as well as the trees. 
+|{z}
+1
+2
 
-1. 
+Pr(Bob plays Paper)
 
-2. 
+|{z}
 
-3. 
+0
 
-4. 
++
 
-5. 
-
-Microbial (single cell) life forms are the dominant form of life on Earth both from 
-the view of longevity and in terms of sheer biomass—life’s dominant form is 
-microbial. 
-
-The vast majority of life for almost all of the history of life on Earth lived and does 
-live in the sea—life’s predominant habitat is the sea. 
-
-Life has evolved from the small to the large. 
-
-Life has evolved from the simple to the complex. 
-
-There is a necessary sequence to the history of life’s evolution, even while that  
-history was not pre-determined. 
-
------------------------ 
-
-40 
-
- 
-     
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-The Precambrian 
++
 
-5000 m.y.a. 
+Pr(Bob plays Scissors)
 
-4600 
+= 0.
 
-4000 
+|{z}
 
-Hadean Eon 
+0
 
- Formation 
-of the Earth
+B
+B
+@
 
- Impact Period  
+0 +
 
-4000 
+·
 
-3700  
+1 +
 
-3500  
+·
 
-2700 
+Pr(Ann plays Rock)
 
-2500 
+|{z}
+1
+3
 
-Archean Eon 
+Pr(Ann plays Rock)
 
-Origin
-of Life
+1
+3
 
-      Oldest
-    chemical       
- traces of Life
+1) +
 
-Oldest 
-Fossils
+(
 
-          Oxygenic
-Photosynthesis 
-             evolves
+·
 
-Evolution
-of Aerobic 
-respiration
+ 
 
-2500 
+1
+3
 
-2000  
+Pr(Ann plays Paper)
 
-1100 
+Pr(Ann plays Scissors)
 
-700 
+|{z}
+1
+3
 
-542 
+0 +
 
-Proterozoic Eon  
+·
 
-   Origin
-of complex
-Eukaryotes
+|{z}
 
-   Origin of     
-      sexual
-reproduction
+1
+3
 
-     First 
-multicellular 
-      Life
+Pr(Ann plays Paper)
 
- Cambrian
- Explosion
+Pr(Ann plays Scissors)
 
- Banded Iron Formations 
+1)1
 
-  Red Bed Formations  
+(
 
-Major Events in the Precambrian  
+·
 
-1.  the formation of the Solar System  
+ 
 
-2.  the formation of the Earth  
+|{z}
+1
+3
 
-3.  end of meteorite impact period  
+|{z}
 
-4.  the origin of life (anaerobic prokaryotes) 
+1
+3
 
-5.  the evolution of photosynthesis (photoautotrophic prokaryotes) 
+1) +
 
-6.  the evolution of aerobic respiration (heterotrophic and autotrophic, aerobic  
-prokaryotes) 
+(
 
-7.  start of oxygen build-up in Earth’s atmosphere  
+·
 
-8.  the evolution of complex eukaryotic cells (heterotrophic and photoautotrophic  
-eukaryotic protists) 
+ 
 
-9.  the evolution of sexual reproduction 
+|{z}
 
-10.  the evolution of multicellular life (fungi, plants, and animals) 
+1
+3
 
-41 
+1 +
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Unit Two: The Origin of Life 
+·
 
------------------------ 
+Pr(Ann plays Rock)
 
-The Origin of Life on Earth 
+Pr(Ann plays Paper)
 
-• When did life originate? 
+Pr(Ann plays Scissors)
 
-• Where was it most likely to have originated? 
+|{z}
 
-• What is the current working hypothesis as to how it originated? 
+|{z}
 
------------------------ 
+|{z}
 
-The Window of Opportunity 
+11
 
-between 4200 m.y.a. at the end of the impact frustration of the origin of life 
+·
 
-and 3500 m.y.a. first fossil evidence of life 
+C
+C
+A
 
-Estimates 
+C
+C
+A
 
-deep sea vent abiogenesis 4200 to 4000 m.y.a. 
+01
 
-surface abiogenesis 4000 to 3700 m.y.a. 
+·
 
-(abiogenesis—the origin of life by chemical evolution) 
+C
+C
+A
 
------------------------ 
+Rationality We impose that players are rational. Formally, we deﬁne rationality as follows.
 
-Chemical Evolution 
+Deﬁnition 3.3 (Rationality.). We say that player i is rational if, given a conjecture µi, player i
+maximizes her expected utility. A player i’s expected utility given conjecture µi
+i) (as usual
 
-“Given the physical-chemical conditions that prevailed on our planet 4000 m.y.a., a 
+ (A
 
-protometabolism leading to RNA-like molecules was bound to arise along well-defined,  
-reproducible chemical lines.”—Christian de Duve from his book Vital Dust (1995) 
+2
 
------------------------ 
+ 
 
-Abiotic Molecular Building Blocks 
+12
 
-Amino acids, Stanley Miller and the 1953 experiment 
+Chapter 3. Justiﬁability and Dominance
 
-“Life began when some compound or class of compounds developed the ability to copy 
+deﬁned over a ﬁnite support) and mixed action ↵i 2
+i)]
 
-itself in such a way that it occasionally made heritable ‘mistakes’. These mistakes sometimes 
-produced generations of molecules that could replicate more efficiently than their predecessors.”  
-—Stanley Miller in Horgan, 1991 
+ui(↵i, µi) = E↵i,µi [ui(ai, a
 
------------------------ 
+ 
 
-42 
+ (Ai) is
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
------------------------ 
+=
 
-The “RNA World” Hypothesis for the Origin of Life 
+ai2
 
-How did protein synthesis evolve if it takes protein enzymes to mediate the process of 
-transcription and translation? The answer came with the discovery that RNAs can be both an 
-information molecule, a gene, and an enzyme—a ribozyme. Thomas Cech and Sidney Altman 
-won the Nobel Prize in 1989, for discovering the ribozyme function of RNA. 
+supp ↵i Xa
+X
 
------------------------ 
+i2
 
-One possible “RNA World” scenario, showing the transition 
-from the prebiotic RNA world to the biotic DNA world. 
+ 
 
-1. Creation of prebiotic soup, including nucleotides, from Earth’s primitive atmosphere 
+supp µi
 
-2.  Production of short RNA molecules with random sequences 
+↵i(ai)µi(a
 
-3.  Selective replication of self-duplication catalytic RNA segments 
+i)ui(ai, a
 
-4.  Synthesis of specific peptides, catalyzed by RNA 
+i).
 
-5.  Increasing role of peptides in RNA replication; coevolution of RNA and proteins 
+ 
 
-6.  Primitive translation system develops, with RNA genome and RNA-protein ribosomes 
+ 
 
-7.  Genomic RNA begins to be copied into DNA 
+(3.1)
 
-8.  DNA genome, translated on RNA-protein ribosomes 
+(3.2)
 
------------------------ 
+3.1 Best Replies and Justiﬁable Actions
 
-• Note:  Recent discoveries have shown that RNA, and not protein enzymes, catalyses the 
-formation of peptide chains in ribosomes. This discovery adds support to the “RNA World” 
-hypothesis of the origin of life by showing that RNA acting as a ribozyme still plays a central 
-role in the most basic of all cellular metabolic functions (Cech, 2000). 
+Striker
 
------------------------ 
+Left
+Middle
+Right
 
-43 
+Goalie
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Unit Three: Photosynthesis & Aerobic Respiration 
+Left
+4
+4,
+6
+6,
+9
+9,
 
------------------------ 
+ 
+ 
+ 
 
-Life and the Exploitation of Energy  
+Right
+9
+9,
+6
+6,
+4
+4,
 
-What has driven evolutionary change in the history of life? One answer is that life has 
+ 
+ 
+ 
 
-evolved toward ever more complex ways of acquiring energy. This is by no means the only 
-driving force behind evolution, environmental change is fundamentally important. But to 
-understand life on Earth, we must understand something of the chemistry of life’s energy. 
+Table 3.2: Penalty shooting. We can think of the striker’s payo↵s as the probability that she scores a
+goal given the realized action proﬁle.
 
-   Terms and Definitions to Know 
+ui(ai, µi)
+9
 
-        • Eubacteria        • Archaebacteria  
+4
 
-                  • Heterotrophs     • Autotrophs 
+0
 
-     • Photoautotrophs      • Chemoautotrophs 
+ui(ai = Lef t, µi)
+ui(ai = M iddle, µi)
+ui(ai = Right, µi)
 
-     • Aerobic       • Anaerobic 
+0.5
 
-    • Photosynthetic Bacteria        • Stromatolites         
+µi(Right)
 
-       • Oxygenic Photosynthesis        • Anoxygenic Photosynthesis 
+1
 
-              • Cyanobacteria         • Purple & Green Sulfur Bacteria   
+Figure 3.1: Representation of payo↵s in penalty shooting game.
 
-• Note: Eubacteria and Archaebacteria are now commonly refer to as Bacteria and Archaea. 
-They are classified as Domains, a larger, more fundamental taxon than Kingdoms. 
+Our assumption of rationality—in the sense of expected utility maximization—entails that a player
+will only consider playing those actions that are a best reply against some conjecture that the player
+may hold. We deﬁne formally what it means for an action to be a best reply.
 
------------------------ 
+Deﬁnition 3.4. A mixed action ↵⇤i 2
+↵i 2
 
-The Evolution of Photosynthesis 
+8
 
-Photosynthesis exists in all the major taxonomic divisions of life. It occurs anywhere 
+that is,
 
-there's light energy, over a wide range of temperature, light and aeration conditions. 
-Photoautotrophy occurs widely throughout the Eubacteria, and is an ancient trait. Fossil 
-stromatolites in 3.5 billion year old rocks show that photoautotrophic prokaryotes evolved early 
-in the history of life.  
+ (Ai) is a best reply to conjecture µi
 
-Photosynthesis is one of the most important biological processes on the planet. Besides 
+ (A
 
-producing almost all organic carbon on Earth, photosynthetic organisms completely transformed 
-the planet to the way it is now. Early photosynthesis was anoxygenic (it did not produce O2 gas). 
-When oxygenic photosynthesis evolved, our atmosphere as we know it was created, including 
-the ozone layer which allowed life to evolve on land. 
+i) if
 
-44 
+ 
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Anoxygenic Photosynthesis 
+2
 
-H2S, or H2, or organic compounds are used as hydrogen donors, and CO2  
-and organic compounds as carbon donors 
+ (Ai), ui(↵⇤i , µi)
 
-Example organisms are purple and green sulfur bacteria. 
+ui(↵i, µi);
 
-Purple sulfur bacteria use Photosystem II to make organic molecules. 
+ 
 
-Green sulfur bacteria use the TCA cycle (Photosystem I) to make organic molecules. 
+↵⇤i 2
 
-Oxygenic Photosynthesis 
+arg max
+↵i2
 
-H2O is used as the hydrogen donor, and CO2 as carbon donor. 
+ (Ai)
 
-Example organisms are cyanobacteria, algae, and plants. 
+ui(↵i, µi).
 
-Oxygenic photosynthesis uses both Photosystem I & II, known as the Calvin-Benson cycle, to 
-make organic molecules. 
+13
 
------------------------ 
+(3.3)
 
-Purple and Green Sulfur Bacteria 
+(3.4)
 
-Because of their unusual mechanisms for harvesting and using the energy of light, the 
+Chapter 3. Justiﬁability and Dominance
 
-purple and green sulfur bacteria are important in understanding the evolution and mechanisms of 
-both photosynthesis and cellular energy metabolism. The ability to carry out photosynthesis in 
-the absence of oxygen is particularly important to evolutionary studies because the early 
-atmosphere of Earth had little oxygen. This is why scientists have suggested that the purple and 
-green-sulfur bacteria were the first photosynthetic organisms. This has since been corroborated 
-by genetic studies (Xiong, et al, 2000). 
+We denote the set of pure actions that are best replies to conjecture µi by2
 
-Green sulfur bacteria are widely distributed in aquatic environments where light reaches 
+ri(µi) = Ai \
 
-anoxic (low-oxygen) layers of water containing reduced sulfur compounds. When researchers 
-analyzed the microbe's single circular chromosome, they identified numerous genes that play 
-novel roles in photosynthesis or other processes that make use of the energy of light.  
+arg max↵i2
 
-Green sulfur bacteria are also unique because their mechanism for capturing carbon 
+ (Ai)ui(↵i, µi).
 
-dioxide differs from that of cyanobacteria and plants. The green sulfur bacteria use an unusual 
-chemical cycle—called the reductive tricarboxylic acid (TCA) cycle—that differs from the 
-Calvin Cycle that is used by cyanobacteria and plants. The TCA cycle uses hydrogen from 
-hydrogen gas (H2) or hydrogen sulfide (H2S) to fix carbon dioxide; in contrast, the Calvin Cycle 
-uses water (H2O). 
+(3.5)
 
------------------------ 
+We call the correspondence ri : ( A
 
-45 
+ 
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Cyanobacteria & Oxygenic Photosynthesis 
+i) ◆ Ai the (pure-action) best-reply correspondence.
 
-Carbon    Hydrogen    Oxygen 
+With the deﬁnition of best replies at hand, we can identify the set of actions that a rational player
+might choose given some conjecture. In particular, we consider those actions to be the set of those
+actions for which there exists a conjecture about other players’ behavior such that the action is a best
+reply to this conjecture. We call these actions to be justiﬁable.
 
-       CO2               H20                                              C6H12O6              O2  
+Deﬁnition 3.5. An action ai is justiﬁable if there exists a conjecture µi
+ri(µi).
 
-carbon dioxide and water plus sunlight produces carbohydrates and oxygen gas 
+ (A
 
-in the formula ratio of  
+i) such that ai 2
 
-six CO2 + six H2O —> plus energy —> one C6H12O6 + six O2 
+ 
 
-The problem with oxygenic photosynthesis is that 
+2
 
- oxygen gas is dangerously corrosive. 
+Illustration: Penalty Shooting. Suppose that a goalkeeper and a striker play the game represented
+in Table 3.2.
+In such a game with only two actions for the other player, it is straightforward to
+represent the payo↵s graphically as illustrated in Figure 3.1. The horizontal axis represents the striker’s
+conjectures and each line in the graph the expected payo↵ from an action given the conjecture. Shooting
+the penalty to the left is a best reply to conjecture µi whenever µi(Lef t)
+1/2; that is, whenever the
+striker expects the goalie to jump to the left with no more than 50% probability, shooting to the left
+maximizes the striker’s expected utility. Similarly, whenever the striker expects the goalie to jump to
+the right with no more than 50% probability, shooting to the right is a best reply to such conjectures.
+Thus, both Left and Right are justiﬁable actions for the striker. However, Middle is not justiﬁable
+because it is never a best reply for the striker for any conjecture µi.
 
------------------------ 
+
 
-Essay—The Oxygen Holocaust 
+In the following lemma, we show that if a player i has a mixed best reply, then she can always
+maximize her expected payo↵ with a pure action as well. This result is useful to keep in mind. There
+are instances, in which we might consider mixing by players unrealistic; in those instances, it is helpful
+to remember that randomization is not necessary to maximize expected utility.
 
-“The oxygen holocaust was a worldwide pollution crisis that occurred about 2500 m.y.a.. 
+ (Ai).
+Lemma 3.1. Consider player i
+The mixed action ↵⇤i is a best reply to conjecture µi if and only if every pure action in the support of
+↵⇤i is a best reply to µi; that is,
 
-Before this time there was almost no oxygen in the Earth’s atmosphere. The Earth’s original 
-biosphere was as different from ours as that of an alien planet. But purple and green photosynthetic 
-microbes, frantic for hydrogen, discovered the ultimate resource, water, and its use led to the 
-ultimate toxic waste, oxygen. Our precious oxygen was originally a gaseous poison dumped into 
-the environment. The appearance of oxygenic photosynthesis and the resulting oxygen-rich 
-environment tested the ingenuity of microbes, especially those producing oxygen and those non-
-mobile micro-organisms unable to escape the newly abundant and reactive gas by means of 
-motion. The microbes that stayed around responded by inventing various intracellular devices and 
-scavengers to detoxify—and eventually exploit—the dangerous pollutant.”—Margulis, 1986 
+i) and a mixed action ↵⇤i 2
 
------------------------ 
+I with conjecture µi
 
-The Great Oxygen Crisis 3000 to 2000 m.y.a. 
+ (A
 
-Point 1 — It now seems clear that life could not have originated in the presence of oxygen. 
+2
 
-Point 2 — Early life had to find a new source of energy as the early chemoautotrophs over-
-populated their ocean bottom world. 
+2
 
-Point 3 — Early life had to adapt to the surface waters of the ocean to utilize sunlight as an 
-energy source. 
+ 
 
-Point 4 — The first oxygenic photosynthetic bacteria had to neutralize the effects of the waste 
-product of photosynthesis—oxygen. 
+↵⇤i 2
 
-46 
+arg max
+↵i2
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-To neutralize the effects of oxygen  
+ (Ai)
 
-Plan A: have something get rid of the oxygen while you adapt to it 
+ui(↵i, µi)
 
-Oxygen “sinks” and the Banded Iron Formations—oxygen in the sea 3500 to 1800 m.y.a. 
+()
 
------------------------ 
+supp ↵⇤i 2
 
-• Note:  Iron dissolves readily in water in the absence of oxygen but turns to a solid precipitate 
-and sinks if oxygen is present. 
+ri(µi).
 
------------------------ 
+(3.6)
 
-Plan B: evolve chemical defenses against oxygen 
+Proof. We ﬁrst show that if the mixed action is a best reply, then every pure action in its support
+must be a best reply as well. We prove this statement using its contrapositive:3 If some pure action
+in the support of a mixed action is not a best reply, then the mixed action cannot be a best reply.
 
-The “Red Bed” Iron Formations—oxygen in the atmosphere 2100 m.y.a. to the present 
+Let a⇤i be a pure action chosen with positive probability in the mixed action ↵⇤i and suppose
+that there is a mixed action ↵i for player i inducing a higher expected utility for player i; that is,
+ui(↵i, µi) > ui(a⇤i , µi). Hence, a⇤i is a pure action in the support of ↵⇤i and not a best reply.
 
------------------------ 
+Given that the expected utility of any mixed action is a weighted average of the expected utility from
+Ai such that ui(a0i, µi) >
+all of i’s pure actions,
+ui(a⇤i , µi). We can now construct a mixed action ↵0i that yields a higher expected utility than ↵⇤i
+showing that ↵⇤i is not a best reply to conjecture µi.
+ (Ai) as
 
-Defenses against Oxidative Damage 
+, there must be a pure action a0i 2
 
-A variety of molecular defenses in our cells prevent or repair molecular damage caused by free 
-oxygen radicals. 
+ui(ai, µi)
 
-Antioxidants (macromolecules that neutralize free radicals or otherwise limit their activity) 
+Deﬁne the alternative mixed action ↵0i 2
 
-Vitamin E and beta carotene—react with free oxygen radicals preventing them from attacking 
-cellular constituents; are fat soluble and so can protect membranes. 
+ai2
 
-Uric acid and Vitamin C—react with free oxygen radicals in the cytoplasm. 
+Ai
 
-Repair Systems (protein enzymes that degrade, repair or replace damaged molecules) 
+ 
 
-Proteinases—cleave oxidized proteins. 
+ 
 
-Peptidases—chop up products of protease activity; amino acids can then be recycled to make 
-new proteins.  
+↵0i(ai) = 8
+><
 
------------------------ 
+0
+↵⇤i (a0i) + ↵⇤i (a⇤i )
+↵⇤i (ai)
 
-Point 5 — Meanwhile heterotrophic bacteria had two choices: retreat away from the growing 
-oxygen environment or also evolve adaptations to neutralize oxygen. 
+, if ai = a⇤i
+, if ai = a0i
+, if ai 6
 
-Point 6 — The product of photosynthesis (carbohydrates) represented a new source of energy for 
-heterotrophs to exploit. 
+= a⇤i , a0i.
 
------------------------ 
+2Recall that we can think of the set of pure actions as the set of degenerated pure actions; that is, Ai ⇢
+3The contrapositive of a statement p
+p.
 
-47 
+q
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Oxygenic Photosynthesis 
+>:
+q is
 
-6 CO2 + 6 H2O —> plus energy in —> C6H12O6 + 6 O2 
+)
 
-but the following is also chemically possible 
+¬
 
-C6H12O6 + 6 O2 —> gives up energy —> 6 CO2 + 6 H2O 
+)¬
 
------------------------ 
+14
 
-The Evolution of Aerobic Respiration 
+(3.7)
 
-Aerobic Respiration is the chemical “burning” of carbohydrates to obtain 
-energy for living cells. “Burning” in this sense is chemical oxidation. 
+ (Ai).
 
-C6H12O6 + 6 O2 —> gives up energy —> 6 CO2 + 6 H2O 
+Chapter 3. Justiﬁability and Dominance
 
-carbohydrates plus oxygen “burns” and forms carbon dioxide and water 
+Note that the di↵erence in expected payo↵s between ↵⇤i and ↵0i is
 
-Aerobic respiration is the opposite of photosynthesis, but requires oxygen gas in the 
+ui(↵⇤i , µi)
 
-water or air in order to exist. It could not evolve, therefore, until oxygen had first built up in the  
-oceans. Aerobic respiration evolved in both autotrophic and heterotrophic bacteria. 
+ 
 
------------------------ 
+ui(↵0i, µi) = ↵⇤i (a⇤i )
 
-Essay—Aerobic Respiration and Mitochondria 
+ui(a⇤i , µi)
 
-"Aerobic respiration is on the order of 18 times more efficient in producing energy than 
+ui(a0i, µi)
 
-anaerobic respiration. 
+< 0
 
-Because of mitochondria, all earthly beings made of nucleated cells—which, of course 
+ 
 
-includes us and all organisms except bacteria—have remarkably similar metabolisms. 
-Discounting the photosynthetic metabolism monopolized by plants and algae (which is virtually 
-identical to that of cyanobacteria), in all its fundamental details eukaryote metabolism is the 
-same.   
+(3.8)
 
-Bacteria, by contrast, exhibit a far wider range of metabolic variation than eukaryotes. 
+implying that ↵⇤i is not a best reply to µi.
 
-They indulge in bizarre fermentations, produce methane gas, “eat” nitrogen gas right out of the 
-air, derive energy from globules of sulfur, precipitate iron and manganese while breathing, 
-combust hydrogen using oxygen to make water, grow in boiling water and in salt brine, store 
-energy by use of the purple pigment rhodopsin, and so forth. 
+ 
 
-As a group bacteria obtain their food and energy by ingenious methods, using every sort 
+ 
 
-of plant fiber and animal waste as a starting material. (If they did not, we would be living in a 
-mounting heap of garbage. Bacteria are the ultimate recyclers.) We, however, use just one of 
-their many metabolic designs for energy production, namely that of aerobic respiration, the 
-specialty of mitochondria."—Margulis, 1986 
+Second, we show that if any pure action in the support of a mixed action is a best reply to conjecture
 
-48 
+µi, then the mixed action itself must be a best reply to conjecture µi.
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-• Note:  Mitochondria are the decedents of free-living, aerobic, heterotrophic bacteria closely 
-related to existing alpha-proteobacteria. Mitochondria are genetically most similar to the alpha-
-proteobacteria Rickettsia prowazekii. Because of the similarities of their genomes, Rickettsias 
-may be the closest living relatives to the ancestors of mitochondria. 
+Deﬁne the maximum value that player i can attain with her best reply as ¯ui(µi) := max↵i2
 
------------------------ 
+It follows from the deﬁnition of the best-reply correspondence that
 
-Summary of the Steps in the Evolution of Trophic Strategies 
+ (Ai) ui(↵i, µi).
 
-• Anaerobic Heterotrophs 
+Suppose that supp ↵⇤i ✓
 
-—the first life-forms had only the prebiotic soup to eat 
+ri(µi), ui(ai, µi) = ¯ui(µi)
+¯ui(µi).
+ui(ai, µi)
+Ai,
 
-• Chemoautotrophs 
+
 
-—the first autotrophs may have evolved at hydrothermal vents on the ocean floor and may have 
-used hydrogen sulfide as their source of hydrogen giving off sulfur as waste 
+8
 
-• Anoxygenic Photosynthesis 
+8
 
-—the first photoautotrophs were anaerobic using hydrogen sulfide as their source of hydrogen 
-and, therefore, did not produce oxygen as a waste 
+ai 2
+ai 2
+ri(µi). Then, for every ↵i 2
+ui(↵⇤i , µi) =
 
-• Oxygenic Photosynthesis 
+ (Ai), we obtain
 
-—the second type of photoautotrophs used water as their source of hydrogen producing oxygen 
-as a waste and eventually made the transition to aerobic respiration as oxygen levels increased 
+↵⇤i (ai)ui(ai, µi)
 
-• Aerobic Heterotrophs 
+supp ↵⇤i
 
-—heterotrophs also made the transition to aerobic respiration  
-as oxygen levels increased 
+Xai2
 
------------------------ 
+=
 
-49 
+↵⇤i (ai)ui(ai, µi)
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Unit Four: Endosymbiosis & Eukaryotic Cells 
+ri(µi)
 
------------------------ 
+Xai2
+= ¯ui(µi)
+= ¯ui(µi)
 
-Endosymbiosis and the Evolution of Eukaryotic Cells
+↵i(ai)
 
-       Multicellular 
-Eukaryotic Autotrophs
-           (Plants)
+ai2
 
-         Multicellular 
-Eukaryotic Heterotrophs
-	
- (Animals)    (Fungi)
+supp ↵i
+X
+↵i(ai)¯ui(µi)
 
-symbiotic clones
+=
 
-Single cell Eukaryotic Autotrophs (such as Euglena)
+ai2
 
-endosymbiosis
+supp ↵i
+X
 
-1000 m.y.a.
+↵i(ai)ui(ai, µi)
 
-symbiotic 
-  clones
+ 
 
-Single cell Eukaryotic
-      Heterotrophs 
-(such as Paramecium)
+ai2
 
-2000 m.y.a.
+supp ↵i
+X
+= ui(↵i, µi)
 
-endosymbiosis
+(3.9)
 
-Aerobic Prokaryotic
-      Heterotrophs
-    (mitochondria)
+(3.10)
 
-Anaerobic Eukaryotic Ancestor
+(3.11)
 
-symbiotic
-clones
+(3.12)
 
-Aerobic Prokaryotic 
-      Autotrophs
-    (chloroplasts)
+(3.13)
 
-(Cyanobacteria)
+(3.14)
 
-Anaerobic Prokaryotic 
-       Autotrophs
+(3.15)
 
-  Eubacteria
-(hard cell wall)
+(3.16)
 
-Archaebacteria
-(soft cell wall)
+(3.17)
 
-First Anaerobic Prokaryotes
+is a best reply to µi. The sequence of equalities and inequalities holds because (i)
+showing that ↵⇤i
+is a best reply, (ii) each best reply generates ¯ui(µi), (iii) the
+each pure action in the support of ↵⇤i
+sum of mixing probabilities must be equal to one, (iv) and the expected utility of an arbitrary mixed
+action is at most ¯ui(µi).
 
-4000 m.y.a.
+Based on the previous lemma, we show next that, for any conjecture µi, a best reply exists for
+player i to any conjecture µi and that there always exists a pure-action best reply to any conjecture
+µi.
 
-RNA World
+Lemma 3.2. Consider a player i
 
-50 
+2
 
- 
- 
- 
-Unit Five: Sexual Reproduction & Multicellularity 
+I and a conjecture µi
 
------------------------ 
+ (A
 
-Sex and the Evolution of Death 
+2
+ui(ai, µi)
 
-Why Sex? 
+i). Then,
 
-For slowly reproducing eukaryotic protists (compared to prokaryotes), sexual 
+ 
 
-reproduction by the alternation of haploid and diploid phases has the advantage of rapid genetic 
-mixing of existing genetic variation (Barton & Charlesworth, 1998). 
+(3.18)
 
-There are two issues concerning death: 
+ri(µi) = arg max
+Ai
 
-1.  Death and Uniqueness 
+ai2
 
-Why Death? 
+and mixed actions are not necessary to maximize the expected utility of player i and the best-reply
+correspondence ri is non-empty valued for any conjecture µi.
 
-In asexual reproduction, such as binary fission in prokaryotes, “offspring” are genetic  
-clones of “parents”. It is therefore impossible to tell which is “parent” and which is “offspring”.  
-Because of this, prokaryotic life is essentially immortal. As Lewis Thomas puts it in his essay 
-Death in the Open:  
+Proof. Observe that the expected utility of player i given conjecture µi
+R
+is continuous in ↵i and deﬁned on a compact domain,  (Ai). Thus, by the Extreme Value Theorem
+(see Theorem A.1), there is at least one (possibly mixed) best reply ↵⇤i 2
+replies to µi; that is, supp ↵⇤i ✓
+that ri(µi)
+.
+;
 
-“There are some creatures that do not seem to die at all; they simply vanish totally into  
-their own progeny. Single cells do this. The cell becomes two, then four, and so on, and 
-after a while the last trace is gone. It cannot be seen as death; barring mutation, the 
-descendants are simply the first cell, living all over again.”—Thomas, 1974 
+It follows then from Appendix B that the support of ↵⇤i must be a subset of the pure-action best
+ri(µi). Thus, there is at least one pure-action best reply implying
 
-In sexual reproduction, however, because of the nature of cellular division by meiosis, offspring 
-are always genetically different from their parents. For every sexually reproducing organism, 
-each individual is genetically unique at the level of alleles. This genetic uniqueness of individual 
-organisms, along with the division between body cells and reproductive cells in multicellular 
-organisms, is what has given rise to our concept of death.   
+, µi) : ( Ai)
 
-2.  Why don’t individuals live forever? Why do we grow old? 
+ (Ai).
 
-“In evolution that would not be stable, because eternal youth does not abolish mortality.  
-Sooner or later something will get you: an accident, a new epidemic, and attack by terrorists, or 
-whatever. A mutation that would confer some slight advantage in our early child bearing years 
-that allowed us to leave more offspring might well be favored even if it causes us to drop dead at 
-an older age.”—George C. Williams in Roes, 1998 
+i), ui(
 
----------------------- 
+ (A
 
-The Evolution of Multicellular Animals 
+!
 
-“Before there were single-celled or multicellular eukaryotic consumers, the Earth’s 
-ecosystem was relatively simple. Because the primary photosynthetic producers—cyanobacteria 
-and eukaryotic algae—did not suffer predation, they multiplied in aquatic settings to an extent 
-that was limited only by the supply of nutrients essential to their growth. Seas and lakes were, in 
-effect, saturated with algae—a situation that may have slowed evolution by leaving very little 
+=
 
-51 
+2
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-room for the origin of new species. Although the first organisms to feed on algae must have been 
-animal-protists, today these forms are feeble in this role in comparison to the multicellular 
-animals, which because of their size can consume algae rapidly. Thus, the origin of eukaryotic 
-consumers, especially multicellular animals, added a new trophic level to many aquatic 
-ecosystems.”—Stanley, 1989 
+ 
 
----------------------- 
+·
 
-The Evolution of Life and Energy  
+15
 
-• From the evolution of photosynthesis that led to increasing oxygen in the atmosphere; 
+6
+Chapter 3. Justiﬁability and Dominance
 
-• to the evolution of aerobic respiration in heterotrophic prokaryotes—like mitochondria—that 
-could consume the carbohydrates produced by autotrophic prokaryotes; 
+In addition, given that there is at least one pure-action best reply, restricting player i to choosing
 
-• to the evolution of eukaryotic life with its abundant energy from mitochondria; 
+only pure actions will not make player i worse o↵; that is,
 
-• to the evolution of sexual reproduction that provided genetic mixing for large, complex and 
-slowly reproducing eukaryotes; 
+max
+Ai
+ai2
 
-• to the evolution of heterotrophic multicellular life that could effectively consume abundant 
-autotrophic eukaryotic life; 
+ui(ai, µi) = max
 
-• we see life evolving mechanisms to take advantage of new sources of energy. 
+↵i2
 
----------------------- 
+ (Ai)
 
-Relative Time 
+ui(↵i, µi).
 
-• On the order of 2000 million years elapsed between the origin of life on Earth and the evolution 
-of the first complex eukaryotic protists.  This represents two billion years of prokaryotic 
-evolution, half of the history of life. 
+(3.19)
 
-• Almost 1000 million years elapsed between the origin of complex eukaryotes and the first 
-evidence of sexual reproduction. 
+It is immediate that ri(µi) = arg maxai2
 
-• It was then only from 100 to 400 million years between the evolution of sexual reproduction in 
-eukaryotes and the evolution of the first multicellular organisms—creatures like us. 
+Ai ui(ai, µi).
 
-• So for approximately 3000 million years of the history of life on Earth all life-forms were 
-single cell.  This is 75% of the total history of life. 
+Making use of the best-reply correspondence, we can now deﬁne the set of justiﬁable actions for
+player i; that is, the set of actions that a rational player might choose for some conjecture. In particular,
+the set of justiﬁable actions is the image set of the best-reply correspondence,
 
-• And fully 4000 million years elapsed between the formation of the Earth and the beginning of 
-the Phanerozoic eon 550 m.y.a.—our eon. 
+ri( (A
 
-• In stark contrast, all of recorded human history occupies only 0.005 million years.   
+i)) =
 
-That is 0.00000125 of the history of life on Earth. 
+ 
 
----------------------- 
+ai 2
 
-52 
+Ai :
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Unit Six: Adaptive Radiations & Mass Extinctions 
+µi
 
------------------------ 
+9
 
-The Phanerozoic Eon 
+2
 
-444  
+ (A
 
-365 
+i), ai 2
 
-251 
+ 
 
-Paleozoic Era 
+ri(µi)
 
-542 m.y.a.
+.
 
-488 
+(3.20)
 
-416  
+Going back to the grade game in Example 1, we see that Cooperate is not justiﬁable for both
+players. There is no conjecture about the other player’s actions: Don’t Cooperate yields a higher
+payo↵ for any choice of the other classmate. Using justiﬁability, we can conclude that a rational player
+should only play Don’t Cooperate in this game.
 
-360 
+ 
 
-299 
+For the penalty shooting game in Table 3.2, we see that both Left and Right are justiﬁable for
+the striker. Middle, however, is not justiﬁable as is evident from Figure 3.1. For any conjecture, the
+striker can do better by choosing Left or Right than by choosing Middle.
 
- Camb. 
+3.2 Dominated Actions
 
- Ordov. 
+We saw that to determine the set of justiﬁable actions for a player, we had to check for each action
+whether there exists a conjecture such that it becomes a best reply to this conjecture. However, it
+turns out that there is a simpler approach to determining justiﬁable actions. Towards this, we deﬁne
+the concept of dominance.
 
- Sil. 
+Deﬁnition 3.6. A mixed action ↵i 2
+yields a strictly higher payo↵ irrespective of the choices of the other players; that is, for all a
 
- Devo. 
+ (Ai) dominates a (pure or mixed) action  i 2
 
- Carbon. 
+ (Ai) if it
+i,
+i 2
 
- Perm. 
+A
 
- Cambrian
- Explosion
+ 
 
- Pikaia     Fish 
+ 
 
-w/o jaws
+ui(↵i, a
 
-   Fish 
-w/ jaws
+ 
 
-       First  
-  Amphibians
+i) > ui( i, a
 
-  First
- Reptiles
+i).
 
-Mesozoic Era  
+ 
 
-210  
+(3.21)
 
-65  
+Denote the set of pure actions that are not dominated by N Di,
 
-251 
+N Di =
+Ai \ {
 
-200   
+ai 2
 
-180  
+Ai :
 
-150  
+↵i 2
 
-145  
+9
 
-Triassic 
+ (Ai),
 
-Jurassic 
+a
 
-Cretaceous    
+8
 
-     First
- Dinosaurs 
+i 2
 
-    First  
- Mammals 
+ 
 
- First
- Birds 
+A
 
-T. rex 
+ 
 
-Cenozoic Era 
+i, ui(↵i, a
 
-65 
+ 
 
-56 
+i) > ui(ai, a
 
-34  
+.
 
-23  
+i)
 
- Last Ice Age
+}
 
-5 
+ 
 
-1.8 
+(3.22)
 
-0.01 
+We call an action a⇤i dominant if all other pure actions are dominated by it.
 
- Paleo. 
+It turns out that we can prove that the set of actions that are not dominated coincides with the
+set of justiﬁable actions as we show in the next lemma. This result establishes that a rational player
+will not play a dominated action.
 
- Eocene 
+Ai. There exists a conjecture
+i) such that a⇤i is a best reply to µi if and only if a⇤i is not dominated by any mixed action
 
- Oligo.  
+Lemma 3.3. Consider a ﬁnite game G, player i and an action a⇤i 2
+µi
+2
+↵i 2
 
- Miocene  
+ (A
+ (Ai). Thus, the set of not dominated actions and justiﬁable actions coincide
 
- Plio.  
+ 
 
- Ple. 
+N Di = ri( (A
 
- Present 
+i)).
 
- Early Primate     
-     Cantius
+ 
 
-      First New 
-World Monkeys
+(3.23)
 
- First
- Apes
+Proof. Proving that if a⇤i 2
+contrapositive—that is, we prove that if an action is not justiﬁable, it must be dominated.
 
-     First 
- Hominins
+Ai is justiﬁable, then it is not dominated is left as an exercise.
 
- Modern
- Humans
+We prove here that if an action is not dominated, then it must be justiﬁable. Again, we prove the
 
-53 
+16
 
  
- 
- 
- 
- 
-Major Events in the Phanerozoic Eon 
-
-the Cambrian adaptive radiation—the evolution of all of the basic body plans of  
-animals including the evolution of the notochord 
-
-the mass extinction event at the end of the Ordovician 
-
-the colonization of land by plants and then insects in the Silurian 
+Chapter 3. Justiﬁability and Dominance
 
-the adaptive radiation of fish in the Devonian 
+As we are considering a ﬁnite game, deﬁne by k =
 
-the mass extinction event during the late Devonian 
+and m =
 
-the evolution of the first land vertebrates, the amphibians, during the late  
-Devonian 
+A
 
-the evolution of internal fertilization and the amniotic egg with the first reptiles  
-in the Carboniferous 
+set and of the set of other players’ action proﬁles, respectively. Denote by w
+z
 
-the mass extinction event during the late Permian 
+an element in those sets.
 
-the adaptive radiation of the dinosaurs in the Mesozoic 
+1, 2, . . . , m
 
-1. 
+2{
 
-2. 
+Ai|
 
-3. 
+|
 
-4. 
+|
 
-5. 
+i|
 
-6. 
+ 
 
-7. 
+the cardinality of i’s action
+and
 
-8. 
+1, 2, . . . , k
 
-9. 
+}
 
-10. 
+2{
 
-the mass extinction event during the late Triassic 
+Next, deﬁne a (k
 
-11. 
+}
 
-the evolution of the first true mammals in the early Jurassic 
+m)-matrix U with elements
 
-12. 
+⇥
 
-the mass extinction event at the end of the Cretaceous 
+Uwz = ui(a⇤i , z)
 
-13. 
+ui(w, z)
 
-the adaptive radiation of mammals, including primates, in the Cenozoic 
+ 
 
----------------------- 
+(3.24)
 
-54 
+for an action a⇤i 2
+and only if there is a conjecture µi
+⇢
+multiplication of the matrix U with the vector µi.
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-The Five Mass Extinction Events of the Phanerozoic Eon 
+ (A
 
-(after Benton, 2003) 
+i)
 
-1.  End Ordovician ~ 440 m.y.a. with a loss of at least 50% percent of species. 
+2
 
-2.  Late Devonian 370 to 360 m.y.a. with a loss of at least 50% percent of species. 
+ 
 
-3.  End Permian 251 m.y.a. with a loss of 80 to 95 percent of species. 
+Rm such that U µi  
 
-4.  Late Triassic ~ 210 m.y.a with a loss of at least 50% percent of species. 
+Ai. Note that, by deﬁnition of best replies and justiﬁability, a⇤i
 
-5.  End Cretaceous 65 m.y.a. with a loss of at least 50% percent of species. 
+is justiﬁable if
+0 where U µi denotes the
 
-Three things happened in all the mass extinctions of the Phanerozoic. 
+An equivalent way of stating the justiﬁability of a⇤i is by (i) deﬁning a ((k + m + 1)
 
-A. many species became extinct, generally more that 50%. 
+M as
 
-B. the extinct forms span a broad range of ecologies, and they typically include marine and non-
-marine forms, plants and animals, microscopic and large forms 
+M =
 
-C. the extinctions all happened within a short time, and hence relate to a single cause, or cluster 
-of interlinked causes. 
+U
+Im
+1T
+m
 
------------------------ 
+0
 
-Adaptive Radiations 
+,
 
-A new evolutionary adaptation may lead to a new level of evolutionary stability that, 
+1
 
-because of its inherent potential to provide new opportunities for life, gives rise to an adaptive 
-radiation of new species. Multicellularity was such an evolutionary adaptation, and it gave rise to 
-the explosive radiation of animal evolution known as the Cambrian Explosion. 
+m)-matrix
 
-The history of the Phanerozoic Eon is marked by such adaptive radiations of species.  
+⇥
 
-The events that have driven these bursts of rapid evolution follow a pattern of abiotic change that 
-leads to mass extinction events that, in turn, set the stage for a new round of adaptive radiation 
-by a new group of species. The major abiotic causes for such mass extinctions are associated 
-with plate tectonics and meteorite impacts. 
+(3.25)
 
------------------------ 
+where Im denotes the (m
+((k + m + 1)
 
-55 
+⇥
+1)-dimensional vector c as
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
------------------------ 
+⇥
 
-Essay—The Effects of Meteorite Impacts 
+A
+m)-identity matrix and 1T
 
-“The effects of an impact on life depend in a qualitative way on the impact energy. The 
+@
 
-smallest space debris to hit Earth’s atmosphere is slowed to benign speeds by gas drag or 
-vaporized before it hits the ground. The largest impactors can melt a planet’s crust and 
-eliminated life entirely. Strong iron impactors ranging in size from that of a car to that of a house 
-may hit the ground at high velocity, killing living beings in their path. The rocky bolide that 
-exploded over Tonguska, Siberia, in 1908 was about the size of a football field; it produced a 
-blast wave that knocked over trees tens of kilometers away. An impactor a few kilometers in size 
-would throw enough dust into the upper atmosphere to substantially darken the sky for much of a 
-growing season. The threat of such an impactor to human food supplies has led NASA to initiate 
-a program to detect all near-Earth asteroids (NEAs) larger than about 1 km.  
+m a (1
 
-Mass extinctions (such as that at the K/T boundary) result from even larger impacts, 
+m)-vector of ones,4 (ii) deﬁning a
 
-which load the atmosphere with dust and chemicals (from vapor and pulverized matter 
-originating in both the impactor and the crater ejecta). Radiation from high-velocity ejecta re-
-entering the atmosphere may cause global fires. Even larger impacts fill the atmosphere with 
-enough hot ejecta and greenhouse gases to vaporize part or all of the planet’s oceans.” —
-Lissauer, 1999 
+⇥
 
------------------------ 
+,
 
-56 
+(3.26)
 
- 
- 
- 
-  
- 
- 
- 
- 
-The Cambrian Explosion—Before and After 
+@
+where 0l denotes an l-dimensional column vector of zeros, and (iii) noting that a⇤i is justiﬁable if and
+Rm such that M x
+c.
+only if there is a vector x
+c corresponds to the system
+Observe that M x
 
-What major adaptive features were in place before the Cambrian explosion, and what major 
-evolutionary adaptations arose during the event?  
+ 
 
-There are three points to be made: 
+2
 
-Point 1—What didn’t change was that before and after the event all life lived in the oceans. 
+ 
 
-Point 2—The major features that were already present: 
+,
 
-eukaryotic cells 
+(3.27)
 
-sexual reproduction  
+c =
 
-multicellular organisms 
+0
 
-Point 3—The major evolutionary adaptations that arose were the body plans of all the major 
-phyla of animals: 
+0k
+0m
+1 1
+A
 
-• radial symmetry (cnidarians—the jellyfish) 
+U x
+0
+ 
+0, . . . , xm  
+z=1 xz  
 
-• a tube-like body (nematode round worms) 
+m
 
-• segmentation (annelid worms) 
+0
+1 1
+A
 
-• calcareous shells (mollusks) 
+x1  
 
-• the exoskeleton and bilateral symmetry (arthropods) 
+0
 
-• the notochord (vertebrates) 
+@
 
------------------------ 
+P
 
-The Advantages of being Multicellular 
+which implies that if such an x
 
-1.  cell specialization 
+Rm exists, it is a conjecture5 and it justiﬁes a⇤i .
 
-2.  size as it increases mobility 
+It follows that if a⇤i is not justiﬁable, then there does not exist a vector x
 
-3.  getting food—size as an advantage for predators 
+2
 
-4.  not being food—size as a defense against predators  
+Therefore, by Farkas Lemma (see Theorem A.5), there is a vector y
+yT c > 0, and yT M = 0T .
 
-This sets up the predator / prey arms race. 
+2
 
------------------------ 
+From the construction of c it follows that yT c = yk+m+1 > 0.
+yT M = 0T implies that, for every z
 
-57 
+A
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Unit Seven: Vertebrate Evolution 
+i,
 
------------------------ 
+ 
 
-Vertebrate Evolution in the Early Paleozoic 
+2
 
-From Mother Lamprey to Jaws—the adaptive radiation of fish 
+Rm such that M x
+Rm+k+1 such that y
 
-Lungs and Four Legs—the evolution of Amphibians 
+2
 
-Tetrapods the first Land Vertebrates 
+c.
+0,
 
------------------------ 
+ 
+ 
 
-Vertebrate Evolution in the Late Paleozoic and Mesozoic 
+k
 
-Amphibians to  Reptiles  
+w=1
+X
 
-Internal Fertilization, the Amniotic Egg, and a Water-Tight Skin 
+yw (ui(a⇤i , z)
 
-The Adaptive Radiation of Reptiles 
+ 
 
-from Scales to Hair and Feathers 
+ui(w, z)) =
 
-Therapsids   to   Mammals 
+ 
 
-    Dinosaurs   to   Birds 
+(yk+z + yk+m+1) < 0,
 
-     Ectothermy  to   Endothermy 
+(3.28)
 
------------------------ 
+where the inequality follows from y being nonnegative and yT c > 0. Hence, we can construct a mixed
+action
 
-T. Rex and the Crater of Doom 
+¯y :=
 
-The Mass Extinction Event at the End of the Cretaceous 65 m.y.a. 
+y1
+k
+w=1 yw
 
-The End of an Era 
+, . . . ,
 
------------------------ 
+yk
+k
+w=1 yw !
 
-58 
+(3.29)
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+such that, for every z
+ 
+action a⇤i proving the result.
+
+A
+
+2
+
+i, ui(a⇤i , z) <
+
+k
+w=1 ¯ywui(w, z). Hence, the mixed action ¯y dominates the
+
+P
+
+P
+
+P
+
+4We denote by vT the transpose of a vector/matrix.
+5Or x can be normalized to be a conjecture whenever
+
+m
+z=1 xz > 1 by dividing its components by
+
+m
+z=1 xz.
+
+P
+17
+
+P
+
  
-Essay—The Chicxulub Crater 
+Chapter 3. Justiﬁability and Dominance
 
-The Chicxulub crater is often cited as one of the best preserved records of an Earthly 
-cosmic disaster. Discovered only in the 1970s by oil drilling teams, the crater was relatively 
-unstudied until the 1990s, when scientists linked it to theories that asteroid impact may have 
-spelled the dinosaurs' doom. 
+The two main takeaways are that a rational player will never choose a dominated action and that
+each undominated action is justiﬁable as a best reply to some belief. Going back to Example 1, it can be
+deduced that Cooperate is dominated by Don’t Cooperate, so neither Ann nor Bob will choose to Coop-
+erate in the game. There is a unique action justiﬁable action proﬁle: (Don0t Cooperate, Don0t Cooperate).
+However, if we slightly change the payo↵s induced by the action proﬁle (D, C) from (3,-1) to (-3,-1)
+and the payo↵s induced by the action proﬁle (C, D) from (-1, 3) to (-1, -3), none of the actions is
+dominated since when one of the two players chooses Cooperate, the best reply for the other player
+is Cooperate while when one of the two players chooses Don’t Cooperate, the best reply for the other
+player is Don’t Cooperate.
 
-The asteroid impact near the tip of Mexico's Yucatan peninsula about 65 million years 
+Bob
 
-ago has long been believed to be a potential cause for the death of the dinosaurs, which vanished 
-at roughly the same time. 
+Ann
 
-That impact was like nothing recorded in human history. Millions of years before humans 
+Cooperate
+Don’t Cooperate
 
-even existed, a huge meteorite measuring about 6 miles across and weighing perhaps billions of 
-tons crashed into the planet in a ball of fire, shrouding the Earth in a dense cloud of dust that 
-blocked out sunlight and sent temperatures plummeting. 
+Cooperate
+1, 1
+3,
 
-Estimates now put the crater's size at about 125 miles in diameter, indicating a force of 
+1
 
-impact equivalent to an earthquake about 10,000 times stronger than the one that leveled San 
-Francisco in 1906 and equal to the explosive force of hundreds of atomic bombs. 
+ 
 
-About 60 percent of all recorded species on the earth disappeared around the time the 
+ 
 
-meteorite struck. On land, scientists believe nothing larger than a dog survived. 
+Don’t Cooperate
+1,
+ 
+0, 0
 
-While researchers agree that vast amounts of dust and debris were sent shooting into the 
+ 
 
-atmosphere, the actual mechanics of how this may have caused a global catastrophe are still 
-under study. One problem is that environmental effects of the impact would have to have been 
-felt worldwide in order to account for the planetary extinction of so many species. 
+3
 
-Scientists now hope that examination of core samples from the crater will give a better 
+Table 3.3: The Cooperative Grade Game.
 
-understanding of the chemical make-up of the material involved—specifically, by indicating how 
-much sulfur- and carbon-bearing rock was sent hurtling into the sky. This will tell a lot about 
-how the carbonates and sulfates of the limestone sediments of the ancient sea floor the asteroid 
-struck react to high impact pressures. 
+To illustrate how the concept of non-dominated actions helps to identify the set of justiﬁable actions,
 
-Limestone rock evaporated by the impact might have clogged the atmosphere with 
-floating sulfur particles, causing a "nuclear winter" by blocking sunlight essential to plant 
-growth, removing the essential first link in the worldwide food chain. 
+we consider the following (compact-continuous example).
 
-Sulfur particles falling into the ocean could also have transformed the world's seas into 
+Example 4 (Linear public good game.). Consider a village with n citizens. The mayor of the village
+can build a park using contributions by the citizens using the following production function y(x) = kx
+with k
+(1/n, 1)—both the value of the park, y, and the contributions, x, are measured in euros.
+That is, every additional euro contributed translates into an improvement of the park by k < 1.6 Each
+Ai = [0, wi].
+citizen i has a ﬁnite initial wealth of wi > 0 and decides on a monetary contribution ai 2
+n
+An action proﬁle a translates into contribution x(a) =
+i=1 ai. Citizen’s payo↵ functions are ui(a) =
+y(x(a))
 
-vast, acidic pools, killing off much of the sea life. 
+2
 
-Following this disaster, immense amounts of carbon dioxide released from vaporized 
+n
 
-limestone could have contributed to a secondary greenhouse effect, sending temperatures soaring 
-and killing off much of the remaining life on the planet. 
+k)ai it becomes apparent that there is a
+j
+unique proﬁle of not dominated actions a⇤ = (0, . . . , 0) leading to a payo↵ proﬁle of (0, . . . , 0). In fact,
+=i aj.
+the dominant action for each individual is to contribute nothing since k
+However, as in the grade game, the unique rational action proﬁle is socially ine cient. To see this,
 
------------------------ 
+=i aj  
 
-59 
+k)ai > k
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Unit Eight: Human Evolution 
+P
 
------------------------ 
+P
 
-Major Trends in Hominin Evolution 
+(1
 
-1.  habitat—from gallery forest, to open forests, to savanna 
+(1
 
-2.  locomotion—from brachiation to knuckle walking, to first bipedal, to obligate bipedal 
+ 
 
-3.  diet change—tooth enamel and size—soft food, to coarse food, to soft food 
+ 
 
-4.  intestine length—from long to short—from vegan to carnivore 
+j
 
-5.  sexual dimorphism—from a lot to little 
+j
 
-6.  cranial size / body size ratio—three spurts: H. rudolfensis, H. heidelbergensis, H. sapiens 
+ai = k
 
-Points: 
+j=1 aj  
+Rewriting the payo↵ functions as ui(a) = k
 
-A.  5 m.y.a. last common ancestor of humans and chimps—chimps are not our ancestors. 
+ai.
 
-B.  Bipedalism evolved first—Australopithecus anamensis still had a chimp size brain. 
+ 
 
-C.  Homo ergaster evolved a modern body but no significant increase in brain size to body size 
-ratio. 
+P
+=i aj  
 
----------------------- 
+note that the alternative action proﬁle a0 = (✏, . . . , ✏) leads to a payo↵ proﬁle ((nk
+(nk
 
-Essay—On the Origin of Modern Humans 
+1)✏) > (0, . . . , 0) where the inequality holds as k
 
-The story of human history during the last Ice Age is slowly emerging through the 
-agency of modern science and, as is the nature of science, in a most unexpected way. The 
-elements of the story are being put together by anthropologists, paleontologists, climatologists, 
-archaeologists, and population geneticists. What was unexpected is that modern molecular 
-biology has provided a growing body of evidence that answers many of the long standing 
-questions about our origins. When did modern humans originate? Where did it happen? When 
-did modern humans begin to spread throughout the old and new worlds? Are we related to the 
-Neanderthals? What is the population history of human beings? How closely are we genetically 
-related to each other? These and many other questions are now being deciphered and for the first 
-time we can begin to piece together the history of our origin. 
+(1/n, 1).
 
-In the Beginning—When did modern humans originate? 
+1)✏, . . . ,
 
-“Recent research based on the full sequence of mtDNA reduced the estimate [for the 
+ 
 
-origin of anatomically modern humans at about 200,000 y.a.] to slightly less than  
-150,000 years ago.”—Cavalli-Sforza, 1998 
+P
 
-The Garden of Eden—Where did we come from? 
+P
 
-“Population genetic studies are in approximate agreement with archaeological 
-observations indicating that anatomically modern humans (i.e. similar, as far as bone 
-morphology goes, to living humans) are found in the past 100,000 years exclusively in Africa, or 
+ 
 
-60 
+2
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-very close to it (the Middle East) and spread from it to the other continents.”—Cavalli-Sforza, 
-1998 
+3.3 Cautious Players and Weakly Dominated Actions
 
-What was the size of the “founder” population of modern humans?—Rhode Island  
-in Africa  
+In the previous section, we have seen that a rational player will only choose actions that are not
+dominated. Sometimes, an action for such a rational player may be justiﬁed by a conjecture that rules
+out a particular action proﬁle of other players entirely. This may be too knife-edge for a cautious player
+who worries that the other players might make mistakes when choosing their actions or that there is
+some other uncertainty involving the other players’ choices. This leads us to the following deﬁnition.
 
-“The number of our ancestors just before the expansion (“origin”) of modern humans was 
+Deﬁnition 3.7. A player i is cautious if her conjecture does not rule out any action proﬁle a
+Let the set of cautious conjectures be deﬁned as
 
-small. Many genetic systems provide reassuringly congruent estimates: all indicate that the 
-approximate population size was on the order of 10,000 breeding individuals [this is 20,000 
-individuals total see Felsenstein 1971].” “Although the size of this population must have 
-fluctuated over time, it was often reduced to the level of several thousands of adults.  Such a 
-population would have occupied an area the size of Rhode Island rather than a whole continent”. 
-—Harpending, 1998 
+i 2
 
-Out of Africa  
+ 
 
-“A current estimate [for the genetic separation of Africans and non-Africans] gives a 
+A
 
-value closer to 60,000 y.a. with a standard error of close to 20% [72,000 y.a. to 48,000 y.a.].” —
-Cavalli-Sforza, 1998 
+i.
 
-Why did modern humans spread out of Africa?—The Walker Predator Density  
-Hypothesis 
+ 
 
-If you invent a new way of hunting, be it cooperation, new and better weapons, modern 
+ c(A
 
-language, or any combination of these, then you are faced with the predator density problem 
-(Walker & Shipman, 1996). That is, as you become a more efficient predator, you run the risk of 
-killing off your prey species. The only long term solution for hominids, in this case, is to reduce 
-population density per unit area. This puts tremendous pressure on populations to disperse in 
-search of new prey. In other words, increased hunting efficiency leads to a form of competitive 
-release by enforced range expansion. The spread of modern humans out of Africa (and Homo 
-erectus before them) resulted from competitive release brought about by qualitative increases in 
-hunting efficiency. But several factors had to be available. You had to have someplace to spread 
-to, for example. Modern humans originating in Africa, as they did, had all of Eurasia to spread 
-into reaching Australia between 60,000 and 53,000 y.a., Europe by 40,000 y.a., and eventually, 
-by way of the Bering land bridge, all of the Americas.   
+i) =
 
-Relatives?—the Neanderthals 
+ 
 
-A dramatic study done in 1998, where traces of mitochondrial DNA were extracted from 
+=
 
-the first Neanderthal fossils ever found, has provided compelling genetic evidence that we are 
-not closely related to the Neanderthals. “More than 380 nucleotides in region 1 of the D loop [of 
-mtDNA] were studied. The average difference among pairs of modern humans is 8.0, while the 
-range of the difference between a modern human and Neanderthal is 22-36. These results put 
-Neanderthal out of the modern human line, and confirm that it is most probably completely 
-extinct.” (Cavalli-Sforza, 1998) In March of 2000, a second report of Neanderthal mtDNA being 
-extracted was published in the journal Nature (Hoss, 2000). This second mtDNA analysis was 
-from a Neanderthal found in the northern Caucasus dated to 29,000 years ago. “...it provides 
-invaluable corroboration for the authenticity of Neanderthal mtDNA sequences.”(Hoss, 2000) 
+ 
 
-61 
+µi
+µi
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-These DNA studies are supported by fossil and archaeological evidence in showing that by 
-28,000 y.a., approximately ten thousand years after modern humans had arrived in Europe, the 
-Neanderthals were extinct. Thus the Neanderthal found in the northern Caucasus may be one of 
-the last members of this sister species to modern humans. 
-
-What is the demographic history of the prehistoric human population?   
-
-Two major periods of exponential expansion in the population of early modern humans 
-can be identified. The first resulted from modern humans spreading out from their homeland in 
-Africa. The second is the result of the invention of agriculture. 
-
-During the Middle Paleolithic (200,000 to 44,000 y.a.) “early human populations were 
-
-exceptionally small, even by later Paleolithic standards and [it appears] that early Middle 
-Paleolithic humans did not spend much time foraging in any one vicinity.” (Stiner, 1999) At 
-some point, however, early modern humans in Africa developed new hunting technologies which 
-lead to their expansion out of Africa ~ 60,000 years ago. This expansion into virgin territories, 
-together with new hunting technology, caused the first period of exponential growth in human 
-numbers. The human population did grow exponentially during this period, however densities 
-were kept low by the combination of reliance on hunting and the violent climate swings of the 
-Late Pleistocene (see below).   
-
-The second major pulse in human population growth is associated with the invention of 
-agriculture. But if you have been successful as hunters and gathers for thousands of years, why 
-invent agriculture? The answer lies in the combination of three events.  
-
-First, the climate changed 11,500 y.a.. Why didn’t humans invent agriculture a hundred 
-
-thousand years ago? The first modern humans were identical to us and, therefore, surely 
-intelligent enough to do so. Why did the invention of agriculture and the population explosion 
-that followed have to wait until 12,000 to 10,000 years ago? Part of the answer is in the weather. 
-All during the Pleistocene Ice Age violent weather was the norm, and not until the interglacial 
-climate shift 11,500 years ago did the violent swings in climate settle down to our present calm 
-state. Peter Ward provides this picture: 
-
-“The analysis of oxygen isotopes from the Greenland ice cores have shown that 
-
-the climate over the past 250,000 years has changed frequently and abruptly; the 
-magnitude of the global temperature changes has been far greater, and their intervals far 
-shorter, than anyone imagined. Dr. J. White of the University of Colorado, noted in a 
-recent summary that between 200,000 and 10,000 y.a., average global temperature had 
-changed as much as 18° F in a few decades. The current average global temperature is 
-59° F. Imagine that it suddenly shot up to 75° F or sank to 40° F in a century or less. At a 
-minimum, these sudden changes would create catastrophic storms of unbelievable 
-magnitude and fury. Yet such changes were common until 10,000 years ago. Imagine a 
-world where storms that dwarf Hurricane Andrew lash the continents not once a century 
-but several time each year, every year. Imagine a world where tropical belts are suddenly 
-assaulted by snow each year. This was our world until 10,000 years ago, when, according 
-to the studies of the Greenland ice cores, the unimaginable happened: The sudden shifts 
-in the weather stopped.”—Ward, 1997 
-
-62 
+ (A
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Second, modern humans in area after area reached their density limit as hunters. By the 
-
-Upper Paleolithic (44,000 to 19,000 y.a.) hunting pressure had forced people’s attention from 
-slow moving prey to fleeter prey types. This is, after all, what happens when you spread out and 
-then kill off your preferred (which usually means easier to catch) prey species. Once your 
-population spreads out and fills all available habitats, however, you can’t do it again (this is the 
-notion of demographic packing). So if your population increases, it must increase your density 
-per unit area, thereby putting even greater pressure on food resources. “Mobility was the 
-preferred solution to local resource scarcity throughout much of prehistory. Any loss of mobility 
-options is a grave matter for people who live by hunting and gathering. The changes in prey 
-species during the Mediterranean Paleolithic nonetheless indicate demographic packing and 
-associated reductions in mobility.”—Stiner, 1999 
-
-And third, by 11,000 y.a. modern humans had killed off the Pleistocene megafaunas, the 
-
-mammoths, mastodons and ground sloths along with many other large species, of both the old 
-and new worlds. In North America 73% of all genera weighing more than 100 pounds went 
-extinct between 12,500 to 11,000 y.a., not long after humans arrived on the continent (Ward, 
-1997; Flannery, 1999). “But Australia suffered the most severely of all the continents, losing 
-every terrestrial vertebrate species larger than a human,” (Flannery, 1999). Most telling of all is 
-that the Australian extinctions again coincided with the arrival of humans, only this time at 
-around 50,000 years ago, at least 30,000 years before humans reached the Americas.   
-
-On the one hand the extinction of the Pleistocene megafauna put selective pressure on 
-
-early human hunters to find other food sources, at the very least smaller game, whereas the 
-climate change allowed that new food source to be cultivated plants. An example in support of 
-this hypothesis comes from Pringle: 
-
-“In a layer dated to at least 13,000 y.a. the [rice] phytoliths show that hunter-
-
-gathers in the cave were dining on wild rice. But by 12,000 y.a., those meals abruptly 
-ceased—Zhao suspects because the climate became colder and the wild grain, too tender 
-for such conditions, vanished from this region. Studies of the Greenland ice cores have 
-revealed a global cold spell called the Younger Dryas from about 13,000 to 11,500 y.a.. 
-As the big chill waned, however, rice returned to the region. And people began dabbling 
-in something new around 11,000 y.a.—sowing, harvesting, and selectively breeding 
-rice.”—Pringle, 1998 
-
-The invention of agriculture caused the second period of exponential growth in the 
-
-human population by allowing increases in population density per unit area rather than range 
-expansion. Note that new studies of the origin of agriculture clearly place the origin at the 
-interglacial climate shift 11,500 years ago . 
-
------------------------ 
-
-63 
+ (A
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Two Possible Histories of our Origin 
+ 
 
-A summary of the preceding essay might read as follows. 
+ 
 
-Sometime around 150,000 years ago, somewhere on the continent of Africa, the  
+2
 
-morphology of an isolated population of approximately 20,000 early humans became 
-indistinguishable from that of humans today. This population over time developed more efficient 
-hunting techniques that produces two outcomes. The population increased but was also forced to 
-expand its range. As time passed this combination lead to modern humans spreading out from 
-Africa, first to Eurasia, then to Australia (~ 50,000 y.a.) and on to Europe (~ 40,000 y.a.), and 
-finally to the new world (20,000 to 14,000 y.a.). Once the world was covered with modern 
-humans the pressure of their hunting caused the extinction of the Ice Age monsters, the 
-mammoths, woolly rhinos, giant ground sloths and many other almost mythological creatures. 
-And along with the Ice Age megafauna our nearest relative the Neanderthals also went extinct. 
-But still the pressure of increasing population did not end. Instead new sources of food would be 
-found, this time from the earth itself. But fate also had to intercede. The violent climate of the Ice 
-Age ended as if on cue.  
+2
 
-All of these forces, demographic packing, the extinction of big game, the end of violent 
-climate swings, and increasing population pressure, may have combined to lead to the invention 
-of agriculture in the old world between 12,000 and 10,000 years ago. But with that invention the 
-world changed forever as the human population began, slowly at first, its incredible explosion in 
-numbers. Today, it is increasingly clear that we are near the end of that explosion. Although we 
-still do not know what will bring it to a halt, what does seem certain is that the outcome will be 
-known within the lifetime of children born today. 
+i) : supp µi = A
+i) :
 
------------------------ 
+i
+ 
+i, µi(a
 
-From What We all Spoke When the World Was Young by Nicholas Wade 
+A
 
-“In the beginning, there was one people, perhaps no more than 2,000 strong, who had 
+a
 
-acquired an amazing gift, the faculty for complex language. Favored by the blessings of speech, 
-their numbers grew, and from their cradle in the northeast of Africa, they spread far and wide 
-throughout the continent. 
+8
 
-One small band, expert in the making of boats, sailed to Asia, where some of their 
-descendants turned westward, ousting the Neanderthal people of Europe and others east toward 
-Siberia and the Americas. 
+i 2
 
-These epic explorations began some 50,000 years ago and by the time the whole world 
+ 
 
-was occupied, the one people had become many. Differing in creed, culture and even 
-appearance, because their hair and skin had adapted to the world’s many climates in which they 
-now lived, they no longer recognized one another as the children of one family. Speaking 5,000 
-languages, they had long forgotten the ancient mother tongue that had both united and yet 
-dispersed this little band of cousins to the four corners of the earth. 
+ 
 
-So might read one possible account of human origins as implied by the new evidence 
+i) > 0
 
-from population genetics and archaeology.”—Wade, 2000 
+.
 
------------------------ 
+ 
 
-64 
+(3.30)
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Essay—Human Evolution  
-
-“Our human bodies record a sequence billion of years longer than human culture. Nested 
-like Russian dolls are features that we share with more and more organisms the deeper we probe. 
-As humans, we have uniquely large brains and upright posture; as primates, fingernails and 
-stereoscopic vision; as mammals, hair, warm blood and milk-fed young; as amniotes (the group 
-that includes mammals, birds, and reptiles) internal fertilization and the ability to reproduce 
-ourselves outside a watery environment. With other vertebrates we share a rigid internal 
-skeleton. All animals have tissues, and all of us collect our carbon and energy from organic 
-compounds derived from all those plants, algae, and bacteria that can use either chemical energy 
-or light to manufacture their own supplies out of non-living raw materials. Like almost all 
-organisms except bacteria, we have cells with nuclei and chromosomes, organelles, and an 
-oxygen drive. In common with every living thing we have DNA, genetic blueprints, and 
-metabolism—the equipment to absorb, dismantle, and exploit useful molecules. 
-
-This sequence is a journey proceeding out of time. Listed so simply, it is apt to sound like 
-
-the flow of a single force with an inevitable outcome. Yet the long-range order that we see with 
-hindsight is the outcome of a blizzard of causes blowing this way and that. It shows that 
-evolution has not worked like a single steamroller headed in some purposeful direction, but as a 
-set of improvisations and haphazard events, constantly reinventing itself. Rather than redesigning 
-the fundamental machinery of life, evolution appears to have tinkered with the most variable and 
-possibly least essential details. When such changes happen at the right time and place, they may 
-prove useful as conditions change. Like our fellow species, we are a ramshackle collection of 
-these useful adaptations, with layer tacked on to underlying layer, each one reflecting the 
-successful inventions of bygone times.”—J. John Sepkoski Jr. in Gould (ed.), 1993 
-
----------------------- 
-
-65 
+(3.31)
 
- 
- 
- 
- 
- 
+Then, a rational and cautious player i chooses actions in ri( c(A
+best-reply correspondence over cautious conjectures.
+
+ 
+
+ 
+
+); that is, in the image set of the
+
+6For example, the mayor has to follow some bureaucratic procedures that do not directly translate into improvements
+
+of the park.
+
+18
+
+6
+6
+6
  
  
-To Make a Human Being 
+Chapter 3. Justiﬁability and Dominance
 
-4000 m.y.a. the evolution of the cell, DNA, and cellular metabolism 
+It will turn out that the set of justiﬁable actions for a cautious player is a subset of the set of
+justiﬁable actions for a non-cautious player. The reason is that a cautious player can rationalize fewer
+actions as she can hold strictly fewer conjectures than a non-cautious player. Thus, she can justify
+actions with fewer conjectures. However, we can deﬁne a slightly modiﬁed concept of domination, to
+obtain a similar insight about the set of justiﬁable actions.
 
-2000 m.y.a. the evolution of aerobic respiration and eukaryotic cells 
+Deﬁnition 3.8. A mixed action ↵i 2
+yields at least the same expected payo↵ for player i, for every action proﬁle a
+and a strictly higher expected payo↵ for at least on action proﬁle ˆa
 
-1100 m.y.a. the evolution of sexual reproduction 
+ (Ai) weakly dominates another mixed action  i 2
 
-700 m.y.a. the evolution of multicellular animals 
+i 2
+ 
+ 
+i; that is,
 
-520 m.y.a. the evolution of the notochord 
+A
 
-360 m.y.a. the evolution of terrestrial tetrapods 
+A
 
-300 m.y.a. the evolution of internal fertilization and the amniotic egg 
+ (Ai) if it
+i of other players,
 
-180 m.y.a. the evolution of hair, warm-bloodedness, and milk to suckle young 
+a
 
-55 m.y.a. the evolution of fingernails and stereoscopic vision 
+ˆa
 
-4.1 m.y.a. the evolution of walking upright—bipedalism 
+8
 
-2.5 m.y.a. the evolution of stone tool making 
+9
 
-1.8 m.y.a. the evolution of the genus Homo 
+i 2
+i 2
 
-0.15 m.y.a. the evolution of anatomically fully modern humans 
+ 
 
-0.06 to 0.04 m.y.a. the evolution of modern language 
+ 
 
-0.005 m.y.a. the invention of writing 
+A
 
----------------------- 
+A
 
-How can we organize our knowledge of the natural world? 
+ 
 
-1.  There is a chronological sequence in which the universe developed.  
+ 
 
-2.  Levels of stable types of phenomena are built upon other more basic levels. 
+i, ui(↵i, a
+i, ui(↵i, ˆa
 
-3.  These levels of stable phenomena have accumulated through time. 
+ 
 
-4.  Life on Earth is one of these natural levels of stable phenomena. 
+ 
 
-5.  Evolution can explain the development of all these levels of stability. 
+i)
+ui( i, a
+i) > ui( i, ˆa
 
-Life on Earth is an “effectively” closed historical system, an unbroken physical chain of 
+ 
 
-reproduction and changing generations. There is a necessary chronological sequence in which 
-life developed as levels of stable phenomena built upon other more basic levels. These levels of 
-stable phenomena in the history of life have accumulated through time to produce “endless forms 
-most beautiful and most wonderful”, including ourselves. And it is the consilient power of the 
-theory of evolution by natural selection that it can explain how this happened. 
+ 
 
----------------------- 
+ 
 
-66 
+Denote the set of actions that are not weakly dominated by N W Di,
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-Part Four:  Biology and Society 
+N W Di =
 
----------------------- 
+8
+<
 
-Science & Ethics 
+ai 2
 
-How does scientific knowledge affect social, ethical questions? 
+Ai :
 
-What is the nature of human nature?  
-Are we intrinsically good or are we inherently bad?  
+↵i 2
 
-If our genetic heritage determines how we are, at least in part,  
-should we accept our nature or oppose it?  
+8
 
-What of human violence?  
- Is violent aggression “wrong”?   
+ (Ai),
 
-What of human fecundity?  
-Is a mother’s love for her child “right”? 
+ˆa
 
----------------------- 
+a
 
-Natural fecundity always leads to over production of offspring beyond  
-what the environment can support. 
+(
 
----------------------- 
+(
 
-Is it possible that the world we are adapted for no longer exists, and that we are now  
-genetically maladapted to the modern world we live in?  
+9
 
----------------------- 
+8
 
-Freedom of Action & Control 
+i 2
 
-Moral responsibility can arise only when there is freedom of action and the ability to 
+ 
 
-control the outcome of relevant events. Thus, there are two aspects in assessing moral obligation. 
-The first is that we must be free to act upon our ethical considerations. The second is that our 
-actions must be able to change the course of events. We must be able to control the outcome of 
-events to have moral responsibility, for no moral entity can logically be held responsible for 
-anything that is beyond their control. Thus, control, itself, is the logical first principle for 
-determining moral responsibility. 
+i 2
 
-The most significant change in our world in the last four hundred years is that science 
+ 
 
-and technology have immensely extended our control over natural events. This extension of 
-control has extended our moral obligations in directions undreamed of by our ancestors. It is, 
-therefore, the fundamental task of our age to analyze and come to understand how this extension 
-of control over the natural world has changed our moral obligations.   
+A
 
----------------------- 
+ 
 
-67 
+A
 
- 
- 
- 
-  
- 
- 
- 
- 
- 
- 
- 
- 
- 
-How has science changed our world? 
+ 
 
----------------------- 
+_
 
-World Population projections show that by the year 2050 the human population will  
-reach 9 billion. Today the human population is over 6.6 billion. 
+i, ui(↵i, a
 
----------------------- 
+i, ui(↵i, ˆa
 
-Over production coupled to variation that can be inherited leads to differential reproductive 
-success which leads to adaptation to local environments. 
+ 
 
-What does “differential reproductive success” mean if not that some will fail and others will win 
-in the raw, amoral competition of life. 
+i) < ui(ai, ˆa
 
----------------------- 
+We call an action a⇤i weakly dominant if all other pure actions ai 2
+it.
 
-“The universe we observe has precisely the properties we should expect if there is, at bottom, no 
-design, no purpose, no evil and no good, nothing but blind, pitiless indifference.”   
+:
 
-Richard Dawkins from his book River out of Eden (1995, 133) 
+ 
 
----------------------- 
+ 
 
-Adaptation  
+i 2
+i)
+i).
 
-Evolution by natural selection does not lead to optimal adaptations. It produces only 
-historically constrained answers to past questions. What worked in the past was cobbled together 
-from what was genetically available and has no guarantee of working in the future. Evolutionary 
-adaptations are always a gamble that future conditions will be similar to the past. In reality— 
+(3.32)
 
-the only adaptation natural selection “selects” is reproductive success.   
+(3.33)
 
----------------------- 
+(3.34)
 
-“Let us understand, once and for all, that the ethical progress of society depends, not on imitating 
-the cosmic process [evolution by natural selection], still less in running away from it,  
-but in combating it.” 
+i))
 
-Thomas Henry Huxley from his essay Evolution and Ethics in Paradis (1989) 
+.
 
-In the end, it may be true that the process of natural selection, itself, is the greatest cause of evil. 
+i))
 
------------------------ 
+9
+=
 
------------------------ 
+ 
 
-68 
+ 
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
----------------------- 
+are weakly dominated by
 
-Human Population Increase 
+;
 
-Based on genetic evidence, at some point in the Late Pleistocene the ancestral population of 
+ui(ai, a
 
-humans dropped to a low of ~ 20,000 individuals (Cavalli-Sforza, 1998; Harpending, 1998). 
+i)
 
-From this Late Pleistocene population modern humans spread throughout the globe  
+ 
 
-and then invented agriculture so that by the year 
+
+Ai \ {
 
-1 A.D. the human population had reached 1/4 billion. It then took— 
+a⇤i }
 
-   from 1 A.D. to 1600   —  to reach 1/2 billion   
+We state the following lemma without proof and note that this is an instance, where the analogous
 
-(1600 years doubling time) 
+result does not hold for compact-continuous games.
 
-      from 1600 to 1830   —  to reach 1 billion      
+Lemma 3.4. Consider a ﬁnite game G, a player i
+full-support conjecture µi
+is,7
 
-(230 years doubling time) 
+ c(A
 
-      from 1830 to 1930   —  to reach 2 billion      
+2
 
-(100 years doubling time) 
+ 
 
-      from 1930 to 1960   —  to reach 3 billion      
+Ai. There exists a
+I, and an action a⇤i 2
+i) that justiﬁes a⇤i if and only if a⇤i is not weakly dominated; that
 
-(30 years to add a billion) 
+2
 
-      from 1960 to 1974   —  to reach 4 billion      
+N W Di = ri( c(A
 
-(14 years to add a billion) 
+i)).
 
-      from 1974 to 1987   —  to reach 5 billion      
+ 
 
-(13 years to add a billion) 
+(3.35)
 
-      from 1987 to 1999   —  to reach 6 billion 
+Example 5. Second-Price Auction. To illustrate that weak dominance can be a useful concept,
+we consider a second-price auction. Suppose that a piece of art is being sold in an auction house in
+Interested buyers have a valuation vi > 0 for the artwork and write a bid into
+the following way.
+a sealed envelope and hand it to the auctioneer. The auctioneer opens the envelopes and the buyer
+who wrote down the highest bid receives the artwork and has to pay the highest bid submitted by all
+other interested buyers. In case of a tie, the auctioneer randomizes uniformly among the buyers who
+submitted the highest bid.8
 
-(12 years to add a billion) 
+We can describe this auction game as a game played among the players i
 
-(after Cohen 1995) 
+chosen from Ai 2
 
-World population projections also show that by the year 2050  
+[0,
 
-the human population will reach 9 billion. (Lutz, 2001) 
+), and payo↵ functions are
 
-This will be from 20,000 to 9,000,000,000 or more than a 450,000 times increase  
+1
 
-in population in a period of time that is, when compared to the history of life on Earth,  
+1, . . . , n
 
-a geologic instant. 
+, actions are
+}
 
------------------------ 
+2{
 
-• Point:  The whole point is that we are doing exactly what natural selection has programmed 
-natural levels of fecundity to achieve—increase our population until the environment stops us. 
-The reason our population has exploded results from a form of competitive release. First 
-improved hunting methods, then agriculture, and finally science and technology have released us 
-from the population constrains of disease and famine and we have exploded across the Earth. 
+=i aj
 
------------------------ 
+vi  
 
-69 
+maxj
+1
+arg maxj
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-The Scientific Consensus 
+=i aj |
 
-Starting in 1992, and continuing to the present some 1,670 scientists, including 104 
-Nobel laureates, have signed The World’s Scientists Warning to Humanity on population. In 
-1993, fifty-six of the world’s scientific academies (including the U.S. National Academy) came 
-together in a “Science Summit” on world population. The conference had as its primary goal the 
-formulation of a statement to be presented at the International Conference on Population and 
-Development in 1994. The consensus opinion of both these efforts is expressed in the following 
-statements. 
+(vi  
 
-“Human beings and the natural world are on a collision course. Human activities inflict harsh 
-and often irreversible damage on the environment and on critical resources. If not checked, many 
-of our current practices put at serious risk the future that we wish for human society and the plant 
-and animal kingdoms, and may so alter the living world that it will be unable to sustain life in the 
-manner that we know. Fundamental changes are urgent if we are to avoid the collision our 
-present course will bring about.”   
+maxj
 
-“Pressures resulting from unrestrained population growth put demands on the natural world that 
-can overwhelm any efforts to achieve a sustainable future.” 
+=i aj)
 
-“No more than one or a few decades remain before the chance to avert the threats we now 
-confront will be lost and the prospects for humanity immeasurably diminished.” 
+ui(vi, a) = 8
+><
 
-(For the full text of these documents see Ehrlich 1996, Appendix B, pages 233-250.) 
+1+
+|
+0
 
------------------------ 
+, if ai > maxj
+, if ai = maxj
+, if ai < maxj
 
-Biodiversity Today: The Sixth Extinction  
+=i aj
+=i aj
+=i aj.
 
-“Humanity has initiated the sixth great extinction spasm [in the history of life], rushing to 
+(3.36)
 
-eternity a large fraction of our fellow species in a single generation.”  
+It is straightforward to show that it is a weakly dominant action for player i to bid exactly her
+valuation, a⇤i = vi. To see this, consider separately the cases ai < vi and ai > vi. The case ai < vi is
+left as an exercise.
 
-Today, then, is the sixth extinction. 
+>:
 
-The  term,  as  shown  by  this  quote,  was  first  used  by  E.  O.  Wilson  in  his  book  The 
+Consider the case ai > vi.
 
-Diversity of Life (1992). 
+7For compact-continuous games, it holds that ri( c(A
 
------------------------ 
+N W Di; that is, there are cases in which the action set
+i))
+is inﬁnite and there exist not weakly dominated actions for which there is no cautious conjecture to which they are a
+best reply. For an example, see Battigalli et al. (2023), Example 4 on page 51.
 
-Estimates of the Current Extinction Rate 
+✓
 
-Peter Raven, Director of the Missouri Botanical Survey and one of the first scientists in 
-America to draw attention to the biodiversity crisis, estimates that by the end of the year 2200 
-[two hundred years from now] 67% of all the species now living will be extinct (Ward 1997, 
-207). 
+ 
 
-70 
+8We will discuss this auction format in more detail during the mechanism design part of the class.
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-The textbook Life (5th ed.) states: “Moreover, even the lowest estimates of current 
+19
 
-extinction rates predict that at least 10 percent of Earth’s species are likely to become extinct 
-during the next twenty years. Some estimates predict the extinction of 50 percent of Earth’s 
-species during the next 50 years.”—Purves 1997, 1224 
+6
+6
+6
+6
+6
+6
+Chapter 3. Justiﬁability and Dominance
 
-Estimates of the natural background extinction rate cluster around 10 species per year for 
+i is such that ai < maxj
 
-all species. The current extinction rate is now estimated to be a 1000 times that natural rate of 
-extinction.  
+=i aj. Then, i loses the auction with both bids
 
-• The bottom line is that we could lose between 1/3 and 1/2 of all species  
-within the next hundred years (Pimm 2001). 
+1. Suppose that a
 
------------------------ 
+i 2
 
-As Peter Raven puts it: “At the time Homo sapiens developed agriculture in a number of 
+ 
 
-widely scattered centers, some 10,000 years ago, there were fewer than five million of us 
-throughout the world. Now we number over six billion. We consume, waste or divert about half 
-the total primary net photosynthetic productivity on land; we use about half the total supplies of 
-freshwater and affect directly some two thirds of the planet’s surface. Over the past 50 years, 
-while our total population has grown by 3.5 billion people, we have lost a quarter of our topsoil 
-and a fifth of our agricultural lands, changed the characteristics of the atmosphere in important 
-ways and cut down a major part of the forests. It is no wonder that we are driving to extinction, 
-and will drive over the next century, such a high proportion of the other organisms that live with 
-us on Earth, thus limiting our own material and spiritual prospects substantially.”—Raven, 1998, 
-100 
+A
 
------------------------ 
+ 
 
-The Upshot 
+ai and vi. Thus, her payo↵ is the same in both cases.
 
-What then are the realities of our relationship to the natural world? I submit it is 
+2. Suppose that a
 
-something akin to the relationship Jared Diamond describes between groups of early 
-agriculturists—kill everybody except those you grew up with and only stop killing when 
-somebody stronger than you tells you to (Diamond, 1997). 
+A
 
-Humanity simply does not let nature stand in the way of what it wants. The results of this 
+i is such that vi > maxj
 
-are predictable—we are wiping out the other life-forms on Earth at an ever increasing rate. The 
-scale of this slaughter is comparable to, if not greater than, the scale of species extinction that 
-occurred during the five recognized mass extinction events in the history of life.   
+=i aj. Then, i wins the auction in both cases and
 
-It is, therefore, a valid question to ask: Are there any ethical relationships between 
-humanity and other species? And if there are, when will we accept our moral obligations toward 
-other life-forms—before or after we drive most of them to extinction?    
+pays the same price maxj
 
------------------------ 
+=i aj leading to the same (strictly positive) payo↵.
 
-71 
+i 2
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-E. O. Wilson from The Diversity of Life (1992) 
+ 
 
-“Four splendid lines of Virgil came to mind, the only ones I ever memorized, where the Sibyl  
-warns Aeneas of the Underworld: 
+ 
 
-The way downward is easy from Avernus. 
+A
 
-Black Dis’s door stands open night and day. 
+3. Suppose that a
 
-But to retrace your steps to heaven’s air,  
+i is such that maxj
 
-There is the trouble, there is the toil . . .” 
+(vi, ai). Then, i loses the auction with bid vi
+=i aj 2
+and receives a payo↵ of zero and i wins the auction with bid ai, receives the object and pays
+=i aj > vi leading to a negative payo↵. Thus, bidding vi generates a strictly higher payo↵
+maxj
+in this case.
 
-“We do not understand ourselves yet and descend farther from heaven’s air if we forget how 
-much the natural world means to us. Signals abound that the loss of life’s diversity endangers not 
-just the body but the spirit. If that much is true, the changes occurring now will visit harm on all 
-generations to come.” 
+i 2
 
------------------------ 
+ 
 
-Why do science? 
+ 
 
-“The extreme novelty of humans as the dominant force on this planet is as surprising as is 
+4. Suppose that a
 
-our current rate of destruction of our own habitat and that of the Earth’s other life forms. This 
-disregard is all the more striking since, in geological terms, our species has only recently 
-departed from its ‘place in nature’. The full implications of our derivation by the random 
-processes of biological evolution in a mere 5 million to 7 million years from an animal much like 
-a chimpanzee have yet to be incorporated in any manner into the fundamental beliefs or 
-institutions of our own, or in fact, any society. In its very success, our species has raised grave 
-problems that demand new kinds of solutions. Will we, by better understanding the processes 
-that made us what we are, grow in capacity to solve the frightening problems of the future arising 
-from our very selves?”  
+A
 
-Elwyn L. Simons from his article Human Origins (1989) 
+i 2
 
------------------------ 
+i is such that vi = maxj
 
-Return to Alles Introductory Biology 101 
-http://fire.biol.wwu.edu/trent/alles/101index.html 
+=i aj. Then, i wins the auction with certainty
+ 
+=i aj = vi leading to a payo↵ of zero. If i bids vi, she (depending
+when bidding ai and pays maxj
+on the outcome of the randomization) either wins the auction paying a price equal to her valuation
+or she loses the auction both leading to a payo↵ of zero. Hence, both actions yield the same
+payo↵.
 
-Return to Alles Biology Homepage 
-http://fire.biol.wwu.edu/trent/alles/index.html 
+ 
 
-72 
+ 
 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+5. Suppose that a
+
+A
+
+i 2
+
+i is such that ai = maxj
+
+=i aj. Then, i loses the auction with bid vi
+leading to a payo↵ of zero. If i bids ai, she (depending on the outcome of the randomization),
+she either loses the auction leading to a payo↵ of zero or she wins the auction and pays ai > vi
+leading to a strictly negative payo↵. Hence, i’s expected payo↵ is strictly higher when bidding
+vi instead of ai.
+
+ 
+
+It follows that by bidding vi, i receives a payo↵ that is always at least as high as when bidding ai > vi
+and in some instances her payo↵ is strictly higher.
+
+3.4 Exercises
+
+Exercise 1. Consider the following game and show that there is a mixed strategy that is strictly
+dominated although all pure strategies in its support are not dominated.
+
+Bob
+
+L
+1, 3
+2, 0
+ 
+0, 1
+
+R
+2, 0
+ 
+1, 3
+0, 1
+
+Ann
+
+U
+M
+D
+
+Exercise 2. Show that if an action a⇤i is justiﬁable, then it must not be dominated.
+
+Exercise 3. Consider a ﬁnite game G =
+conditions are equivalent:
+
+I, (Ai, ui)i
+
+I
+
+2
+
+↵
+
+⌦
+
+and an action a⇤i . Show that the following
+
+(i) a⇤i is dominant (i.e., action a⇤i dominates every action ai 2
+(ii) a⇤i dominates every mixed action ↵i 6
+(iii) a⇤i is the unique best reply to every conjecture.
+
+= a⇤i ,
+
+Ai \ {
+
+),
+a⇤i }
+
+Exercise 4. Show that bidding ai < vi in a second-price auction is a weakly dominated action.
+
+20
+
+6
+6
+6
+6
+6
+6
+6
+6
 

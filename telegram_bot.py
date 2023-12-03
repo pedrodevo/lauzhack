@@ -28,6 +28,7 @@ from pdfminer.high_level import extract_text
 from telegram import ForceReply, Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 from keys import TELEGRAM_KEY
+import test_huggingface 
 
 # Enable logging
 logging.basicConfig(
@@ -37,6 +38,9 @@ logging.basicConfig(
 logging.getLogger("httpx").setLevel(logging.WARNING)
 
 logger = logging.getLogger(__name__)
+
+PROGRESS = True
+DEBUG = True
 
 
 # Define a few command handlers. These usually take the two arguments update and
@@ -79,10 +83,25 @@ async def attachment(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
     # Get title (you may want to extract it from the PDF metadata)
 
+    await update.message.reply_text("PDF received and transcribed!")
     # Respond with the transcribed text file
     with open("files/transcription.txt", "r") as txt_file:
         title = txt_file.readline()
         await update.message.reply_document(txt_file, caption=f"PDF title: {title}")
+
+    test_huggingface.execute_pipeline()
+
+    with open("files/output.txt", "r") as txt_file:
+        await update.message.reply_document(txt_file, caption="Exam generated!")
+
+
+
+async def test_me(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Test the bot."""
+    await update.message.reply_text("Test!")
+    # TODO: finish this function; it should send a file to the backend and return the text
+
+
 
 def main() -> None:
     """Start the bot."""
@@ -92,6 +111,7 @@ def main() -> None:
     # on different commands - answer in Telegram
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
+    application.add_handler(CommandHandler("testme", test_me))
 
     # on non command i.e message - echo the message on Telegram
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))

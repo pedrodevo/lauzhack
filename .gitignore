@@ -1,3 +1,6 @@
 keys.py
 __pycache__
 question_generation
+.DS_Store
+__pycache__/keys.cpython-38.pyc
+

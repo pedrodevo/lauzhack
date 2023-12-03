@@ -19,7 +19,7 @@ PROGRESS = True
 # THINGS YOU CAN CHANGE
 QUESTIONS = 20
 FILES = 'files'
-DOCUMENT = 'lecture_notes'
+DOCUMENT = 'exam'
 DATA = '/'.join([FILES, DOCUMENT]) + '.pdf'
 
 # data = {
@@ -48,7 +48,7 @@ def keyphrase_query(payload):
             word = response.get("word")
             if isinstance(word, str):
                 result.add(word.strip())
-        elif DEBUG:
+        if DEBUG:
             print(response)
 
     return list(result)
@@ -109,11 +109,27 @@ def valhalla_query(payload):
     return response.json()
 
 
-for sentence in txt_to_list(pdf_to_txt(DATA)):
-    if '<hl>' in sentence:
-        print('highlighted')
-    output = valhalla_query({
-        "inputs": sentence,
-    })
+def execute_pipeline():
+    counter = 0
+    with open('files/transcription.txt', 'r') as file:
+        text = file.read().rstrip('\n')
 
-    print(output)
+    response = []
+
+    for sentence in txt_to_list(text):
+        counter += 1
+        if '<hl>' in sentence:
+            print('Highlighted')
+            if counter == 1 and DEBUG:
+                print(sentence)
+        output = valhalla_query({
+            "inputs": sentence,
+        })
+        print(output)
+        response.append(output[0]['generated_text'])
+        # print(output)
+
+    with open('files/output.txt', 'w') as file:
+        file.write(' '.join(response))
+
+    
