@@ -11,6 +11,8 @@ from keys import HUGGING_FACE_KEY
 DEBUG = False
 PROGRESS = True
 
+QUESTIONS = 5
+
 OPENCHAT_URL = "https://api-inference.huggingface.co/models/openchat/openchat_3.5"
 # url = "https://api-inference.huggingface.co/models/openai/whisper-large-v3"
 headers = {
@@ -50,13 +52,17 @@ def keyphrase_query(payload):
     # result = []
     # for response in responses.json():
     #     result.append(response['word'])
+    result = set()  # Use a set for efficient uniqueness checking
+
     for response in responses.json():
-        if type(response) != str:
-            result = [response.get("word").strip()]
-        else:
+        if isinstance(response, dict):
+            word = response.get("word")
+            if isinstance(word, str):
+                result.add(word.strip())
+        elif DEBUG:
             print(response)
-            result = []
-    return np.unique(result)
+
+    return list(result)
 
 
 def pdf_to_txt(pdf_file, txt_file=None):
@@ -92,8 +98,10 @@ def txt_to_list(text):
     questions = []
     if DEBUG:
         print(text)
+    length = len(text)
     while len(text) != 0:
-        length = random.randint(80, 100)
+        sentence_length = length/QUESTIONS
+        sentence_length += random.randint(-5, 5)
         sentences = '. '.join(text[:length])
         keyphrases = keyphrase_query(sentences)
         for keyphrase in keyphrases:
@@ -112,7 +120,9 @@ def query(payload):
     return response.json()
 
 
-for sentence in txt_to_list(pdf_to_txt('lecture.pdf')):
+for sentence in txt_to_list(pdf_to_txt('Egypt.pdf')):
+    if '<hl>' in sentence:
+        print('highlighted')
     output = query({
         "inputs": sentence,
     })
