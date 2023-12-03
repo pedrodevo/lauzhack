@@ -7,6 +7,7 @@ from pdfminer.high_level import extract_text
 
 # INFO FOR API CALLS
 from keys import HUGGING_FACE_KEY
+from utils import create_exam_pdf
 VOIDFUL_URL = "https://api-inference.huggingface.co/models/voidful/context-only-question-generator"
 VALHALLA_URL = "https://api-inference.huggingface.co/models/valhalla/t5-base-qa-qg-hl"
 KEYPHRASE_URL = "https://api-inference.huggingface.co/models/ml6team/keyphrase-extraction-kbir-inspec"
@@ -23,7 +24,8 @@ QUESTIONS = 40
 FILES = 'files'
 DOCUMENT = 'lecture'
 DATA = '/'.join([FILES, DOCUMENT]) + '.pdf'
-OUTPUT = 'files/output.txt'
+OUTPUT = 'files/output.pdf'
+
 
 # data = {
 #     "inputs": "You are a large language model named OpenChat. Write a poem to describe yourself"
@@ -88,7 +90,7 @@ def txt_to_list(text):
         print('-- START: txt_to_list --')
     text = text.split('.')
     if DEBUG:
-        print(text[:100])
+        print(text[0])
     length = len(text)
     sentence_length = int(length / QUESTIONS+1)
     if sentence_length > 70:
@@ -151,8 +153,7 @@ def execute_pipeline():
     if DEBUG:
         print(response)
 
-    with open(OUTPUT, 'w') as file:
-        file.write(' '.join(response)+"\n\n")
+    create_exam_pdf(response, OUTPUT)
 
     return True
 
