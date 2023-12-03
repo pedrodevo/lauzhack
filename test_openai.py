@@ -17,9 +17,7 @@ PROGRESS = True
 
 # THINGS YOU CAN CHANGE
 QUESTIONS = 20
-FILES = 'files'
-DOCUMENT = 'Nick'
-DATA = '/'.join([FILES, DOCUMENT]) + '.pdf'
+DATA = 'files/lecture_notes.pdf'
 OUTPUT = 'files/output.pdf'
 # INPUT = 'files/input.pdf'
 
