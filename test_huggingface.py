@@ -3,11 +3,11 @@ import random
 import requests
 import os
 import sys
-import numpy as np
 from pdfminer.high_level import extract_text
 
 # INFO FOR API CALLS
 from keys import HUGGING_FACE_KEY
+VOIDFUL_URL = "https://api-inference.huggingface.co/models/voidful/context-only-question-generator"
 VALHALLA_URL = "https://api-inference.huggingface.co/models/valhalla/t5-base-qa-qg-hl"
 KEYPHRASE_URL = "https://api-inference.huggingface.co/models/ml6team/keyphrase-extraction-kbir-inspec"
 OPENCHAT_URL = "https://api-inference.huggingface.co/models/openchat/openchat_3.5"
@@ -20,8 +20,9 @@ PROGRESS = True
 # THINGS YOU CAN CHANGE
 QUESTIONS = 20
 FILES = 'files'
-DOCUMENT = 'exam'
+DOCUMENT = 'lecture_notes'
 DATA = '/'.join([FILES, DOCUMENT]) + '.pdf'
+OUTPUT = 'files/output.txt'
 
 # data = {
 #     "inputs": "You are a large language model named OpenChat. Write a poem to describe yourself"
@@ -92,12 +93,12 @@ def txt_to_list(text):
     while len(text) != 0:
         sentence_length = int(length/QUESTIONS)
         sentence_length += random.randint(-5, 5)
-        sentences = '. '.join(text[:length])
+        sentences = '. '.join(text[:sentence_length])
         keyphrases = keyphrase_query(sentences)
         for keyphrase in keyphrases:
             sentences = f' <hl> {keyphrase} <hl> '.join(sentences.split(keyphrase))
         questions.append('generate question: ' + sentences)
-        text = text[length:]
+        text = text[sentence_length:]
         if DEBUG:
             print(text)
     if PROGRESS:
@@ -107,6 +108,11 @@ def txt_to_list(text):
 
 def valhalla_query(payload):
     response = requests.post(VALHALLA_URL, headers=headers, json=payload)
+    return response.json()
+
+
+def voidful_query(payload):
+    response = requests.post(VOIDFUL_URL, headers=headers, json=payload)
     return response.json()
 
 
@@ -137,9 +143,27 @@ def execute_pipeline():
         
     # print(output)
 
-    with open('files/output.txt', 'w') as file:
+    with open(OUTPUT, 'w') as file:
         file.write(' '.join(response))
 
     return True
 
     
+
+def main():
+    i = 1
+    for sentence in txt_to_list(pdf_to_txt(DATA)):
+        if DEBUG:
+            print(f'Sentence length: {len(sentence)}')
+        if '<hl>' in sentence:
+            print('highlighted')
+        output = voidful_query({
+            "inputs": sentence,
+        })
+        print(f'Question {i}:')
+        print(output)
+        i += 1
+
+
+if __name__ == "__main__":
+    main()
