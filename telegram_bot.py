@@ -100,8 +100,7 @@ async def attachment(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     if not success:
         await update.message.reply_text("Error generating exam :(")
     else:
-        pdf_filename = text_to_pdf(FILE_OUTPUT_TXT, FILE_OUTPUT_PDF)
-        await update.message.reply_document(pdf_filename, caption="Exam generated!")
+        await update.message.reply_document(FILE_OUTPUT_PDF, caption="Exam generated!")
 
 
 async def test_me(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
