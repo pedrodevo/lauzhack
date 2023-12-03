@@ -29,6 +29,7 @@ from telegram import ForceReply, Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 from keys import TELEGRAM_KEY
 import test_huggingface 
+from utils import text_to_pdf
 
 # Enable logging
 logging.basicConfig(
@@ -41,6 +42,11 @@ logger = logging.getLogger(__name__)
 
 PROGRESS = True
 DEBUG = True
+FILE_TRANSCRIPT = "files/transcription.txt"
+FILE_PRELIMINARY = "files/preliminary.pdf"
+FILE_OUTPUT_TXT = "files/output.txt"
+FILE_OUTPUT_PDF = "files/output.pdf"
+
 
 
 # Define a few command handlers. These usually take the two arguments update and
@@ -68,7 +74,7 @@ async def attachment(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     # Get the file path and download the file
     file = await update.message.document.get_file()
 
-    tmp_file = "files/preliminary.pdf"
+    tmp_file = FILE_PRELIMINARY
     await file.download_to_drive(tmp_file)
     
     # Read PDF and extract text
@@ -78,22 +84,24 @@ async def attachment(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
         print(e)
         return  # Exit if there's an error in text extraction
     # Write PDF text to a .txt file
-    with open("files/transcription.txt", "w") as txt_file:
+    with open(FILE_TRANSCRIPT, "w") as txt_file:
         txt_file.write(extracted_text)
 
     # Get title (you may want to extract it from the PDF metadata)
 
     await update.message.reply_text("PDF received and transcribed!")
     # Respond with the transcribed text file
-    with open("files/transcription.txt", "r") as txt_file:
+    with open(FILE_TRANSCRIPT, "r") as txt_file:
         title = txt_file.readline()
         await update.message.reply_document(txt_file, caption=f"PDF title: {title}")
 
-    test_huggingface.execute_pipeline()
+    success = test_huggingface.execute_pipeline()
 
-    with open("files/output.txt", "r") as txt_file:
-        await update.message.reply_document(txt_file, caption="Exam generated!")
-
+    if not success:
+        await update.message.reply_text("Error generating exam :(")
+    else:
+        pdf_filename = text_to_pdf(FILE_OUTPUT_TXT, FILE_OUTPUT_PDF)
+        await update.message.reply_document(pdf_filename, caption="Exam generated!")
 
 
 async def test_me(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
