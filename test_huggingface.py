@@ -127,10 +127,19 @@ def execute_pipeline():
             "inputs": sentence,
         })
         print(output)
+
+    if 'error' in output:
+        return False
+    try:
         response.append(output[0]['generated_text'])
-        # print(output)
+    except (KeyError, IndexError):
+        return False
+        
+    # print(output)
 
     with open('files/output.txt', 'w') as file:
         file.write(' '.join(response))
+
+    return True
 
     
