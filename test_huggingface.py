@@ -14,7 +14,8 @@ OPENCHAT_URL = "https://api-inference.huggingface.co/models/openchat/openchat_3.
 headers = {"Authorization": f"Bearer {HUGGING_FACE_KEY}"}
 
 # RUNNING INFO PRINTING
-DEBUG = False
+DEBUG = True
+EXTENSIVE_DEBUG = False
 PROGRESS = True
 
 # THINGS YOU CAN CHANGE
@@ -50,7 +51,7 @@ def keyphrase_query(payload):
             word = response.get("word")
             if isinstance(word, str):
                 result.add(word.strip())
-        if DEBUG:
+        if EXTENSIVE_DEBUG:
             print(response)
 
     return list(result)
@@ -87,7 +88,7 @@ def txt_to_list(text):
         print('-- START: txt_to_list --')
     text = text.split('.')
     if DEBUG:
-        print(text)
+        print(text[:100])
     length = len(text)
     sentence_length = int(length / QUESTIONS+1)
     if sentence_length > 70:
@@ -102,7 +103,7 @@ def txt_to_list(text):
             sentences = f' <hl> {keyphrase} <hl> '.join(sentences.split(keyphrase))
         questions.append('generate question: ' + sentences)
         text = text[sentence_length:]
-        if DEBUG:
+        if EXTENSIVE_DEBUG:
             print(text)
     if PROGRESS:
         print('-- DONE: txt_to_list --')
@@ -120,28 +121,42 @@ def voidful_query(payload):
 
 
 def execute_pipeline():
-    counter = 0
     with open('files/transcription.txt', 'r') as file:
         text = file.read().rstrip('\n')
 
     response = []
 
+    if DEBUG:
+        print(len(txt_to_list(text)))
+
     for sentence in txt_to_list(text):
-        counter += 1
         if '<hl>' in sentence:
             print('Highlighted')
-            if counter == 1 and DEBUG:
+            if EXTENSIVE_DEBUG:
                 print(sentence)
         output = valhalla_query({
             "inputs": sentence,
         })
-        print(output)
-        response.append(output[0]['generated_text'])
-        # print(output)
+        # if DEBUG: 
+        #     print(output)
+        if 'error' in output:
+            return False
+        try:
+            response.append(output[0]['generated_text'])
+        except (KeyError, IndexError):
+            return False
+
+    print(" --- Finished Vallhalla query --")
+
+    if DEBUG:
+        print(response)
 
     with open(OUTPUT, 'w') as file:
-        file.write(' '.join(response))
+        file.write(' '.join(response)+"\n\n")
 
+    return True
+
+    
 
 def main():
     i = 1
